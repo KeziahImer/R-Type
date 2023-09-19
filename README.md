@@ -4,70 +4,43 @@ R-type is a project that aims to reimagine the classic game "R-type" in C++ usin
 
 ## Development
 
-### Getting Started
-To download, build, and run the code, follow these steps:
+### Windows
 
-1. **Clone the Repository**: 
-   ```sh
-   git clone https://github.com/organisation/r-type.git
-   cd r-type
-   ```
+**Requirements**
 
-2. **Build the Code**:
-   ```sh
-   mkdir build
-   cd build
-   cmake ..
-   make
-   ```
+- CMake 3.10+
+- Mingw 8.0.0
+- nsis 3.0
 
-3. **Run the Client**:
-   ```sh
-   ./r-type_client
-   ```
+**Build**
 
-4. **Run the Server**:
-   ```sh
-   ./ r-type_server
-   ```
+```sh
 
-## Contribution
+```
 
-We welcome contributions to improve R-type. To contribute, please follow these guidelines:
+**Docs**
 
-- **Gitmoji Usage**: Use [gitmoji](https://gitmoji.dev/) in your commit messages to convey the purpose of your changes.
+```sh
+mkdocs build && mkdocs serve
+```
 
-- **Rebasing**: Before submitting a pull request, ensure your changes are based on the latest `dev` branch. Use `git rebase` to incorporate the latest changes into your branch.
+### Linux
 
-- **Pull Request Description**: Provide a clear and concise description of the task or feature you are addressing in your pull request.
+**Requirements**
 
-## How to Doc
+- CMake 3.10+
+- Mkdocs 1.5.2
 
-R-type's documentation is generated using MkDocs. To contribute to the documentation, follow these steps:
+**Build**
 
-1. **Install MkDocs**:
-   ```
-   pip install mkdocs
-   ```
+```sh
+mkdir -p build && cd build
+cmake ..
+make # use "-j N" for N parallel jobs
+```
 
-2. **Add Content**:
-   Add or edit documentation content in the `docs` directory.
+**Docs**
 
-3. **Generate Documentation**:
-   ```
-   mkdocs build
-   ```
-
-4. **Preview Documentation**:
-   To preview the documentation locally, use the following command:
-   ```
-   mkdocs serve
-   ```
-   This will start a local development server, and you can view the documentation by navigating to `http://localhost:8000` in your web browser.
-
-5. **Commit and Push**:
-   Commit your changes to the documentation and push them to the repository.
-
-Remember to keep the documentation up-to-date as you make changes to the project.
-
-Feel free to reach out if you have any questions or need further assistance. Happy coding! 🚀
+```sh
+mkdocs build && mkdocs serve
+```
