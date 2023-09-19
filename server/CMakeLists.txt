@@ -1,1 +1,3 @@
-add_executable(r-type_server main.cpp)
+file(GLOB_RECURSE SOURCES "*.cpp")
+
+add_executable(r-type_server "${SOURCES}")
