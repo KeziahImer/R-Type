@@ -6,30 +6,20 @@ R-type is a project that aims to reimagine the classic game "R-type" in C++ usin
 
 - 💻 Cross-platform
 - 🌐 Multiplayer
+- 🧩 Custom Game Engine
 - 📦 Easy to install
 - 📚 Modern Documentation
 
-## How to install
+## Guides
 
-### 🪟 Windows
+### User Guide
 
-As any other softwares you can just download this exe file and play
+If you want ot play the game, you can check the [User Guide](user-guide.md). You will be able to find the download links to install the game and the rules of the game.
 
-| Target | Client                  | Server                  |
-| ------ | ----------------------- | ----------------------- |
-| 64 Bit | [R-Type Client 64bit]() | [R-Type Server 64bit]() |
-| 32 Bit | [R-Type Client 32bit]() | [R-Type Server 64bit]() |
+### Library Guide
 
-### 🐧 Linux
+If you are excited to use our balzing fast game engine written in C++, you can check the [Library Section](library/index.md). You will be able to find the documentation of the engine and how to use it.
 
-#### AppImage
+### Client & Server Guide
 
-Download and run the AppImage
-
-| Client            | Server            |
-| ----------------- | ----------------- |
-| [R-Type Client]() | [R-Type Server]() |
-
-#### Build from source
-
-You can build the game from source. To do this go check the [client](client/index.md) and [server](server/index.md) documentation.
+If you want understand how the game work or contribute to the project go check the [Client](client/index.md) and [Server](server/index.md) documentation.
