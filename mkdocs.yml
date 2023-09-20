@@ -46,3 +46,6 @@ theme:
     # - search.suggest
     # - toc.follow
     # - toc.integrate
+
+markdown_extensions:
+  - tables

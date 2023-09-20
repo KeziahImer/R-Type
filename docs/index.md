@@ -1,17 +1,35 @@
 # Welcome to R-Type
 
-For full documentation visit [mkdocs.org](https://www.mkdocs.org).
+R-type is a project that aims to reimagine the classic game "R-type" in C++ using a custom game engine and implementing networked multiplayer functionality.
 
-## Commands
+## Features
 
-- `mkdocs new [dir-name]` - Create a new project.
-- `mkdocs serve` - Start the live-reloading docs server.
-- `mkdocs build` - Build the documentation site.
-- `mkdocs -h` - Print help message and exit.
+- 💻 Cross-platform
+- 🌐 Multiplayer
+- 📦 Easy to install
+- 📚 Modern Documentation
 
-## Project layout
+## How to install
 
-    mkdocs.yml    # The configuration file.
-    docs/
-        index.md  # The documentation homepage.
-        ...       # Other markdown pages, images and other files.
+### 🪟 Windows
+
+As any other softwares you can just download this exe file and play
+
+| Target | Client                  | Server                  |
+| ------ | ----------------------- | ----------------------- |
+| 64 Bit | [R-Type Client 64bit]() | [R-Type Server 64bit]() |
+| 32 Bit | [R-Type Client 32bit]() | [R-Type Server 64bit]() |
+
+### 🐧 Linux
+
+#### AppImage
+
+Download and run the AppImage
+
+| Client            | Server            |
+| ----------------- | ----------------- |
+| [R-Type Client]() | [R-Type Server]() |
+
+#### Build from source
+
+You can build the game from source. To do this go check the [client](client/index.md) and [server](server/index.md) documentation.
