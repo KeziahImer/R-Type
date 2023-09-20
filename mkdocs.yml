@@ -1,5 +1,4 @@
 site_name: R-type C++
-site_url: https://epitechpromo2026.github.io/B-CPP-500-TLS-5-1-rtype-adil.nouiri/
 site_description: >-
   The R-type C++ project is a 2D game based on the R-type game. R-type comes
   with a custom game engine usable as a library.
@@ -26,8 +25,8 @@ theme:
     # - content.action.edit
     # - content.action.view
     # - content.code.annotate
-    # - content.code.copy
-    # - content.code.select
+    - content.code.copy
+    - content.code.select
     # - content.tabs.link
     # - content.tooltips
     # - header.autohide
