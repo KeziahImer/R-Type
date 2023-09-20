@@ -1,1 +1,3 @@
 site_name: R-type C++
+theme:
+  name: material
