@@ -12,6 +12,7 @@ nav:
       - "Getting Started": "client/index.md"
   - "Server":
       - "Getting Started": "server/index.md"
+      - "Communication Protcol": "server/protocol.md"
   - "Library":
       - "Getting Started": "library/index.md"
   - "About":
