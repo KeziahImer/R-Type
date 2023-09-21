@@ -15,6 +15,9 @@ nav:
       - "Communication Protcol": "server/protocol.md"
   - "Library":
       - "Getting Started": "library/index.md"
+      - "Core": "library/core.md"
+      - "Scene Manager": "library/scene_manager.md"
+      - "Registry": "library/registry.md"
   - "About":
       - "Release Notes": "about/index.md"
       - "License": "about/license.md"
