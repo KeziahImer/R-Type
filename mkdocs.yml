@@ -10,14 +10,34 @@ nav:
       - "Contribute": "contribute.md"
   - "Client":
       - "Getting Started": "client/index.md"
+      - "Rules":
+          - "Player": "client/player.md"
+          - "Ennemies": "client/ennemies.md"
+      - "Software":
+          - "Architecture": "client/architecture.md"
   - "Server":
       - "Getting Started": "server/index.md"
-      - "Communication Protcol": "server/protocol.md"
+      - "Protocol":
+          - "Packet": "server/packet.md"
+          - "Channel": "server/channel.md"
+          - "Routes": "server/routes.md"
+      - "Software":
+          - "Architecture": "server/architecture.md"
   - "Library":
       - "Getting Started": "library/index.md"
-      - "Core": "library/core.md"
-      - "Scene Manager": "library/scene_manager.md"
-      - "Registry": "library/registry.md"
+      - "Life Cycle": "library/life_cycle.md"
+      - "Concepts":
+          - "Entity": "library/entity.md"
+          - "Component": "library/component.md"
+          - "System": "library/system.md"
+          - "Addon": "library/addon.md"
+          - "Game Loop": "library/game_loop.md"
+          - "Scenes": "library/scenes.md"
+      - "Addons":
+          - "Audio": "library/audio.md"
+          - "Graphics": "library/graphics.md"
+          - "Input": "library/input.md"
+          - "Physics": "library/physics.md"
   - "About":
       - "Release Notes": "about/index.md"
       - "License": "about/license.md"
