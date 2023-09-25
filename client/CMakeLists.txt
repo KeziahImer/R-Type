@@ -8,12 +8,15 @@ project(
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
+set(FETCHCONTENT_QUIET FALSE)
 
 include(FetchContent)
 
 FetchContent_Declare(
   sfml
   GIT_REPOSITORY "https://github.com/SFML/SFML.git"
+  GIT_PROGRESS TRUE
+  GIT_SHALLOW TRUE
   GIT_TAG        2.6.x
 )
 
