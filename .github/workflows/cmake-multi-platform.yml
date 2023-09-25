@@ -38,6 +38,12 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: Install SMFL Dev Dependencies
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          sudo apt update
+          sudo apt install -y libsfml-dev
+
       - name: Set reusable strings
         id: strings
         shell: bash
