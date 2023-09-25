@@ -61,5 +61,10 @@ jobs:
 
       - uses: actions/upload-artifact@v3
         with:
-          name: Upload build
-          path: ${{ steps.strings.outputs.build-output-dir }}
+          name: ${{ matrix.os }} Client
+          path: ${{ steps.strings.outputs.build-output-dir }}/client/Release
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: ${{ matrix.os }} Server
+          path: ${{ steps.strings.outputs.build-output-dir }}/server/Release
