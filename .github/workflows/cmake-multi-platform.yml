@@ -42,7 +42,7 @@ jobs:
         if: matrix.os == 'ubuntu-latest'
         run: |
           sudo apt update
-          sudo apt install -y libsfml-dev libudev-dev libxcursor-dev libopenal-dev libalut-dev flac vorbis-tools libvorbis-dev libx11-dev libxrandr-dev
+          sudo apt install -y libsfml-dev libudev-dev libxcursor-dev libopenal-dev libalut-dev flac vorbis-tools libvorbis-dev libx11-dev libxrandr-dev libflac-dev
 
       - name: Set reusable strings
         id: strings
