@@ -1,0 +1,23 @@
+name: Push to Epitech Repository
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Push to Epitech
+        run: |
+          git config --global user.name "Alexandre Frede"
+          git config --global user.email "alexandre.frede.pro@gmail.com"
+          git remote add epitech https://github.com/EpitechPromo2026/B-CPP-500-TLS-5-1-rtype-adil.nouiri.git
+          git push epitech main --force
+        env:
+          PAT: ${{ secrets.PAT }}
