@@ -32,8 +32,15 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(json)
 
+FetchContent_Declare(
+  Boost
+  GIT_REPOSITORY https://github.com/boostorg/boost.git
+  GIT_TAG boost-1.83.0
+)
+FetchContent_MakeAvailable(Boost)
+
 file(GLOB_RECURSE SOURCE_FILES *.cpp)
 
 add_executable(r-type_client ${SOURCE_FILES})
 
-target_link_libraries(r-type_client PRIVATE sfml-graphics sfml-window sfml-system nlohmann_json::nlohmann_json)
+target_link_libraries(r-type_client PRIVATE sfml-graphics sfml-window sfml-system nlohmann_json::nlohmann_json Boost::asio)

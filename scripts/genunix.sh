@@ -6,4 +6,4 @@ cmake \
   -DCMAKE_RUNTIME_OUTPUT_DIRECTORY=../../../out/bin \
   ../..
 
-make
+make -j4
