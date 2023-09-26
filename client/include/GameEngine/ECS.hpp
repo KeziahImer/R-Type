@@ -155,7 +155,7 @@ namespace GameEngine
         template <typename Component>
         void addComponent(EntityID entity, Component const &component)
         {
-            SparseArray<Component> components = registerComponent<Component>();
+            SparseArray<Component> &components = registerComponent<Component>();
             components.insert_at(entity, component);
         }
 
