@@ -17,7 +17,5 @@ jobs:
         run: |
           git config --global user.name "Alexandre Frede"
           git config --global user.email "alexandre.frede.pro@gmail.com"
-          git remote add epitech https://github.com/EpitechPromo2026/B-CPP-500-TLS-5-1-rtype-adil.nouiri.git
+          git remote add epitech https://${{ secrets.PAT }}@github.com/EpitechPromo2026/B-CPP-500-TLS-5-1-rtype-adil.nouiri.git
           git push epitech main --force
-        env:
-          PAT: ${{ secrets.PAT }}
