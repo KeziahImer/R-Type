@@ -22,8 +22,18 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(SFML)
 
+FetchContent_Declare(
+  json
+  GIT_REPOSITORY https://github.com/nlohmann/json.git
+  GIT_PROGRESS TRUE
+  GIT_SHALLOW TRUE
+  GIT_TAG v3.11.2
+)
+
+FetchContent_MakeAvailable(json)
+
 file(GLOB_RECURSE SOURCE_FILES *.cpp)
 
 add_executable(r-type_client ${SOURCE_FILES})
 
-target_link_libraries(r-type_client PRIVATE sfml-graphics sfml-window sfml-system)
+target_link_libraries(r-type_client PRIVATE sfml-graphics sfml-window sfml-system nlohmann_json::nlohmann_json)
