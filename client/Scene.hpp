@@ -8,14 +8,17 @@
 #pragma once
     #include <vector>
     #include <memory>
-    #include "Entity.hpp"
+    #include <nlohmann/json.hpp>
+    #include <iostream>
+    using json = nlohmann::json;
+    // #include "Entity.hpp"
 
 class Scene {
     public:
-        Scene(std::string id, const json &globalData);
+        Scene(std::string id, const json &data);
         ~Scene();
         void update();
-        std::vector<std::shared_ptr<Entity>> getEntities();
+        // std::vector<std::shared_ptr<Entity>> getEntities();
         void deleteEntities();
         std::string getId();
         // getScreen();
@@ -24,5 +27,5 @@ class Scene {
     private:
         std::string _id;
         json _data;
-        std::vector<std::shared_ptr<Entity>> _allEntities;
+        // std::vector<std::shared_ptr<Entity>> _allEntities;
 };

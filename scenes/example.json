@@ -1,0 +1,88 @@
+{
+    "entities": [
+        {
+            "id": "Player",
+            "components": [
+                {
+                    "id": "positionPlayer",
+                    "type": "position",
+                    "data": {
+                        "x": 0,
+                        "y": 0
+                    }
+                },
+                {
+                    "id": "spritesPlayer",
+                    "type": "sprite",
+                    "data": {
+                        "sprites": []
+                    }
+                }
+            ],
+            "addons": [
+                {
+                    "id": "AddVelocityOnPress",
+                    "params": {
+                        "speed": 5
+                    }
+                }
+            ]
+        },
+        {
+            "id": "Enemy01",
+            "components": [
+                {
+                    "id": "positionEnemy01",
+                    "type": "position",
+                    "data": {
+                        "x": 0,
+                        "y": 0
+                    }
+                },
+                {
+                    "id": "spritesEnemy01",
+                    "type": "sprite",
+                    "data": {
+                        "sprites": []
+                    }
+                }
+            ],
+            "addons": [
+                {
+                    "id": "AddVelocityOnPress",
+                    "params": {
+                        "speed": 5
+                    }
+                }
+            ]
+        },
+        {
+            "id": "Enemy02",
+            "components": [
+                {
+                    "id": "positionEnemy02",
+                    "type": "position",
+                    "data": {
+                        "x": 0,
+                        "y": 0
+                    }
+                },
+                {
+                    "id": "spritesEnemy02",
+                    "type": "sprite",
+                    "data": {
+                        "sprites": []
+                    }
+                }
+            ],
+            "addons": [
+                {
+                    "id": "AddVelocityOnPress",
+                    "params": {
+                        "speed": 5
+                    }
+                }
+            ]
+        }
+    ]
+}
