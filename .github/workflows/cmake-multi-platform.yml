@@ -67,10 +67,10 @@ jobs:
 
       - uses: actions/upload-artifact@v3
         with:
-          name: ${{ matrix.os }} Client
-          path: ${{ steps.strings.outputs.build-output-dir }}/client/Release
+          name: ${{ matrix.os }} Client ${{ matrix.c_compiler }}
+          path: ${{ steps.strings.outputs.build-output-dir }}/client
 
       - uses: actions/upload-artifact@v3
         with:
-          name: ${{ matrix.os }} Server
-          path: ${{ steps.strings.outputs.build-output-dir }}/server/Release
+          name: ${{ matrix.os }} Server ${{ matrix.c_compiler }}
+          path: ${{ steps.strings.outputs.build-output-dir }}/server
