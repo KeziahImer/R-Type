@@ -1,13 +1,20 @@
 #pragma once
 
+#include <iostream>
+
 #include <vector>
 #include <utility>
 #include <algorithm>
 #include <iterator>
+#include <typeindex>
+#include <unordered_map>
+#include <map>
+#include <any>
 #include <memory>
 
 namespace GameEngine
 {
+    using EntityID = size_t;
 
     template <typename Component>
     class SparseArray
@@ -104,5 +111,57 @@ namespace GameEngine
 
     private:
         container_t _data;
+    };
+
+    class Registry
+    {
+    public:
+        EntityID createEntity(std::string const &name)
+        {
+            EntityID id = nextEntityID_++;
+            _entities[name] = id;
+            return id;
+        }
+
+        EntityID getEntityID(std::string const &name)
+        {
+            auto it = _entities.find(name);
+            if (it != _entities.end())
+            {
+                return it->second;
+            }
+            throw std::runtime_error("Entity not found in registry.");
+        }
+
+        template <typename Component>
+        SparseArray<Component> &registerComponent()
+        {
+            auto type_id = std::type_index(typeid(Component));
+            if (components_.find(type_id) == components_.end())
+            {
+                auto any = std::make_any<SparseArray<Component>>();
+                components_[type_id] = std::make_unique<std::any>(any);
+            }
+            return std::any_cast<SparseArray<Component> &>(*components_[type_id]);
+        }
+
+        template <typename Component>
+        SparseArray<Component> &getComponents()
+        {
+            auto type_id = std::type_index(typeid(Component));
+            return std::any_cast<SparseArray<Component> &>(*components_[type_id]);
+        }
+
+        template <typename Component>
+        void addComponent(EntityID entity, Component const &component)
+        {
+            SparseArray<Component> components = registerComponent<Component>();
+            components.insert_at(entity, component);
+        }
+
+    private:
+        std::unordered_map<std::type_index, std::unique_ptr<std::any>> components_;
+        std::map<std::string, EntityID> _entities;
+        size_t nextEntityID_ = 0;
     };
 };
