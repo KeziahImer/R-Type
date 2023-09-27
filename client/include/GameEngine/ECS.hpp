@@ -116,6 +116,7 @@ namespace GameEngine
     class Registry
     {
     public:
+        using FunctionType = std::function<void(Registry &)>;
         EntityID createEntity(std::string const &name)
         {
             EntityID id = nextEntityID_++;
@@ -134,14 +135,29 @@ namespace GameEngine
         }
 
         template <typename Component>
-        SparseArray<Component> &registerComponent()
+        Registry &registerComponent()
         {
             auto type_id = std::type_index(typeid(Component));
             if (components_.find(type_id) == components_.end())
             {
                 components_[type_id] = std::make_any<SparseArray<Component>>();
             }
-            return std::any_cast<SparseArray<Component> &>(components_[type_id]);
+            return *this;
+        }
+
+        Registry &registerFunction(FunctionType const &function)
+        {
+            _functions.push_back(function);
+            return *this;
+        }
+
+        Registry &run(void)
+        {
+            for (auto const &function : _functions)
+            {
+                function(*this);
+            }
+            return *this;
         }
 
         template <typename Component>
@@ -152,16 +168,25 @@ namespace GameEngine
         }
 
         template <typename Component>
-        SparseArray<Component> &addComponent(EntityID entity, Component const &component)
+        Registry &addComponent(EntityID entity, Component const &component)
         {
             SparseArray<Component> &components = registerComponent<Component>();
             components.insert_at(entity, component);
-            return components;
+            return *this;
+        }
+
+        template <typename Component>
+        Registry &removeComponent(EntityID entity)
+        {
+            SparseArray<Component> &components = getComponents<Component>();
+            components.erase(entity);
+            return *this;
         }
 
     private:
         std::unordered_map<std::type_index, std::any> components_;
         std::map<std::string, EntityID> _entities;
         size_t nextEntityID_ = 0;
+        std::vector<FunctionType> _functions;
     };
 };
