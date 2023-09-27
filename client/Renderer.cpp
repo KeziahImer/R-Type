@@ -18,7 +18,6 @@ Renderer::~Renderer()
 
 void Renderer::render(GameEngine::Registry registry)
 {
-    /*
     GameEngine::SparseArray<Sprite> &Sprites = registry.getComponents<Sprite>();
     GameEngine::SparseArray<Position> &Positions = registry.getComponents<Position>();
     GameEngine::SparseArray<Size> &Sizes = registry.getComponents<Size>();
@@ -27,17 +26,16 @@ void Renderer::render(GameEngine::Registry registry)
     {
         try
         {
-            // auto sprite = Sprites[i];
-            // auto position = Positions[i];
-            // auto size = Sizes[i];
-            // renderSprite(sprite, position, size);
+            auto sprite = Sprites[i];
+            auto position = Positions[i];
+            auto size = Sizes[i];
+            renderSprite(sprite, position, size);
         }
         catch (const std::exception &e)
         {
             continue;
         }
     }
-    */
 }
 
 void Renderer::renderSprite(Sprite sprite, Position position, Size size)
