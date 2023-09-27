@@ -18,6 +18,5 @@ int main()
     {
         std::cout << components[i] << std::endl;
     }
-
     return 0;
 }
