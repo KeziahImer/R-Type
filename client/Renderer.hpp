@@ -16,6 +16,7 @@ public:
     ~Renderer();
 
     void render(GameEngine::Registry registry);
+    void renderSprite(Sprite sprite, Position position, Size size);
 
 private:
     sf::RenderWindow _window;
