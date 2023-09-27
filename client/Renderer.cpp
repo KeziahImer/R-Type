@@ -16,6 +16,9 @@ Renderer::~Renderer()
 {
 }
 
-void Renderer::render()
+void Renderer::render(GameEngine::Registry registry)
 {
+    GameEngine::SparseArray<Sprite> &Sprites = registry.getComponents<Sprite>();
+    GameEngine::SparseArray<Position> &Positions = registry.getComponents<Position>();
+    GameEngine::SparseArray<Size> &Sizes = registry.getComponents<Size>();
 }

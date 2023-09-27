@@ -6,6 +6,8 @@
 */
 #pragma once
 #include <SFML/Graphics.hpp>
+#include "GameEngine/ECS.hpp"
+#include "components/Components.hpp"
 
 class Renderer
 {
@@ -13,7 +15,7 @@ public:
     Renderer(int width, int height, std::string title);
     ~Renderer();
 
-    void render();
+    void render(GameEngine::Registry registry);
 
 private:
     sf::RenderWindow _window;
