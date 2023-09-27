@@ -2,6 +2,20 @@
 
 int main()
 {
-    std::cout << "Hello, World! I'm the client" << std::endl;
+    // Renderer renderer;
+    // Inputer inputs;
+    // GameEngine engine;
+    // Registry registry;
+    // SceneManager sceneManager;
+    // get scenes
+
+    bool playing = true;
+    while (playing)
+    {
+        // inputs.getInputs();
+        // change scene ?
+        // registry.applySystems();
+        // renderer.render();
+    }
     return 0;
 }
