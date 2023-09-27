@@ -1,6 +1,7 @@
 {
   "editor.formatOnSave": true,
   "files.associations": {
+    "iostream": "cpp",
     "any": "cpp",
     "array": "cpp",
     "atomic": "cpp",
@@ -58,7 +59,6 @@
     "initializer_list": "cpp",
     "iomanip": "cpp",
     "iosfwd": "cpp",
-    "iostream": "cpp",
     "istream": "cpp",
     "limits": "cpp",
     "mutex": "cpp",
@@ -77,6 +77,18 @@
     "typeindex": "cpp",
     "typeinfo": "cpp",
     "valarray": "cpp",
-    "variant": "cpp"
+    "variant": "cpp",
+    "*.ipp": "cpp",
+    "csetjmp": "cpp",
+    "barrier": "cpp",
+    "charconv": "cpp",
+    "unordered_set": "cpp",
+    "regex": "cpp",
+    "slist": "cpp",
+    "latch": "cpp",
+    "scoped_allocator": "cpp",
+    "shared_mutex": "cpp",
+    "span": "cpp",
+    "syncstream": "cpp"
   }
 }
