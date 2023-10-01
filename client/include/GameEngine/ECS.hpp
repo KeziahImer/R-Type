@@ -62,10 +62,12 @@ namespace GameEngine
     class Registry
     {
     public:
+        Registry() = default;
+        using FunctionType = std::function<void(Registry &)>;
         EntityID createEntity(std::string const &name);
         EntityID getEntityID(std::string const &name);
         template <typename Component>
-        Registry &registerComponent();
+        SparseArray<Component> &registerComponent();
         template <typename Component>
         SparseArray<Component> &getComponents();
         template <typename Component>
