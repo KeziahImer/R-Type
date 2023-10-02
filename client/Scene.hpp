@@ -10,15 +10,15 @@
     #include <memory>
     #include <nlohmann/json.hpp>
     #include <iostream>
+    #include "GameEngine/ECS.hpp"
     using json = nlohmann::json;
-    // #include "Entity.hpp"
 
 class Scene {
     public:
         Scene(std::string id, const json &data);
         ~Scene();
         void update();
-        // std::vector<std::shared_ptr<Entity>> getEntities();
+        std::vector<GameEngine::EntityID> getEntities();
         void deleteEntities();
         std::string getId();
         // getScreen();
@@ -27,5 +27,5 @@ class Scene {
     private:
         std::string _id;
         json _data;
-        // std::vector<std::shared_ptr<Entity>> _allEntities;
+        std::vector<GameEngine::EntityID> _allEntities;
 };

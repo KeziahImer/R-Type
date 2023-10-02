@@ -44,9 +44,9 @@ Scene::~Scene() {
 void Scene::update() {
 }
 
-// std::vector<std::shared_ptr<Entity>> Scene::getEntities() {
-//     return _allEntities;
-// }
+std::vector<GameEngine::EntityID> Scene::getEntities() {
+    return _allEntities;
+}
 
 void Scene::deleteEntities() {
     // _allEntities.clear();
