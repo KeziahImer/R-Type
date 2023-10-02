@@ -21,7 +21,6 @@ int main()
     registry.addComponent<Velocity>(entity, Velocity(0, 0));
     registry.addComponent<Sprite>(entity, Sprite("../../client/assets/Player.gif", 33, 17, 0, 2));
     registry.addComponent<Sprite>(background, Sprite("../../client/assets/backgroundSpace.jpg", 514, 360, 0, 0));
-    // Renderer renderer;
     // Inputer inputs;
     // GameEngine engine;
     // Registry registry;

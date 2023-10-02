@@ -21,7 +21,7 @@ void Renderer::render(GameEngine::Registry registry)
     GameEngine::SparseArray<Sprite> &Sprites = registry.getComponents<Sprite>();
     GameEngine::SparseArray<Position> &Positions = registry.getComponents<Position>();
     GameEngine::SparseArray<Size> &Sizes = registry.getComponents<Size>();
-
+    _window.clear();
     for (size_t i = 0; i < Sprites.size(); i++)
     {
         try
