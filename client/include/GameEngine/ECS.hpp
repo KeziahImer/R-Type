@@ -160,6 +160,7 @@ namespace GameEngine
             Registry &registry = registerComponent<Component>();
             SparseArray<Component> &components = registry.getComponents<Component>();
             components.insert_at(entity, component);
+            std::cout << "CREATION DU COMPOSANT POUR L'ENTITY " << entity << std::endl;
             return *this;
         }
 

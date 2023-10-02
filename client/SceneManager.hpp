@@ -13,7 +13,7 @@
 
 class SceneManager {
     public:
-        SceneManager(const std::map<std::string, json> &allData);
+        SceneManager(const std::map<std::string, json> &allData, GameEngine::Registry *registry);
         ~SceneManager();
         void registerScene(std::string id);
         void loadScene(std::string id);
@@ -31,4 +31,5 @@ class SceneManager {
         std::string _actualSceneId;
         std::unique_ptr<Scene> _actualScene;
         std::unique_ptr<Scene> _globalScene;
+        GameEngine::Registry *_registry;
 };

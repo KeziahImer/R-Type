@@ -1,7 +1,7 @@
 {
     "entities": [
         {
-            "id": "Player",
+            "id": "0",
             "components": [
                 {
                     "id": "positionPlayer",
@@ -15,7 +15,11 @@
                     "id": "spritesPlayer",
                     "type": "sprite",
                     "data": {
-                        "sprites": []
+                        "path" : "./client/assets/Player.gif",
+                        "sizeTileX" : 0,
+                        "sizeTileY" : 0,
+                        "tileX" : 0,
+                        "tileY" : 0
                     }
                 }
             ],
@@ -29,7 +33,7 @@
             ]
         },
         {
-            "id": "Enemy01",
+            "id": "1",
             "components": [
                 {
                     "id": "positionEnemy01",
@@ -43,7 +47,11 @@
                     "id": "spritesEnemy01",
                     "type": "sprite",
                     "data": {
-                        "sprites": []
+                        "path": "./client/assets/Player.gif",
+                        "sizeTileX" : 0,
+                        "sizeTileY" : 0,
+                        "tileX" : 0,
+                        "tileY" : 0
                     }
                 }
             ],
@@ -57,7 +65,7 @@
             ]
         },
         {
-            "id": "Enemy02",
+            "id": "2",
             "components": [
                 {
                     "id": "positionEnemy02",
@@ -71,7 +79,11 @@
                     "id": "spritesEnemy02",
                     "type": "sprite",
                     "data": {
-                        "sprites": []
+                        "path": "./client/assets/Player.gif",
+                        "sizeTileX" : 0,
+                        "sizeTileY" : 0,
+                        "tileX" : 0,
+                        "tileY" : 0
                     }
                 }
             ],

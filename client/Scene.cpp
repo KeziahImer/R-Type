@@ -7,14 +7,14 @@
 
 #include "Scene.hpp"
 
-Scene::Scene(std::string id, const json &data) : _id(id), _data(data) {
-
+Scene::Scene(std::string id, const json &data, GameEngine::Registry *registry) : _id(id), _data(data), _registry(registry) {
+    
+    ComponentFactory factory;
     std::cout << std::endl;
 
     for (const auto &entityData : data["entities"]) {
         std::string entityId = entityData["id"];
-        // Entity entity(entityId);
-        std::cout << "Creation de l'entity : " << entityId << "\n" << std::endl;
+        GameEngine::EntityID entity = _registry->createEntity(entityId);
 
         for (const auto &componentData : entityData["components"]) {
             std::string componentId = "";
@@ -27,13 +27,10 @@ Scene::Scene(std::string id, const json &data) : _id(id), _data(data) {
                 componentType = componentData["type"];
             if (componentData.count("data"))
                 componentDataJson = componentData["data"];
-            // entity.addComponent(componentId, componentDataJson);
-            std::cout << "   Creation du composant : " << componentId  << " de type " << componentType << std::endl;
-            std::cout << "     " << componentDataJson << std::endl;
+            
+            std::shared_ptr<Component> component = factory.getComponent(componentType, componentId, componentDataJson);
+            _registry->addComponent<Component>(entity, *component);
         }
-
-        // _allEntities.push_back(entity);
-        std::cout << "\n-----------" << std::endl;
     }
 }
 

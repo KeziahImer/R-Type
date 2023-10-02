@@ -7,7 +7,7 @@
 
 #include "SceneManager.hpp"
 
-SceneManager::SceneManager(const std::map<std::string, json> &allData) : _allData(allData) {
+SceneManager::SceneManager(const std::map<std::string, json> &allData, GameEngine::Registry *registry) : _allData(allData), _registry(registry) {
     for (const auto &entry : _allData)
         _allScenes.push_back(entry.first);
 }
@@ -31,7 +31,7 @@ void SceneManager::loadScene(std::string id) {
 
     if (isSceneExists) {
         std::cout << "Load la scene " << id << std::endl;
-        _actualScene = std::make_unique<Scene>(id, getSceneData(id));
+        _actualScene = std::make_unique<Scene>(id, getSceneData(id), this->_registry);
         _actualSceneId = id;
     } else
         std::cerr << "La scène avec l'ID " << id << " n'existe pas." << std::endl;
