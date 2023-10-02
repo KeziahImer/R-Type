@@ -12,6 +12,10 @@ set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
 set(BOOST_INCLUDE_LIBRARIES asio)
 set(BOOST_ENABLE_CMAKE ON)
 
+include_directories(
+    ${CMAKE_SOURCE_DIR}/Network
+)
+
 include(FetchContent)
 
 FetchContent_Declare(
