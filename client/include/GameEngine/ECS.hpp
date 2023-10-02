@@ -11,6 +11,7 @@
 #include <map>
 #include <any>
 #include <memory>
+#include <functional>
 
 namespace GameEngine
 {
