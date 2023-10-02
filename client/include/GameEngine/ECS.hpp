@@ -12,6 +12,7 @@
 #include <any>
 #include <memory>
 #include <functional>
+#include <SFML/Graphics.hpp>
 
 namespace GameEngine
 {
@@ -172,10 +173,21 @@ namespace GameEngine
             return *this;
         }
 
+        void setInputs(std::map<enum sf::Keyboard::Key, bool> &inputsMap)
+        {
+            _inputsMap = inputsMap;
+        }
+
+        std::map<enum sf::Keyboard::Key, bool> getInputs()
+        {
+            return _inputsMap;
+        }
+
     private:
         std::unordered_map<std::type_index, std::any> components_;
         std::map<std::string, EntityID> _entities;
         size_t nextEntityID_ = 0;
         std::vector<FunctionType> _functions;
+        std::map<enum sf::Keyboard::Key, bool> _inputsMap;
     };
 };
