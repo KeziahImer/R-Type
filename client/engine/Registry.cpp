@@ -26,35 +26,4 @@ namespace GameEngine
         throw std::runtime_error("Entity not found in registry.");
     }
 
-    template <typename Component>
-    SparseArray<Component> &Registry::registerComponent()
-    {
-        auto type_id = std::type_index(typeid(Component));
-        if (components_.find(type_id) == components_.end())
-        {
-            auto any = std::make_any<SparseArray<Component>>();
-            components_[type_id] = any; // Store std::any directly, no need to wrap it with std::unique_ptr
-        }
-
-        // Extract and return the SparseArray<Component> from std::any
-        return std::any_cast<SparseArray<Component> &>(components_[type_id]);
-    }
-
-    template <typename Component>
-    SparseArray<Component> &Registry::getComponents()
-    {
-        auto type_id = std::type_index(typeid(Component));
-
-        // Extract and return the SparseArray<Component> from std::any
-        return std::any_cast<SparseArray<Component> &>(components_[type_id]);
-    }
-
-    template <typename Component>
-    Registry &Registry::addComponent(EntityID entity, Component const &component)
-    {
-        SparseArray<Component> &components = registerComponent<Component>();
-        components.insert_at(entity, component);
-        return *this; // Return *this to match the return type.
-    }
-
 }
