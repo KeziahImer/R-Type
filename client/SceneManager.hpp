@@ -13,18 +13,20 @@
 
 class SceneManager {
     public:
-        SceneManager();
+        SceneManager(const std::map<std::string, json> &allData);
         ~SceneManager();
-        registerScene(std::string id);
-        loadScene(std::string id);
-        unloadScene(std::string id);
+        void registerScene(std::string id);
+        void loadScene(std::string id);
+        void unloadScene(std::string id);
         std::string getActualScene();
-        Scene *getActualScene();
-        snapshot();
+        json getSceneData(const std::string filename);
+        std::vector<std::string> getAllScenes();
+        // Scene *getActualScene();
+        void snapshot();
 
     protected:
     private:
-        json _globalData;
+        std::map<std::string, json> _allData;
         std::vector<std::string> _allScenes;
         std::string _actualSceneId;
         std::unique_ptr<Scene> _actualScene;
