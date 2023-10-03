@@ -32,6 +32,8 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(json)
 
+include_directories(include)
+
 file(GLOB_RECURSE SOURCE_FILES *.cpp)
 
 add_executable(r-type_client ${SOURCE_FILES})
