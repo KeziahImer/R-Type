@@ -10,8 +10,10 @@
     #include <memory>
     #include <nlohmann/json.hpp>
     #include <iostream>
+    #include  <functional>
     #include "GameEngine/ECS.hpp"
     #include "ComponentFactory.hpp"
+    #include "Systems.hpp"
     using json = nlohmann::json;
 
 class Scene {

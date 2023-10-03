@@ -161,6 +161,18 @@ ComponentFactory::ComponentFactory()
 
         return Movable{keybinds};
     });
+
+    this->_components.emplace("shoot", [this](std::string id, const json &data) {
+    sf::Keyboard::Key input = mapStringToKeyboardKey(data["Input"]);
+    int speedX = data["speedX"];
+    bool canShoot = data["canShoot"];
+    int timeMillisecond = data["timeMillisecond"];
+    std::chrono::system_clock::duration lastShoot;
+
+    return Shoot{input, speedX, canShoot, timeMillisecond, lastShoot};
+});
+
+
 }
 
 Component ComponentFactory::getComponent(const std::string &name, const std::string &id, const json &data)

@@ -71,6 +71,26 @@
                         "scaleX": 3,
                         "scaleY": 3
                     }
+                },
+                {
+                    "id": "movablePlayer",
+                    "type": "movable",
+                    "data": {
+                        "keybinds": {
+                            "Z": {"x": 0, "y": -1},
+                            "Q": {"x": -1, "y": 0},
+                            "S": {"x": 0, "y": 1},
+                            "D": {"x": 1, "y": 0}
+                        }
+                    }
+                },
+                {
+                    "id": "velocityPlayer",
+                    "type": "velocity",
+                    "data": {
+                        "x": 0,
+                        "y": 0
+                    }
                 }
             ],
             "addons": [

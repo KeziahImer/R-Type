@@ -14,7 +14,7 @@
 #include <variant>
 using json = nlohmann::json;
 
-using Component = std::variant<Position, Sprite, Velocity, Movable, Size>;
+using Component = std::variant<Position, Sprite, Velocity, Movable, Size, Shoot>;
 
 class ComponentFactory
 {

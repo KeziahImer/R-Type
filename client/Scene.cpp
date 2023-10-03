@@ -11,7 +11,11 @@ Scene::Scene(std::string id, const json &data, GameEngine::Registry &registry) :
 {
 
     ComponentFactory factory;
+    Systems systems;
     std::cout << std::endl;
+
+    std::function<void(GameEngine::Registry&)> checkMovable = std::bind(&Systems::checkMovable, &systems, std::placeholders::_1);
+    std::function<void(GameEngine::Registry&)> checkVelocity = std::bind(&Systems::checkVelocity, &systems, std::placeholders::_1);
 
     for (const auto &entityData : data["entities"]) {
         std::string entityId = entityData["id"];
@@ -65,6 +69,9 @@ Scene::Scene(std::string id, const json &data, GameEngine::Registry &registry) :
             }}
 
         }
+
+        registry.registerFunction(checkMovable);
+        registry.registerFunction(checkVelocity);
     }
 }
 
