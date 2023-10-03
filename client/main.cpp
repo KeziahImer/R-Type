@@ -46,7 +46,7 @@ int main()
     registry.addComponent<Sprite>(entity, Sprite("./client/assets/Player.gif", false, 33, 17, 2, 2));
     registry.addComponent<Sprite>(enemy, Sprite("./client/assets/Player.gif", true, 33, 17, 2, 3));
     registry.addComponent<Sprite>(background, Sprite("./client/assets/backgroundSpace.jpg", false, 514, 360, 0, 0));
-    registry.addComponent<Shoot>(entity, Shoot(sf::Keyboard::Space, 15, true, 2, std::time(0)));
+    registry.addComponent<Shoot>(entity, Shoot(sf::Keyboard::Space, 15, true, 250, std::chrono::system_clock::now().time_since_epoch()));
 
 
     std::function<void(GameEngine::Registry&)> checkMovable = std::bind(&Systems::checkMovable, &systems, std::placeholders::_1);

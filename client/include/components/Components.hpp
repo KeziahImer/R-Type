@@ -51,5 +51,5 @@ struct Shoot
     int speedX;
     bool canShoot;
     int timeMillisecond;
-    std::time_t lastShoot;
+    std::chrono::_V2::system_clock::duration lastShoot;
 };

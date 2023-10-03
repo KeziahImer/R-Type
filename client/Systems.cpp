@@ -74,9 +74,9 @@ void Systems::checkShoot(GameEngine::Registry &registry)
             for (auto inputPress : inputs) {
                     if ((inputPress.first == Shoots[i].Input) && inputPress.second) {
                         if (!Shoots[i].canShoot) continue;
-                        std::cout << std::time(0) - Shoots[i].lastShoot << std::endl;
-                        if (std::time(0) - Shoots[i].lastShoot > Shoots[i].timeMillisecond) {
-                            Shoots[i].lastShoot = std::time(0);
+                        auto time = std::chrono::system_clock::now().time_since_epoch();
+                        if (std::chrono::duration_cast<std::chrono::milliseconds>(time).count() - std::chrono::duration_cast<std::chrono::milliseconds>(Shoots[i].lastShoot).count() > Shoots[i].timeMillisecond) {
+                            Shoots[i].lastShoot = time;
                             GameEngine::EntityID shoot = registry.createEntity("shoot");
                             registry.addComponent<Position>(shoot, Position(Positions[i].x, Positions[i].y));
                             registry.addComponent<Velocity>(shoot, Velocity(Shoots[i].speedX, 0));
