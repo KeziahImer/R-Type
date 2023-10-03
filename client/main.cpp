@@ -28,13 +28,12 @@ int main()
     // SceneManager sceneManager;
     // get scenes
 
-    bool playing = true;
+    bool playing = false;
     while (playing)
     {
         // inputs.getInputs();
         // change scene ?
         // registry.applySystems();
-<<<<<<< HEAD
         sf::Event event;
         while (renderer.getWindow().pollEvent(event))
         {
@@ -46,9 +45,6 @@ int main()
 
         // registry.applySystems();
         renderer.render(registry);
-=======
-        // renderer.render();
->>>>>>> 082d55d (🤡 add example main)
     }
     return 0;
 }
