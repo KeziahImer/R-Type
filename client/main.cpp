@@ -8,8 +8,8 @@ int main()
 
     GameEngine::EntityID entity = registry.createEntity("player");
 
-    auto components = registry.registerComponent<std::string>();
-    registry.addComponent<std::string>(entity, "42");
+    GameEngine::SparseArray<int> &components = registry.registerComponent<int>();
+    registry.addComponent<int>(17, 42);
 
     std::cout << "Components: " << std::endl;
     for (size_t i = 0; i < components.size(); i++)
