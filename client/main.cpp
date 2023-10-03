@@ -8,7 +8,9 @@ int main()
 
     GameEngine::EntityID entity = registry.createEntity("player");
 
-    GameEngine::SparseArray<int> &components = registry.registerComponent<int>();
+    registry.registerComponent<int>();
+
+    GameEngine::SparseArray<int> &components = registry.getComponents<int>();
     registry.addComponent<int>(17, 42);
 
     std::cout << "Components: " << std::endl;
