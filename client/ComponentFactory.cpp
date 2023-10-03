@@ -123,11 +123,12 @@ ComponentFactory::ComponentFactory()
 {
     this->_components.emplace("sprite", [this](std::string id, const json &data) {
         std::string path = data["path"];
-        int sizeTileX = data["sizeTileX"];
-        int sizeTileY = data["sizeTileY"];
+        bool reverse = data["reverse"];
+        float sizeTileX = data["sizeTileX"];
+        float sizeTileY = data["sizeTileY"];
         int tileX = data["tileX"];
         int tileY = data["tileY"];
-        return Sprite{path, sizeTileX, sizeTileY, tileX, tileY};
+        return Sprite{path, reverse, sizeTileX, sizeTileY, tileX, tileY};
     });
 
     this->_components.emplace("position", [this](std::string id, const json &data) {
@@ -137,9 +138,9 @@ ComponentFactory::ComponentFactory()
     });
 
     this->_components.emplace("size", [this](std::string id, const json &data) {
-        int width = data["width"];
-        int height = data["height"];
-        return Size{width, height};
+        double scaleX = data["scaleX"];
+        double scaleY = data["scaleY"];
+        return Size{scaleX, scaleY};
     });
 
     this->_components.emplace("velocity", [this](std::string id, const json &data) {
@@ -170,6 +171,5 @@ Component ComponentFactory::getComponent(const std::string &name, const std::str
         return it->second(id, data);
     }
 
-    // Si le composant n'a pas été trouvé, renvoyez un composant vide
     return Component{};
 }

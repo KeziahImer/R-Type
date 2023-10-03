@@ -1,7 +1,7 @@
 {
     "entities": [
         {
-            "id": "3",
+            "id": "background",
             "components": [
                 {
                     "id": "backgroundPosition",
@@ -16,6 +16,7 @@
                     "type": "sprite",
                     "data": {
                         "path": "./client/assets/backgroundSpace.jpg",
+                        "reverse": false,
                         "sizeTileX" : 514,
                         "sizeTileY" : 360,
                         "tileX" : 0,
@@ -26,8 +27,8 @@
                     "id": "backgroundSize",
                     "type": "size",
                     "data": {
-                        "width": 1920,
-                        "height": 1080
+                        "scaleX": 3.73,
+                        "scaleY": 3
                     }
                 }
             ],
@@ -41,7 +42,7 @@
             ]
         },
         {
-            "id": "0",
+            "id": "player",
             "components": [
                 {
                     "id": "positionPlayer",
@@ -56,6 +57,7 @@
                     "type": "sprite",
                     "data": {
                         "path" : "./client/assets/Player.gif",
+                        "reverse": false,
                         "sizeTileX" : 33,
                         "sizeTileY" : 17,
                         "tileX" : 2,
@@ -66,8 +68,8 @@
                     "id": "sizePlayer",
                     "type": "size",
                     "data": {
-                        "width": 50,
-                        "height": 50
+                        "scaleX": 3,
+                        "scaleY": 3
                     }
                 }
             ],
@@ -96,6 +98,7 @@
                     "type": "sprite",
                     "data": {
                         "path": "./client/assets/Player.gif",
+                        "reverse": false,
                         "sizeTileX" : 0,
                         "sizeTileY" : 0,
                         "tileX" : 0,
@@ -106,8 +109,8 @@
                     "id": "sizeEnemy01",
                     "type": "size",
                     "data": {
-                        "width": 200,
-                        "height": 200
+                        "scaleX": 1,
+                        "scaleY": 1
                     }
                 }
             ],
@@ -136,6 +139,7 @@
                     "type": "sprite",
                     "data": {
                         "path": "./client/assets/Player.gif",
+                        "reverse": false,
                         "sizeTileX" : 0,
                         "sizeTileY" : 0,
                         "tileX" : 0,
@@ -146,8 +150,8 @@
                     "id": "sizeEnemy02",
                     "type": "size",
                     "data": {
-                        "width": 200,
-                        "height": 200
+                        "scaleX": 1,
+                        "scaleY": 1
                     }
                 }
             ],

@@ -12,6 +12,8 @@
 #include <any>
 #include <memory>
 #include <functional>
+#include <SFML/Graphics.hpp>
+
 namespace GameEngine
 {
     using EntityID = size_t;
@@ -157,12 +159,19 @@ namespace GameEngine
         template <typename Component>
         Registry &addComponent(EntityID entity, Component const &component)
         {
-            // std::cout << "Type réel de component : " << typeid(component).name() << std::endl;
             Registry &registry = registerComponent<Component>();
             SparseArray<Component> &components = registry.getComponents<Component>();
             components.insert_at(entity, component);
-            // std::cout << "CREATION DU COMPOSANT POUR L'ENTITY " << entity << std::endl;
+            _removes[typeid(Component)] = &Registry::removeComponent<Component>;
             return *this;
+        }
+
+        void removeEntity(EntityID entity)
+        {
+            for (auto remove: _removes) {
+                remove.second(*this, entity);
+            }
+            std::cout << "deleted : " << entity << std::endl;
         }
 
         template <typename Component>
@@ -173,10 +182,22 @@ namespace GameEngine
             return *this;
         }
 
+        void setInputs(std::map<enum sf::Keyboard::Key, bool> &inputsMap)
+        {
+            _inputsMap = inputsMap;
+        }
+
+        std::map<enum sf::Keyboard::Key, bool> getInputs()
+        {
+            return _inputsMap;
+        }
+
     private:
         std::unordered_map<std::type_index, std::any> components_;
+        std::unordered_map<std::type_index, std::function<Registry &(Registry &, EntityID entity)>> _removes;
         std::map<std::string, EntityID> _entities;
         size_t nextEntityID_ = 0;
         std::vector<FunctionType> _functions;
+        std::map<enum sf::Keyboard::Key, bool> _inputsMap;
     };
 };

@@ -43,14 +43,15 @@ void Renderer::renderSprite(Sprite sprite, Position position, Size size)
 {
     sf::Texture texture;
     if (!texture.loadFromFile(sprite.path))
-        std::cout << "Texture don't load..." << std::endl;
+        return;
     sf::Sprite Sprite;
     Sprite.setTexture(texture);
     Sprite.setTextureRect(sf::IntRect(sprite.sizeTileX * sprite.tileX, sprite.sizeTileY * sprite.tileY, sprite.sizeTileX, sprite.sizeTileY));
     Sprite.setPosition(position.x, position.y);
-    double scaleX = ((double) size.width) / sprite.sizeTileX;
-    double scaleY = ((double) size.height) / sprite.sizeTileY;
-    Sprite.setScale(scaleX, scaleY);
+    double scaleX = size.scaleX;
+    if (sprite.reverse)
+        scaleX = scaleX * -1;
+    Sprite.setScale(scaleX, size.scaleY);
     _window.draw(Sprite);
 }
 
