@@ -1,3 +1,10 @@
+/*
+** EPITECH PROJECT, 2023
+** r-type
+** File description:
+** ECS
+*/
+
 #pragma once
 
 #include <iostream>
@@ -36,79 +43,18 @@ namespace GameEngine
         ~SparseArray() = default;
         SparseArray &operator=(SparseArray const &) = default;
         SparseArray &operator=(SparseArray &&) noexcept = default;
-
-        reference_type operator[](size_t idx)
-        {
-            return _data[idx];
-        }
-
-        const_reference_type operator[](size_t idx) const
-        {
-            return _data[idx];
-        }
-
-        iterator begin()
-        {
-            return _data.begin();
-        }
-
-        const_iterator begin() const
-        {
-            return _data.begin();
-        }
-
-        const_iterator cbegin() const
-        {
-            return _data.cbegin();
-        }
-
-        iterator end()
-        {
-            return _data.end();
-        }
-
-        const_iterator end() const
-        {
-            return _data.end();
-        }
-
-        const_iterator cend() const
-        {
-            return _data.cend();
-        }
-
-        size_type size() const
-        {
-            return _data.size();
-        }
-
-        reference_type insert_at(size_type pos, Component const &value)
-        {
-            if (pos >= _data.size())
-            {
-                _data.resize(pos + 1);
-            }
-            _data[pos] = value;
-            return _data[pos];
-        }
-
-        void erase(size_type pos)
-        {
-            if (pos < _data.size())
-            {
-                _data.erase(_data.begin() + pos);
-            }
-        }
-
-        size_type get_index(value_type const &value) const
-        {
-            auto it = std::find(_data.begin(), _data.end(), value);
-            if (it != _data.end())
-            {
-                return std::distance(_data.begin(), it);
-            }
-            throw std::runtime_error("Value not found in SparseArray");
-        }
+        reference_type operator[](size_t idx);
+        const_reference_type operator[](size_t idx) const;
+        iterator begin();
+        const_iterator begin() const;
+        const_iterator cbegin() const;
+        iterator end();
+        const_iterator end() const;
+        const_iterator cend() const;
+        size_type size() const;
+        reference_type insert_at(size_type pos, Component const &value);
+        void erase(size_type pos);
+        size_type get_index(value_type const &value) const;
 
     private:
         container_t _data;
@@ -117,73 +63,16 @@ namespace GameEngine
     class Registry
     {
     public:
-        using FunctionType = std::function<void(Registry &)>;
-        EntityID createEntity(std::string const &name)
-        {
-            EntityID id = nextEntityID_++;
-            _entities[name] = id;
-            return id;
-        }
-
-        EntityID getEntityID(std::string const &name)
-        {
-            auto it = _entities.find(name);
-            if (it != _entities.end())
-            {
-                return it->second;
-            }
-            throw std::runtime_error("Entity not found in registry.");
-        }
-
+        EntityID createEntity(std::string const &name);
+        EntityID getEntityID(std::string const &name);
         template <typename Component>
-        Registry &registerComponent()
-        {
-            auto type_id = std::type_index(typeid(Component));
-            if (components_.find(type_id) == components_.end())
-            {
-                components_[type_id] = std::make_any<SparseArray<Component>>();
-            }
-            return *this;
-        }
-
-        Registry &registerFunction(FunctionType const &function)
-        {
-            _functions.push_back(function);
-            return *this;
-        }
-
-        Registry &run(void)
-        {
-            for (auto const &function : _functions)
-            {
-                function(*this);
-            }
-            return *this;
-        }
-
+        Registry &registerComponent();
         template <typename Component>
-        SparseArray<Component> &getComponents()
-        {
-            auto type_id = std::type_index(typeid(Component));
-            return std::any_cast<SparseArray<Component> &>(components_[type_id]);
-        }
-
+        SparseArray<Component> &getComponents();
         template <typename Component>
-        Registry &addComponent(EntityID entity, Component const &component)
-        {
-            Registry &registry = registerComponent<Component>();
-            SparseArray<Component> &components = registry.getComponents<Component>();
-            components.insert_at(entity, component);
-            return *this;
-        }
-
+        Registry &addComponent(EntityID entity, Component const &component);
         template <typename Component>
-        Registry &removeComponent(EntityID entity)
-        {
-            SparseArray<Component> &components = getComponents<Component>();
-            components.erase(entity);
-            return *this;
-        }
+        Registry &removeComponent(EntityID entity);
 
     private:
         std::unordered_map<std::type_index, std::any> components_;
