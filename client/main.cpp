@@ -1,5 +1,5 @@
-#include <iostream>
 
+#include <iostream>
 #include "GameEngine/ECS.hpp"
 #include "components/Components.hpp"
 #include "Renderer.hpp"
@@ -28,11 +28,23 @@ int main()
     // SceneManager sceneManager;
     // get scenes
 
-    bool playing = false;
+    bool playing = true;
     while (playing)
     {
         // inputs.getInputs();
         // change scene ?
+        // registry.applySystems();
+        sf::Event event;
+        while (renderer.getWindow().pollEvent(event))
+        {
+            if (event.type == sf::Event::Closed)
+            {
+                playing = false; // Fermer la fenêtre met fin au jeu.
+            }
+            // Vous pouvez ajouter d'autres conditions de sortie ici.
+        }
+
+        // Autres logiques de jeu ici.
         // registry.applySystems();
         renderer.render(registry);
     }
