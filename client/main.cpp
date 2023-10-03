@@ -4,17 +4,18 @@
 
 int main()
 {
-    GameEngine::SparseArray<std::string> arr;
+    GameEngine::Registry registry;
 
-    auto refA = arr.insert_at(5, "10");
-    auto refB = arr.insert_at(6, "11");
+    GameEngine::EntityID entity = registry.createEntity("player");
 
-    for (size_t i = 0; i < arr.size(); ++i)
+    auto components = registry.registerComponent<std::string>();
+    registry.addComponent<std::string>(entity, "42");
+
+    std::cout << "Components: " << std::endl;
+    for (size_t i = 0; i < components.size(); i++)
     {
-        std::cout << arr[i] << std::endl;
+        std::cout << components[i] << std::endl;
     }
 
-    std::cout << "refA: " << arr.get_index(refA) << std::endl;
-    std::cout << "refB: " << arr.get_index(refB) << std::endl;
     return 0;
 }
