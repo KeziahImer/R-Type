@@ -139,28 +139,28 @@ namespace GameEngine
             auto type_id = std::type_index(typeid(Component));
             if (components_.find(type_id) == components_.end())
             {
-                auto any = std::make_any<SparseArray<Component>>();
-                components_[type_id] = std::make_unique<std::any>(any);
+                components_[type_id] = std::make_any<SparseArray<Component>>();
             }
-            return std::any_cast<SparseArray<Component> &>(*components_[type_id]);
+            return std::any_cast<SparseArray<Component> &>(components_[type_id]);
         }
 
         template <typename Component>
         SparseArray<Component> &getComponents()
         {
             auto type_id = std::type_index(typeid(Component));
-            return std::any_cast<SparseArray<Component> &>(*components_[type_id]);
+            return std::any_cast<SparseArray<Component> &>(components_[type_id]);
         }
 
         template <typename Component>
-        void addComponent(EntityID entity, Component const &component)
+        SparseArray<Component> &addComponent(EntityID entity, Component const &component)
         {
             SparseArray<Component> &components = registerComponent<Component>();
             components.insert_at(entity, component);
+            return components;
         }
 
     private:
-        std::unordered_map<std::type_index, std::unique_ptr<std::any>> components_;
+        std::unordered_map<std::type_index, std::any> components_;
         std::map<std::string, EntityID> _entities;
         size_t nextEntityID_ = 0;
     };
