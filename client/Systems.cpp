@@ -19,11 +19,13 @@ void Systems::checkMovable(GameEngine::Registry& registry)
 {
     GameEngine::SparseArray<Movable> &Movables = registry.getComponents<Movable>();
     GameEngine::SparseArray<Velocity> &Velocities = registry.getComponents<Velocity>();
+    GameEngine::SparseArray<parallax> &parallaxs = registry.getComponents<parallax>();
     std::map<enum sf::Keyboard::Key, bool> inputs = registry.getInputs();
     for (size_t i = 0; i < Movables.size(); i++)
     {
         try
         {
+            if (parallaxs[i].parallax) continue;
             Velocities[i].x = 0;
             Velocities[i].y = 0;
             for (auto inputPress : inputs) {
@@ -51,6 +53,7 @@ void Systems::checkVelocity(GameEngine::Registry& registry)
     {
         try
         {
+            std::cout << Velocities[i].x << " entity :" << i << std::endl;
             Positions[i].x = Positions[i].x + Velocities[i].x;
             Positions[i].y = Positions[i].y + Velocities[i].y;
         }
@@ -96,14 +99,33 @@ void Systems::checkShoot(GameEngine::Registry &registry)
 void Systems::destroyOutScreenEntity(GameEngine::Registry &registry)
 {
     GameEngine::SparseArray<Position> &Positions = registry.getComponents<Position>();
+    GameEngine::SparseArray<parallax> &parallaxs = registry.getComponents<parallax>();
     for (size_t i = 0; i < Positions.size(); i++)
     {
         try
         {
-            if (Positions[i].x < -150)
+            if (Positions[i].x < -150 && !parallaxs[i].parallax)
                 registry.removeEntity(i);
-            if (Positions[i].x > 1920 + 150)
+            if (Positions[i].x > 1920 + 150 && !parallaxs[i].parallax)
                 registry.removeEntity(i);
+        }
+        catch (const std::exception &e)
+        {
+            continue;
+        }
+    }
+}
+
+void Systems::updateParallax(GameEngine::Registry &registry)
+{
+    GameEngine::SparseArray<Position> &Positions = registry.getComponents<Position>();
+    
+    for (size_t i = 0; i < Positions.size(); i++)
+    {
+        try
+        {
+            if (Positions[i].x <= -1920)
+                Positions[i].x = 1920;
         }
         catch (const std::exception &e)
         {
