@@ -101,9 +101,9 @@ void Systems::destroyOutScreenEntity(GameEngine::Registry &registry)
         try
         {
             if (Positions[i].x < -150)
-                registry.removeComponent<Sprite>(i);
+                registry.removeEntity(i);
             if (Positions[i].x > 1920 + 150)
-                registry.removeComponent<Sprite>(i);
+                registry.removeEntity(i);
         }
         catch (const std::exception &e)
         {

@@ -162,12 +162,15 @@ namespace GameEngine
             Registry &registry = registerComponent<Component>();
             SparseArray<Component> &components = registry.getComponents<Component>();
             components.insert_at(entity, component);
+            _removes[typeid(Component)] = removeComponent<Component>();
             return *this;
         }
 
         void removeEntity(EntityID entity)
         {
-            
+            for (auto remove: _removes) {
+                remove.second(entity);
+            }
         }
 
         template <typename Component>
@@ -190,6 +193,7 @@ namespace GameEngine
 
     private:
         std::unordered_map<std::type_index, std::any> components_;
+        std::unordered_map<std::type_index, std::function<Registry &(EntityID entity)>> _removes;
         std::map<std::string, EntityID> _entities;
         size_t nextEntityID_ = 0;
         std::vector<FunctionType> _functions;

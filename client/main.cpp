@@ -46,15 +46,17 @@ int main()
     registry.addComponent<Sprite>(entity, Sprite("./client/assets/Player.gif", false, 33, 17, 2, 2));
     registry.addComponent<Sprite>(enemy, Sprite("./client/assets/Player.gif", true, 33, 17, 2, 3));
     registry.addComponent<Sprite>(background, Sprite("./client/assets/backgroundSpace.jpg", false, 514, 360, 0, 0));
-    registry.addComponent<Shoot>(entity, Shoot(sf::Keyboard::Space, 15, true, 3, std::time(0)));
+    registry.addComponent<Shoot>(entity, Shoot(sf::Keyboard::Space, 15, true, 2, std::time(0)));
 
 
     std::function<void(GameEngine::Registry&)> checkMovable = std::bind(&Systems::checkMovable, &systems, std::placeholders::_1);
     std::function<void(GameEngine::Registry&)> checkVelocity = std::bind(&Systems::checkVelocity, &systems, std::placeholders::_1);
     std::function<void(GameEngine::Registry&)> checkShoot = std::bind(&Systems::checkShoot, &systems, std::placeholders::_1);
+    std::function<void(GameEngine::Registry&)> destroyOutScreenEntity = std::bind(&Systems::destroyOutScreenEntity, &systems, std::placeholders::_1);
     registry.registerFunction(checkMovable);
     registry.registerFunction(checkVelocity);
     registry.registerFunction(checkShoot);
+    registry.registerFunction(destroyOutScreenEntity);
     // GameEngine engine;
     // Registry registry;
     // SceneManager sceneManager;
