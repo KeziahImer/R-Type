@@ -7,7 +7,7 @@
 
 #include "SceneManager.hpp"
 
-SceneManager::SceneManager(const std::map<std::string, json> &allData, GameEngine::Registry *registry) : _allData(allData), _registry(registry) {
+SceneManager::SceneManager(const std::map<std::string, json> &allData, GameEngine::Registry &registry) : _allData(allData), _registry(registry) {
     for (const auto &entry : _allData)
         _allScenes.push_back(entry.first);
 }

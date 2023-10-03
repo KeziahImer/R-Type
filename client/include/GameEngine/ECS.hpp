@@ -12,7 +12,6 @@
 #include <any>
 #include <memory>
 #include <functional>
-
 namespace GameEngine
 {
     using EntityID = size_t;
@@ -158,10 +157,11 @@ namespace GameEngine
         template <typename Component>
         Registry &addComponent(EntityID entity, Component const &component)
         {
+            // std::cout << "Type réel de component : " << typeid(component).name() << std::endl;
             Registry &registry = registerComponent<Component>();
             SparseArray<Component> &components = registry.getComponents<Component>();
             components.insert_at(entity, component);
-            std::cout << "CREATION DU COMPOSANT POUR L'ENTITY " << entity << std::endl;
+            // std::cout << "CREATION DU COMPOSANT POUR L'ENTITY " << entity << std::endl;
             return *this;
         }
 

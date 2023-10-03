@@ -26,9 +26,9 @@ void Renderer::render(GameEngine::Registry registry)
     {
         try
         {
-            auto sprite = Sprites[i];
-            auto position = Positions[i];
-            auto size = Sizes[i];
+            Sprite sprite = Sprites[i];
+            Position position = Positions[i];
+            Size size = Sizes[i];
             renderSprite(sprite, position, size);
         }
         catch (const std::exception &e)

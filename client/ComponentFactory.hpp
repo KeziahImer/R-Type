@@ -11,16 +11,18 @@
 #include "GameEngine/ECS.hpp"
 #include <memory>
 #include <nlohmann/json.hpp>
+#include <variant>
 using json = nlohmann::json;
 
-class ComponentFactory {
-    public:
-        ComponentFactory();
-        virtual ~ComponentFactory() = default;
-        std::shared_ptr<Component> getComponent(std::string name, std::string id, const json &componentData);
+using Component = std::variant<Position, Sprite, Velocity, Movable, Size>;
 
+class ComponentFactory
+{
+public:
+    ComponentFactory();
+    virtual ~ComponentFactory() = default;
+    Component getComponent(const std::string &name, const std::string &id, const json &data);
 
-    private:
-        std::map<std::string, std::function<std::shared_ptr<Component>(std::string, const json&)>> _components;
-
+private:
+    std::map<std::string, std::function<Component(const std::string&, const json&)>> _components;
 };

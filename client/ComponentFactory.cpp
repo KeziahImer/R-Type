@@ -7,7 +7,8 @@
 
 #include "ComponentFactory.hpp"
 
-sf::Keyboard::Key mapStringToKeyboardKey(const std::string& keyString) {
+sf::Keyboard::Key mapStringToKeyboardKey(const std::string &keyString)
+{
     static const std::map<std::string, sf::Keyboard::Key> keyMap = {
         {"A", sf::Keyboard::A},
         {"B", sf::Keyboard::B},
@@ -118,52 +119,57 @@ sf::Keyboard::Key mapStringToKeyboardKey(const std::string& keyString) {
     return sf::Keyboard::Unknown;
 }
 
-ComponentFactory::ComponentFactory() {
-    this->_components.emplace("position", [this](std::string id, const json& data) {
-        int x = data["x"];
-        int y = data["y"];
-        return std::make_shared<PositionComponent>(id, x, y);
-    });
-
-    this->_components.emplace("sprite", [this](std::string id, const json& data) {
+ComponentFactory::ComponentFactory()
+{
+    this->_components.emplace("sprite", [this](std::string id, const json &data) {
         std::string path = data["path"];
         int sizeTileX = data["sizeTileX"];
         int sizeTileY = data["sizeTileY"];
         int tileX = data["tileX"];
         int tileY = data["tileY"];
-        return std::make_shared<SpriteComponent>(id, path, sizeTileX, sizeTileY, tileX, tileY);
+        return Sprite{path, sizeTileX, sizeTileY, tileX, tileY};
     });
 
-    this->_components.emplace("velocity", [this](std::string id, const json& data) {
+    this->_components.emplace("position", [this](std::string id, const json &data) {
         int x = data["x"];
         int y = data["y"];
-        return std::make_shared<VelocityComponent>(id, x, y);
+        return Position{x, y};
     });
 
-    this->_components.emplace("movable", [this](std::string id, const json& data) {
-    std::map<sf::Keyboard::Key, std::pair<int, int>> keybinds;
-    for (const auto& entry : data["keybinds"].items()) {
-        sf::Keyboard::Key key = mapStringToKeyboardKey(entry.key());
-        int valueX = entry.value()["x"];
-        int valueY = entry.value()["y"];
-        keybinds[key] = std::make_pair(valueX, valueY);
-    }
-    return std::make_shared<MovableComponent>(id, keybinds);
-});
-
-
-    this->_components.emplace("size", [this](std::string id, const json& data) {
+    this->_components.emplace("size", [this](std::string id, const json &data) {
         int width = data["width"];
         int height = data["height"];
-        return std::make_shared<SizeComponent>(id, width, height);
+        return Size{width, height};
+    });
+
+    this->_components.emplace("velocity", [this](std::string id, const json &data) {
+        int x = data["x"];
+        int y = data["y"];
+        return Velocity{x, y};
+    });
+
+    this->_components.emplace("movable", [this](std::string id, const json &data) {
+        std::map<sf::Keyboard::Key, std::pair<int, int>> keybinds;
+
+        for (const auto& entry : data["keybinds"].items()) {
+            sf::Keyboard::Key key = mapStringToKeyboardKey(entry.key());
+            int valueX = entry.value()["x"];
+            int valueY = entry.value()["y"];
+            keybinds[key] = std::make_pair(valueX, valueY);
+        }
+
+        return Movable{keybinds};
     });
 }
 
-std::shared_ptr<Component> ComponentFactory::getComponent(std::string name, std::string id, const json &data) {
+Component ComponentFactory::getComponent(const std::string &name, const std::string &id, const json &data)
+{
     auto it = this->_components.find(name);
 
-    if (it != this->_components.end())
+    if (it != this->_components.end()) {
         return it->second(id, data);
+    }
 
-    return nullptr;
+    // Si le composant n'a pas été trouvé, renvoyez un composant vide
+    return Component{};
 }
