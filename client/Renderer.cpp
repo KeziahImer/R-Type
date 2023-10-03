@@ -35,17 +35,21 @@ void Renderer::render(GameEngine::Registry registry)
             continue;
         }
     }
+    _window.display();
 }
 
 void Renderer::renderSprite(Sprite sprite, Position position, Size size)
 {
     sf::Texture texture;
-    texture.loadFromFile(sprite.path);
+    if (!texture.loadFromFile(sprite.path))
+        std::cout << "Texture don't load..." << std::endl;
     sf::Sprite Sprite;
     Sprite.setTexture(texture);
     Sprite.setTextureRect(sf::IntRect(sprite.sizeTileX * sprite.tileX, sprite.sizeTileY * sprite.tileY, sprite.sizeTileX, sprite.sizeTileY));
     Sprite.setPosition(position.x, position.y);
-    Sprite.setScale(size.width / sprite.sizeTileX, size.height / sprite.sizeTileY);
+    double scaleX = ((double) size.width) / sprite.sizeTileX;
+    double scaleY = ((double) size.height) / sprite.sizeTileY;
+    Sprite.setScale(scaleX, scaleY);
     _window.draw(Sprite);
 }
 
