@@ -165,6 +165,11 @@ namespace GameEngine
             return *this;
         }
 
+        void removeEntity(EntityID entity)
+        {
+            
+        }
+
         template <typename Component>
         Registry &removeComponent(EntityID entity)
         {

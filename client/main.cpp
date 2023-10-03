@@ -35,23 +35,26 @@ int main()
     registry.addComponent<Position>(entity, Position(40, 50));
     registry.addComponent<Position>(enemy, Position(1950, 500));
     registry.addComponent<Position>(background, Position(0, 0));
-    registry.addComponent<Size>(entity, Size(100, 50));
-    registry.addComponent<Size>(enemy, Size(100, 50));
-    registry.addComponent<Size>(background, Size(1920, 1080));
+    registry.addComponent<Size>(entity, Size(2, 2));
+    registry.addComponent<Size>(enemy, Size(2, 2));
+    registry.addComponent<Size>(background, Size((double)1920 / 514, (double)1080 / 360));
     std::map<sf::Keyboard::Key, std::pair<int, int>> keybinds{{sf::Keyboard::Z, std::make_pair<int, int>(0, -5)}, {sf::Keyboard::Q, std::make_pair<int, int>(-5, 0)}, {sf::Keyboard::S, std::make_pair<int, int>(0, 5)}, {sf::Keyboard::D, std::make_pair<int, int>(5, 0)}};
     registry.addComponent<Movable>(entity, Movable(keybinds));
     registry.addComponent<Velocity>(entity, Velocity(0, 0));
     registry.addComponent<Velocity>(background, Velocity(0, 0));
     registry.addComponent<Velocity>(enemy, Velocity(-5, 0));
-    registry.addComponent<Sprite>(entity, Sprite("./client/assets/Player.gif", 33, 17, 0, 2));
-    registry.addComponent<Sprite>(enemy, Sprite("./client/assets/Player.gif", 33, 17, 1, 2));
-    registry.addComponent<Sprite>(background, Sprite("./client/assets/backgroundSpace.jpg", 514, 360, 0, 0));
+    registry.addComponent<Sprite>(entity, Sprite("./client/assets/Player.gif", false, 33, 17, 2, 2));
+    registry.addComponent<Sprite>(enemy, Sprite("./client/assets/Player.gif", true, 33, 17, 2, 3));
+    registry.addComponent<Sprite>(background, Sprite("./client/assets/backgroundSpace.jpg", false, 514, 360, 0, 0));
+    registry.addComponent<Shoot>(entity, Shoot(sf::Keyboard::Space, 15, true, 3, std::time(0)));
 
 
     std::function<void(GameEngine::Registry&)> checkMovable = std::bind(&Systems::checkMovable, &systems, std::placeholders::_1);
     std::function<void(GameEngine::Registry&)> checkVelocity = std::bind(&Systems::checkVelocity, &systems, std::placeholders::_1);
+    std::function<void(GameEngine::Registry&)> checkShoot = std::bind(&Systems::checkShoot, &systems, std::placeholders::_1);
     registry.registerFunction(checkMovable);
     registry.registerFunction(checkVelocity);
+    registry.registerFunction(checkShoot);
     // GameEngine engine;
     // Registry registry;
     // SceneManager sceneManager;
@@ -65,4 +68,5 @@ int main()
         registry.run();
         renderer.render(registry);
     }
+    return 0;
 }

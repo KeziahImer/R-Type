@@ -17,6 +17,8 @@ class Systems {
 
         void checkMovable(GameEngine::Registry &registry);
         void checkVelocity(GameEngine::Registry &registry);
+        void checkShoot(GameEngine::Registry &registry);
+        void destroyOutScreenEntity(GameEngine::Registry &registry);
 
     protected:
     private:

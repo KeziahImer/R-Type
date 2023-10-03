@@ -10,6 +10,7 @@
 #include <map>
 #include <utility>
 #include <SFML/Graphics.hpp>
+#include <chrono>
 
 struct Position
 {
@@ -20,8 +21,9 @@ struct Position
 struct Sprite
 {
     std::string path;
-    int sizeTileX;
-    int sizeTileY;
+    bool reverse;
+    float sizeTileX;
+    float sizeTileY;
     int tileX;
     int tileY;
 };
@@ -32,13 +34,22 @@ struct Velocity
     int y;
 };
 
+struct Size
+{
+    double scaleX;
+    double scaleY;
+};
+
 struct Movable
 {
     std::map<enum sf::Keyboard::Key, std::pair<int, int>> keybinds;
 };
 
-struct Size
+struct Shoot
 {
-    int width;
-    int height;
+    sf::Keyboard::Key Input;
+    int speedX;
+    bool canShoot;
+    int timeMillisecond;
+    std::time_t lastShoot;
 };

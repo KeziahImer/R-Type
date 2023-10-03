@@ -60,3 +60,54 @@ void Systems::checkVelocity(GameEngine::Registry& registry)
         }
     }
 }
+
+void Systems::checkShoot(GameEngine::Registry &registry)
+{
+    GameEngine::SparseArray<Shoot> &Shoots = registry.getComponents<Shoot>();
+    GameEngine::SparseArray<Position> &Positions = registry.getComponents<Position>();
+    std::map<enum sf::Keyboard::Key, bool> inputs = registry.getInputs();
+
+    for (size_t i = 0; i < Shoots.size(); i++)
+    {
+        try
+        {
+            for (auto inputPress : inputs) {
+                    if ((inputPress.first == Shoots[i].Input) && inputPress.second) {
+                        if (!Shoots[i].canShoot) continue;
+                        std::cout << std::time(0) - Shoots[i].lastShoot << std::endl;
+                        if (std::time(0) - Shoots[i].lastShoot > Shoots[i].timeMillisecond) {
+                            Shoots[i].lastShoot = std::time(0);
+                            GameEngine::EntityID shoot = registry.createEntity("shoot");
+                            registry.addComponent<Position>(shoot, Position(Positions[i].x, Positions[i].y));
+                            registry.addComponent<Velocity>(shoot, Velocity(Shoots[i].speedX, 0));
+                            registry.addComponent<Sprite>(shoot, Sprite("./client/assets/ShootsAndPlayer.gif", false, 33, 22, 6, 1));
+                            registry.addComponent<Size>(shoot, Size(1, 1));
+                        }
+                    }
+            }
+        }
+        catch (const std::exception &e)
+        {
+            continue;
+        }
+    }
+}
+
+void Systems::destroyOutScreenEntity(GameEngine::Registry &registry)
+{
+    GameEngine::SparseArray<Position> &Positions = registry.getComponents<Position>();
+    for (size_t i = 0; i < Positions.size(); i++)
+    {
+        try
+        {
+            if (Positions[i].x < -150)
+                registry.removeComponent<Sprite>(i);
+            if (Positions[i].x > 1920 + 150)
+                registry.removeComponent<Sprite>(i);
+        }
+        catch (const std::exception &e)
+        {
+            continue;
+        }
+    }
+}
