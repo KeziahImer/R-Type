@@ -6,39 +6,34 @@
 */
 
 #pragma once
+#include <SFML/Graphics.hpp>
 #include <iostream>
 #include <map>
 #include <utility>
-#include <SFML/Graphics.hpp>
 
-struct Position
-{
-    int x;
-    int y;
+struct Position {
+  int x;
+  int y;
 };
 
-struct Sprite
-{
-    std::string path;
-    int sizeTileX;
-    int sizeTileY;
-    int tileX;
-    int tileY;
+struct Sprite {
+  std::string path;
+  int sizeTileX;
+  int sizeTileY;
+  int tileX;
+  int tileY;
 };
 
-struct Velocity
-{
-    int x;
-    int y;
+struct Velocity {
+  int x;
+  int y;
 };
 
-struct Movable
-{
-    std::map<enum sf::Keyboard::Key, std::pair<int, int>> keybinds;
+struct Movable {
+  std::map<enum sf::Keyboard::Key, std::pair<int, int>> keybinds;
 };
 
-struct Size
-{
-    int width;
-    int height;
+struct Size {
+  int width;
+  int height;
 };

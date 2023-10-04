@@ -11,14 +11,13 @@
 #include "include/components/Components.hpp"
 
 class Systems {
-    public:
-        Systems();
-        ~Systems();
+public:
+  Systems();
+  ~Systems();
 
-        void checkMovable(GameEngine::Registry &registry);
-        void checkVelocity(GameEngine::Registry &registry);
+  void checkMovable(GameEngine::Registry &registry);
+  void checkVelocity(GameEngine::Registry &registry);
 
-    protected:
-    private:
+protected:
+private:
 };
-

@@ -9,13 +9,14 @@
 #include <SFML/Graphics.hpp>
 
 class Inputer {
-    public:
-        Inputer(sf::RenderWindow &window);
-        ~Inputer();
 
-        std::map<enum sf::Keyboard::Key, bool> getInputs();
+public:
+  Inputer(sf::RenderWindow &window);
+  ~Inputer();
 
-    private:
-        std::map<enum sf::Keyboard::Key, bool> keybinds;
-        sf::RenderWindow &_window;
+  std::map<enum sf::Keyboard::Key, bool> getInputs();
+
+private:
+  std::map<enum sf::Keyboard::Key, bool> keybinds;
+  sf::RenderWindow &_window;
 };
