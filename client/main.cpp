@@ -7,6 +7,7 @@
 #include "SceneManager.hpp"
 #include "Systems.hpp"
 #include "components/Components.hpp"
+#include "PrefabsEngine/PrefabGenerator.hpp"
 #include <iostream>
 
 int main()
@@ -29,6 +30,12 @@ int main()
     Renderer renderer(1920, 1080, "SuperJeu");
     Inputer inputs(renderer.getWindow());
     Systems systems;
+
+    // ComponentFactory factory(registry);
+    // PrefabGenerator prefabGenerator(factory, registry, parser);
+
+    // prefabGenerator.loadPrefab("player", "player01");
+
     std::map<enum sf::Keyboard::Key, bool> inputsMap;
     bool playing = true;
     while (playing)

@@ -11,7 +11,23 @@ Parsing::Parsing() {}
 
 Parsing::~Parsing() {}
 
-void Parsing::pushJsonData(const std::string &filename) {
+json Parsing::getJsonData(const std::string &filename)
+{
+  std::ifstream f(filename);
+  json data = json::parse(f);
+
+  if (data.is_object())
+    return data;
+  else
+  {
+    std::cerr << "Le fichier JSON '" << filename
+              << "' n'est pas un objet JSON valide." << std::endl;
+    return nullptr;
+  }
+}
+
+void Parsing::pushJsonData(const std::string &filename)
+{
   std::ifstream f(filename);
   json data = json::parse(f);
 
@@ -24,15 +40,18 @@ void Parsing::pushJsonData(const std::string &filename) {
 
 std::map<std::string, json> Parsing::getAllData() { return _allData; }
 
-void Parsing::parseJsonFiles() {
+void Parsing::parseJsonFiles()
+{
   const std::string directory_path = DIRECTORY_PATH;
 
   for (const auto &entry :
-       std::filesystem::directory_iterator(directory_path)) {
+       std::filesystem::directory_iterator(directory_path))
+  {
     const std::string &filename = entry.path().string();
 
     if (std::filesystem::is_regular_file(entry) &&
-        filename.substr(filename.find_last_of(".") + 1) == "json") {
+        filename.substr(filename.find_last_of(".") + 1) == "json")
+    {
       std::cout << filename << std::endl;
       pushJsonData(filename);
     }

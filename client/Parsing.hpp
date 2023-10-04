@@ -16,12 +16,14 @@
 static const std::string DIRECTORY_PATH = "./scenes";
 using json = nlohmann::json;
 
-class Parsing {
+class Parsing
+{
 public:
   Parsing();
   ~Parsing();
   void pushJsonData(const std::string &filename);
   void parseJsonFiles();
+  json getJsonData(const std::string &filename);
   std::map<std::string, json> getAllData();
 
 protected:

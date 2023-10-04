@@ -119,6 +119,57 @@ sf::Keyboard::Key mapStringToKeyboardKey(const std::string &keyString)
     return sf::Keyboard::Unknown;
 }
 
+void ComponentFactory::createAllComponents(const std::string &type, const json &data, const std::string &prefab, const std::string &id)
+{
+    if (type == "scene")
+    {
+        for (const auto &entityData : data["entities"])
+        {
+            std::string entityId = entityData["id"];
+            GameEngine::EntityID entity = _registry.createEntity(entityId);
+
+            for (const auto &componentData : entityData["components"])
+            {
+                std::string componentId = "";
+                std::string componentType = "";
+                json componentDataJson;
+
+                if (componentData.count("id"))
+                    componentId = componentData["id"];
+                if (componentData.count("type"))
+                    componentType = componentData["type"];
+                if (componentData.count("data"))
+                    componentDataJson = componentData["data"];
+
+                auto component = this->getComponent(componentType, entity, componentId, componentDataJson);
+            }
+        }
+    }
+    else if (type == "prefab")
+    {
+        const auto &entityData = data[prefab];
+
+        std::string entityId = id;
+        GameEngine::EntityID entity = _registry.createEntity(entityId);
+
+        for (const auto &componentData : entityData["components"])
+        {
+            std::string componentId = "";
+            std::string componentType = "";
+            json componentDataJson;
+
+            if (componentData.count("id"))
+                componentId = componentData["id"];
+            if (componentData.count("type"))
+                componentType = componentData["type"];
+            if (componentData.count("data"))
+                componentDataJson = componentData["data"];
+
+            auto component = this->getComponent(componentType, entity, componentId, componentDataJson);
+        }
+    }
+}
+
 ComponentFactory::ComponentFactory(GameEngine::Registry &registry) : _registry(registry)
 {
     this->_components.emplace("sprite", [this](std::string id, const GameEngine::EntityID &entity, const json &data)

@@ -1,0 +1,73 @@
+{
+    "player": {
+        "components": [
+            {
+                "id": "positionPlayer",
+                "type": "position",
+                "data": {
+                    "x": 200,
+                    "y": 50
+                }
+            },
+            {
+                "id": "spritePlayer",
+                "type": "sprite",
+                "data": {
+                    "path": "./client/assets/Player.gif",
+                    "reverse": false,
+                    "sizeTileX": 33,
+                    "sizeTileY": 17,
+                    "tileX": 2,
+                    "tileY": 2
+                }
+            },
+            {
+                "id": "sizePlayer",
+                "type": "size",
+                "data": {
+                    "scaleX": 3,
+                    "scaleY": 3
+                }
+            },
+            {
+                "id": "parallaxPlayer",
+                "type": "parallax",
+                "data": {
+                    "parallax": false
+                }
+            },
+            {
+                "id": "velocityPlayer",
+                "type": "velocity",
+                "data": {
+                    "x": 0,
+                    "y": 0
+                }
+            },
+            {
+                "id": "movablePlayer",
+                "type": "movable",
+                "data": {
+                    "keybinds": {
+                        "Z": {
+                            "x": 0,
+                            "y": -0.5
+                        },
+                        "Q": {
+                            "x": -0.5,
+                            "y": 0
+                        },
+                        "S": {
+                            "x": 0,
+                            "y": 0.5
+                        },
+                        "D": {
+                            "x": 0.5,
+                            "y": 0
+                        }
+                    }
+                }
+            }
+        ]
+    }
+}

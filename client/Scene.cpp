@@ -19,27 +19,8 @@ Scene::Scene(std::string id, const json &data, GameEngine::Registry &registry) :
     std::function<void(GameEngine::Registry &)> destroyOutScreenEntity = std::bind(&Systems::destroyOutScreenEntity, &systems, std::placeholders::_1);
     std::function<void(GameEngine::Registry &)> checkShoot = std::bind(&Systems::checkShoot, &systems, std::placeholders::_1);
 
-    for (const auto &entityData : data["entities"])
-    {
-        std::string entityId = entityData["id"];
-        GameEngine::EntityID entity = _registry.createEntity(entityId);
+    factory.createAllComponents("scene", data);
 
-        for (const auto &componentData : entityData["components"])
-        {
-            std::string componentId = "";
-            std::string componentType = "";
-            json componentDataJson;
-
-            if (componentData.count("id"))
-                componentId = componentData["id"];
-            if (componentData.count("type"))
-                componentType = componentData["type"];
-            if (componentData.count("data"))
-                componentDataJson = componentData["data"];
-
-            auto component = factory.getComponent(componentType, entity, componentId, componentDataJson);
-        }
-    }
     registry.registerFunction(checkMovable);
     registry.registerFunction(checkVelocity);
     registry.registerFunction(updateParallax);
