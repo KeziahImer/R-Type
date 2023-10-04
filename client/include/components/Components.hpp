@@ -7,33 +7,48 @@
 
 #pragma once
 #include <SFML/Graphics.hpp>
+#include <chrono>
 #include <iostream>
 #include <map>
 #include <utility>
 
 struct Position {
-  int x;
-  int y;
+  float x;
+  float y;
 };
 
 struct Sprite {
   std::string path;
-  int sizeTileX;
-  int sizeTileY;
+  bool reverse;
+  float sizeTileX;
+  float sizeTileY;
   int tileX;
   int tileY;
 };
 
 struct Velocity {
-  int x;
-  int y;
-};
-
-struct Movable {
-  std::map<enum sf::Keyboard::Key, std::pair<int, int>> keybinds;
+  float x;
+  float y;
 };
 
 struct Size {
-  int width;
-  int height;
+  double scaleX;
+  double scaleY;
+};
+
+struct Movable {
+  std::map<enum sf::Keyboard::Key, std::pair<float, float>> keybinds;
+};
+
+struct Shoot {
+  sf::Keyboard::Key Input;
+  int speedX;
+  bool canShoot;
+  int timeMillisecond;
+  std::chrono::_V2::system_clock::duration lastShoot;
+};
+
+struct Parallax
+{
+    bool parallax;
 };

@@ -20,4 +20,5 @@ public:
 
 private:
   sf::RenderWindow _window;
+  std::map<std::string, sf::Texture> _textures;
 };

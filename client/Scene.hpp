@@ -6,26 +6,30 @@
 */
 
 #pragma once
-#include "GameEngine/ECS.hpp"
-#include <iostream>
-#include <memory>
-#include <nlohmann/json.hpp>
-#include <vector>
-using json = nlohmann::json;
+    #include <vector>
+    #include <memory>
+    #include <nlohmann/json.hpp>
+    #include <iostream>
+    #include  <functional>
+    #include "GameEngine/ECS.hpp"
+    #include "ComponentFactory.hpp"
+    #include "Systems.hpp"
+    using json = nlohmann::json;
 
 class Scene {
-public:
-  Scene(std::string id, const json &data);
-  ~Scene();
-  void update();
-  std::vector<GameEngine::EntityID> getEntities();
-  void deleteEntities();
-  std::string getId();
-  // getScreen();
+    public:
+        Scene(std::string id, const json &data, GameEngine::Registry &registry);
+        ~Scene();
+        void update();
+        std::vector<GameEngine::EntityID> getEntities();
+        void deleteEntities();
+        std::string getId();
+        // getScreen();
 
-protected:
-private:
-  std::string _id;
-  json _data;
-  std::vector<GameEngine::EntityID> _allEntities;
+    protected:
+    private:
+        std::string _id;
+        json _data;
+        std::vector<GameEngine::EntityID> _allEntities;
+        GameEngine::Registry &_registry;
 };
