@@ -6,22 +6,24 @@
 */
 
 #include <boost/asio.hpp>
-#include <boost/bind.hpp>
-#include <boost/array.hpp>
 #include <iostream>
+#include <iomanip>
+#include <chrono>
+#include <ctime>
 
 class Network
 {
 public:
-    Network(boost::asio::io_context &io_context);
+    Network(boost::asio::io_context &io_context, const std::chrono::time_point<std::chrono::_V2::system_clock, std::chrono::_V2::system_clock::duration> &t_start);
     ~Network() = default;
 
 private:
-    void start_receive();
-    void handle_receive(const boost::system::error_code &error, std::size_t);
-    void handle_send(boost::shared_ptr<std::string>, const boost::system::error_code &, std::size_t);
+    void receiveRequest();
+    void sendRequest(std::size_t);
 
     boost::asio::ip::udp::socket _socket;
-    boost::asio::ip::udp::endpoint _remoteEndpoint;
-    boost::array<char, 1> _recvBuffer;
+    boost::asio::ip::udp::endpoint _senderEndpoint;
+    std::chrono::time_point<std::chrono::_V2::system_clock, std::chrono::_V2::system_clock::duration> _tStart;
+    std::size_t _maxLength = 1024;
+    char _recvBuffer[1024];
 };

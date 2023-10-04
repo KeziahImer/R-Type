@@ -1,12 +1,20 @@
+/*
+** EPITECH PROJECT, 2023
+** R-Type [WSL: Ubuntu]
+** File description:
+** main
+*/
+
 #include "Network/Network.hpp"
 
 int main()
 {
     try
     {
-        boost::asio::io_context io_context;
-        Network server(io_context);
-        io_context.run();
+        auto tStart = std::chrono::high_resolution_clock::now();
+        boost::asio::io_context ioContext;
+        Network server(ioContext, tStart);
+        ioContext.run();
     }
     catch (std::exception &e)
     {

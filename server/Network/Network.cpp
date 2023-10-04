@@ -7,35 +7,36 @@
 
 #include "Network.hpp"
 
-Network::Network(boost::asio::io_context &io_context)
-    : _socket(io_context, boost::asio::ip::udp::endpoint(boost::asio::ip::udp::v4(), 13))
+Network::Network(boost::asio::io_context &io_context, const std::chrono::time_point<std::chrono::_V2::system_clock, std::chrono::_V2::system_clock::duration> &tStart)
+    : _socket(io_context, boost::asio::ip::udp::endpoint(boost::asio::ip::udp::v4(), 13)), _tStart(tStart)
 {
-    start_receive();
+    receiveRequest();
 }
 
-void Network::start_receive()
+void Network::receiveRequest()
 {
-    _socket.async_receive_from(
-        boost::asio::buffer(_recvBuffer), _remoteEndpoint,
-        boost::bind(&Network::handle_receive, this,
-                    boost::asio::placeholders::error,
-                    boost::asio::placeholders::bytes_transferred));
+    _socket.async_receive_from(boost::asio::buffer(_recvBuffer, _maxLength), _senderEndpoint,
+                               [&](const boost::system::error_code &error, std::size_t bytes_received)
+                               {
+                                   if (!error)
+                                   {
+                                       const auto tEnd = std::chrono::high_resolution_clock::now();
+                                       std::cout << "Clock: " << std::fixed << std::setprecision(0) << std::chrono::duration<double, std::milli>(tEnd - _tStart).count() << "ms" << std::endl;
+                                       //    treatRequest(_recvBuffer);
+                                       std::cout << "Received: " << _recvBuffer << std::endl;
+                                       sendRequest(bytes_received);
+                                   }
+                                   receiveRequest();
+                               });
 }
 
-void Network::handle_receive(const boost::system::error_code &error, std::size_t)
+void Network::sendRequest(std::size_t length)
 {
-    if (!error)
-    {
-        boost::shared_ptr<std::string> message(
-            new std::string("EH BONJOUREUH !"));
-        _socket.async_send_to(boost::asio::buffer(*message), _remoteEndpoint,
-                              boost::bind(&Network::handle_send, this, message,
-                                          boost::asio::placeholders::error,
-                                          boost::asio::placeholders::bytes_transferred));
-        start_receive();
-    }
-}
-
-void Network::handle_send(boost::shared_ptr<std::string>, const boost::system::error_code &, std::size_t)
-{
+    _socket.async_send_to(boost::asio::buffer(_recvBuffer, length), _senderEndpoint,
+                          [&](const boost::system::error_code &error, std::size_t bytes_sent)
+                          {
+                              if (!error)
+                                  std::cout << "Sent: " << _recvBuffer << std::endl;
+                              memset(_recvBuffer, 0, _maxLength);
+                          });
 }
