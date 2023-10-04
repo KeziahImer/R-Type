@@ -27,7 +27,7 @@ int main() {
   Inputer inputs(renderer.getWindow());
   Systems systems;
   std::map<enum sf::Keyboard::Key, bool> inputsMap;
-
+/*
   GameEngine::EntityID background = registry.createEntity("background");
   GameEngine::EntityID background1 = registry.createEntity("background1");
   GameEngine::EntityID entity = registry.createEntity("player");
@@ -65,9 +65,9 @@ int main() {
   registry.addComponent<Shoot>(
       entity, Shoot(sf::Keyboard::Space, 1, true, 250,
                     std::chrono::system_clock::now().time_since_epoch()));
-  registry.addComponent<parallax>(background1, parallax(true));
-  registry.addComponent<parallax>(background, parallax(true));
-  registry.addComponent<parallax>(entity, parallax(false));
+  registry.addComponent<Parallax>(background1, Parallax(true));
+  registry.addComponent<Parallax>(background, Parallax(true));
+  registry.addComponent<Parallax>(entity, Parallax(false));
 
   std::function<void(GameEngine::Registry &)> checkMovable =
       std::bind(&Systems::checkMovable, &systems, std::placeholders::_1);
@@ -89,12 +89,11 @@ int main() {
   // Registry registry;
   // SceneManager sceneManager;
   // get scenes
-
+*/
   bool playing = true;
   while (playing) {
     if (!registry.clock.checkFrame())
       continue;
-    std::cout << background1 << ", " << background << std::endl;
     inputsMap = inputs.getInputs();
     registry.setInputs(inputsMap);
     registry.run();

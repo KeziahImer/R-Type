@@ -16,8 +16,8 @@ void Systems::checkMovable(GameEngine::Registry &registry) {
       registry.getComponents<Movable>();
   GameEngine::SparseArray<Velocity> &Velocities =
       registry.getComponents<Velocity>();
-  GameEngine::SparseArray<parallax> &parallaxs =
-      registry.getComponents<parallax>();
+  GameEngine::SparseArray<Parallax> &parallaxs =
+      registry.getComponents<Parallax>();
   std::map<enum sf::Keyboard::Key, bool> inputs = registry.getInputs();
   for (size_t i = 0; i < Movables.size(); i++) {
     try {
@@ -100,8 +100,8 @@ void Systems::checkShoot(GameEngine::Registry &registry) {
 void Systems::destroyOutScreenEntity(GameEngine::Registry &registry) {
   GameEngine::SparseArray<Position> &Positions =
       registry.getComponents<Position>();
-  GameEngine::SparseArray<parallax> &parallaxs =
-      registry.getComponents<parallax>();
+  GameEngine::SparseArray<Parallax> &parallaxs =
+      registry.getComponents<Parallax>();
   for (size_t i = 0; i < Positions.size(); i++) {
     try {
       if (Positions[i].x < -150 && !parallaxs[i].parallax)

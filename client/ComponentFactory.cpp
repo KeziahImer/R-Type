@@ -135,8 +135,8 @@ ComponentFactory::ComponentFactory(GameEngine::Registry &registry): _registry(re
     });
 
     this->_components.emplace("position", [this](std::string id, const GameEngine::EntityID &entity, const json &data) {
-        int x = data["x"];
-        int y = data["y"];
+        float x = data["x"];
+        float y = data["y"];
 
         Position position = Position{x, y};
         _registry.addComponent<Position>(entity, position);
@@ -153,8 +153,8 @@ ComponentFactory::ComponentFactory(GameEngine::Registry &registry): _registry(re
     });
 
     this->_components.emplace("velocity", [this](std::string id, const GameEngine::EntityID &entity, const json &data) {
-        int x = data["x"];
-        int y = data["y"];
+        float x = data["x"];
+        float y = data["y"];
 
         Velocity velocity = Velocity{x, y};
         _registry.addComponent<Velocity>(entity, velocity);
@@ -162,12 +162,12 @@ ComponentFactory::ComponentFactory(GameEngine::Registry &registry): _registry(re
     });
 
     this->_components.emplace("movable", [this](std::string id, const GameEngine::EntityID &entity, const json &data) {
-        std::map<sf::Keyboard::Key, std::pair<int, int>> keybinds;
+        std::map<sf::Keyboard::Key, std::pair<float, float>> keybinds;
 
         for (const auto& entry : data["keybinds"].items()) {
             sf::Keyboard::Key key = mapStringToKeyboardKey(entry.key());
-            int valueX = entry.value()["x"];
-            int valueY = entry.value()["y"];
+            float valueX = entry.value()["x"];
+            float valueY = entry.value()["y"];
             keybinds[key] = std::make_pair(valueX, valueY);
         }
 
