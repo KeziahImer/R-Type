@@ -10,18 +10,18 @@
 #include <chrono>
 
 class Clock {
-    public:
-        Clock(int fps);
-        ~Clock();
+public:
+  Clock(int fps);
+  ~Clock();
 
-        bool checkFrame();
-        float getDeltaTimeSeconds() const;
-        int64_t getDeltaTimeMilliseconds() const;
+  bool checkFrame();
+  float getDeltaTimeSeconds() const;
+  int64_t getDeltaTimeMilliseconds() const;
 
-    private:
-        int _fps;
-        std::chrono::_V2::system_clock::duration _lastUpdate;
-        std::chrono::_V2::system_clock::duration _actualUpdate;
+private:
+  int _fps;
+  std::chrono::_V2::system_clock::duration _lastUpdate;
+  std::chrono::_V2::system_clock::duration _actualUpdate;
 };
 
 #endif /* !CLOCK_HPP_ */
