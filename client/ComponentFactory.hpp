@@ -14,15 +14,16 @@
 #include <variant>
 using json = nlohmann::json;
 
-using Component = std::variant<Position, Sprite, Velocity, Movable, Size, Shoot>;
+using Component = std::variant<Position, Sprite, Velocity, Movable, Size, Shoot, Parallax>;
 
 class ComponentFactory
 {
 public:
-    ComponentFactory();
+    ComponentFactory(GameEngine::Registry &registry);
     virtual ~ComponentFactory() = default;
-    Component getComponent(const std::string &name, const std::string &id, const json &data);
+    Component getComponent(const std::string &name, const GameEngine::EntityID &entity, const std::string &id, const json &data);
 
 private:
-    std::map<std::string, std::function<Component(const std::string&, const json&)>> _components;
+    GameEngine::Registry &_registry;
+    std::map<std::string, std::function<Component(const std::string&, const GameEngine::EntityID &entity, const json&)>> _components;
 };

@@ -10,12 +10,14 @@
 Scene::Scene(std::string id, const json &data, GameEngine::Registry &registry) : _id(id), _data(data), _registry(registry)
 {
 
-    ComponentFactory factory;
+    ComponentFactory factory(_registry);
     Systems systems;
-    std::cout << std::endl;
 
     std::function<void(GameEngine::Registry&)> checkMovable = std::bind(&Systems::checkMovable, &systems, std::placeholders::_1);
     std::function<void(GameEngine::Registry&)> checkVelocity = std::bind(&Systems::checkVelocity, &systems, std::placeholders::_1);
+    std::function<void(GameEngine::Registry&)> updateParallax = std::bind(&Systems::updateParallax, &systems, std::placeholders::_1);
+    std::function<void(GameEngine::Registry&)> destroyOutScreenEntity = std::bind(&Systems::destroyOutScreenEntity, &systems, std::placeholders::_1);
+    std::function<void(GameEngine::Registry&)> checkShoot = std::bind(&Systems::checkShoot, &systems, std::placeholders::_1);
 
     for (const auto &entityData : data["entities"]) {
         std::string entityId = entityData["id"];
@@ -32,47 +34,16 @@ Scene::Scene(std::string id, const json &data, GameEngine::Registry &registry) :
                 componentType = componentData["type"];
             if (componentData.count("data"))
                 componentDataJson = componentData["data"];
-
-            if (componentType == "sprite") {
-                auto spriteComponent = factory.getComponent("sprite", componentId, componentDataJson);
-                if (std::holds_alternative<Sprite>(spriteComponent)) {
-                Sprite sprite = std::get<Sprite>(spriteComponent);
-                _registry.addComponent<Sprite>(entity, sprite);
-            }}
-
-            if (componentType == "position") {
-                auto positionComponent = factory.getComponent("position", componentId, componentDataJson);
-                if (std::holds_alternative<Position>(positionComponent)) {
-                Position position = std::get<Position>(positionComponent);
-                _registry.addComponent<Position>(entity, position);
-            }}
-
-            if (componentType == "size") {
-                auto sizeComponent = factory.getComponent("size", componentId, componentDataJson);
-                if (std::holds_alternative<Size>(sizeComponent)) {
-                Size size = std::get<Size>(sizeComponent);
-                _registry.addComponent<Size>(entity, size);
-            }}
-
-            if (componentType == "velocity") {
-                auto velocityComponent = factory.getComponent("velocity", componentId, componentDataJson);
-                if (std::holds_alternative<Velocity>(velocityComponent)) {
-                Velocity velocity = std::get<Velocity>(velocityComponent);
-                _registry.addComponent<Velocity>(entity, velocity);
-            }}
-
-            if (componentType == "movable") {
-                auto movableComponent = factory.getComponent("movable", componentId, componentDataJson);
-                if (std::holds_alternative<Movable>(movableComponent)) {
-                Movable movable = std::get<Movable>(movableComponent);
-                _registry.addComponent<Movable>(entity, movable);
-            }}
-
+            
+            auto component = factory.getComponent(componentType, entity, componentId, componentDataJson);
         }
 
-        registry.registerFunction(checkMovable);
-        registry.registerFunction(checkVelocity);
     }
+    registry.registerFunction(checkMovable);
+    registry.registerFunction(checkVelocity);
+    registry.registerFunction(updateParallax);
+    registry.registerFunction(destroyOutScreenEntity);
+    registry.registerFunction(checkShoot);
 }
 
 Scene::~Scene()

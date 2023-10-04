@@ -6,6 +6,7 @@
 */
 
 #include "Systems.hpp"
+#include "include/GameEngine/ECS.hpp"
 
 Systems::Systems()
 {
@@ -15,20 +16,25 @@ Systems::~Systems()
 {
 }
 
-void Systems::checkMovable(GameEngine::Registry& registry)
+void Systems::checkMovable(GameEngine::Registry &registry)
 {
     GameEngine::SparseArray<Movable> &Movables = registry.getComponents<Movable>();
     GameEngine::SparseArray<Velocity> &Velocities = registry.getComponents<Velocity>();
+    GameEngine::SparseArray<Parallax> &Parallaxs = registry.getComponents<Parallax>();
     std::map<enum sf::Keyboard::Key, bool> inputs = registry.getInputs();
     for (size_t i = 0; i < Movables.size(); i++)
     {
         try
         {
+            if (Parallaxs[i].parallax) continue;
             Velocities[i].x = 0;
             Velocities[i].y = 0;
-            for (auto inputPress : inputs) {
-                for (auto inputRequire : Movables[i].keybinds) {
-                    if ((inputPress.first == inputRequire.first) && inputPress.second) {
+            for (auto inputPress : inputs)
+            {
+                for (auto inputRequire : Movables[i].keybinds)
+                {
+                    if ((inputPress.first == inputRequire.first) && inputPress.second)
+                    {
                         Velocities[i].x += inputRequire.second.first;
                         Velocities[i].y += inputRequire.second.second;
                     }
@@ -42,7 +48,7 @@ void Systems::checkMovable(GameEngine::Registry& registry)
     }
 }
 
-void Systems::checkVelocity(GameEngine::Registry& registry)
+void Systems::checkVelocity(GameEngine::Registry &registry)
 {
     GameEngine::SparseArray<Velocity> &Velocities = registry.getComponents<Velocity>();
     GameEngine::SparseArray<Position> &Positions = registry.getComponents<Position>();
@@ -96,14 +102,33 @@ void Systems::checkShoot(GameEngine::Registry &registry)
 void Systems::destroyOutScreenEntity(GameEngine::Registry &registry)
 {
     GameEngine::SparseArray<Position> &Positions = registry.getComponents<Position>();
+    GameEngine::SparseArray<Parallax> &Parallaxs = registry.getComponents<Parallax>();
     for (size_t i = 0; i < Positions.size(); i++)
     {
         try
         {
-            if (Positions[i].x < -150)
+            if (Positions[i].x < -150 && !Parallaxs[i].parallax)
                 registry.removeEntity(i);
-            if (Positions[i].x > 1920 + 150)
+            if (Positions[i].x > 1920 + 150 && !Parallaxs[i].parallax)
                 registry.removeEntity(i);
+        }
+        catch (const std::exception &e)
+        {
+            continue;
+        }
+    }
+}
+
+void Systems::updateParallax(GameEngine::Registry &registry)
+{
+    GameEngine::SparseArray<Position> &Positions = registry.getComponents<Position>();
+
+    for (size_t i = 0; i < Positions.size(); i++)
+    {
+        try
+        {
+            if (Positions[i].x <= -1920)
+                Positions[i].x = 1920;
         }
         catch (const std::exception &e)
         {

@@ -53,3 +53,8 @@ struct Shoot
     int timeMillisecond;
     std::chrono::_V2::system_clock::duration lastShoot;
 };
+
+struct Parallax
+{
+    bool parallax;
+};

@@ -30,13 +30,68 @@
                         "scaleX": 3.73,
                         "scaleY": 3
                     }
-                }
-            ],
-            "addons": [
+                },
                 {
-                    "id": "AddVelocityOnPress",
-                    "params": {
-                        "speed": 5
+                    "id": "backgroundParallax",
+                    "type": "parallax",
+                    "data": {
+                        "parallax": true
+                    }
+                },
+                {
+                    "id": "backgroundVelocity",
+                    "type": "velocity",
+                    "data": {
+                        "x": -5,
+                        "y": 0
+                    }
+                }
+            ]
+        },
+        {
+            "id": "background2",
+            "components": [
+                {
+                    "id": "background2Position",
+                    "type": "position",
+                    "data": {
+                        "x": 1920,
+                        "y": 0
+                    }
+                },
+                {
+                    "id": "background2Sprite",
+                    "type": "sprite",
+                    "data": {
+                        "path": "./client/assets/backgroundSpace.jpg",
+                        "reverse": false,
+                        "sizeTileX" : 514,
+                        "sizeTileY" : 360,
+                        "tileX" : 0,
+                        "tileY" : 0
+                    }
+                },
+                {
+                    "id": "background2Size",
+                    "type": "size",
+                    "data": {
+                        "scaleX": 3.73,
+                        "scaleY": 3
+                    }
+                },
+                {
+                    "id": "background2Parallax",
+                    "type": "parallax",
+                    "data": {
+                        "parallax": true
+                    }
+                },
+                {
+                    "id": "background2Velocity",
+                    "type": "velocity",
+                    "data": {
+                        "x": -5,
+                        "y": 0
                     }
                 }
             ]
@@ -77,10 +132,10 @@
                     "type": "movable",
                     "data": {
                         "keybinds": {
-                            "Z": {"x": 0, "y": -1},
-                            "Q": {"x": -1, "y": 0},
-                            "S": {"x": 0, "y": 1},
-                            "D": {"x": 1, "y": 0}
+                            "Z": {"x": 0, "y": -5},
+                            "Q": {"x": -5, "y": 0},
+                            "S": {"x": 0, "y": 5},
+                            "D": {"x": 5, "y": 0}
                         }
                     }
                 },
@@ -91,95 +146,23 @@
                         "x": 0,
                         "y": 0
                     }
-                }
-            ],
-            "addons": [
+                },
                 {
-                    "id": "AddVelocityOnPress",
-                    "params": {
-                        "speed": 5
-                    }
-                }
-            ]
-        },
-        {
-            "id": "1",
-            "components": [
-                {
-                    "id": "positionEnemy01",
-                    "type": "position",
+                    "id": "playerParallax",
+                    "type": "parallax",
                     "data": {
-                        "x": 0,
-                        "y": 0
+                        "parallax": false
                     }
                 },
                 {
-                    "id": "spritesEnemy01",
-                    "type": "sprite",
+                    "id": "playerShoot",
+                    "type": "shoot",
                     "data": {
-                        "path": "./client/assets/Player.gif",
-                        "reverse": false,
-                        "sizeTileX" : 0,
-                        "sizeTileY" : 0,
-                        "tileX" : 0,
-                        "tileY" : 0
-                    }
-                },
-                {
-                    "id": "sizeEnemy01",
-                    "type": "size",
-                    "data": {
-                        "scaleX": 1,
-                        "scaleY": 1
-                    }
-                }
-            ],
-            "addons": [
-                {
-                    "id": "AddVelocityOnPress",
-                    "params": {
-                        "speed": 5
-                    }
-                }
-            ]
-        },
-        {
-            "id": "2",
-            "components": [
-                {
-                    "id": "positionEnemy02",
-                    "type": "position",
-                    "data": {
-                        "x": 0,
-                        "y": 0
-                    }
-                },
-                {
-                    "id": "spritesEnemy02",
-                    "type": "sprite",
-                    "data": {
-                        "path": "./client/assets/Player.gif",
-                        "reverse": false,
-                        "sizeTileX" : 0,
-                        "sizeTileY" : 0,
-                        "tileX" : 0,
-                        "tileY" : 0
-                    }
-                },
-                {
-                    "id": "sizeEnemy02",
-                    "type": "size",
-                    "data": {
-                        "scaleX": 1,
-                        "scaleY": 1
-                    }
-                }
-            ],
-            "addons": [
-                {
-                    "id": "AddVelocityOnPress",
-                    "params": {
-                        "speed": 5
+                        "input":  "Space",
+                        "speedX": 15,
+                        "canShoot": true,
+                        "timeMillisecond": 250,
+                        "lastShoot": 0
                     }
                 }
             ]
