@@ -16,13 +16,12 @@ int main() {
   parser.parseJsonFiles();
   std::cout << parser.getAllData() << std::endl;
 
-  if (parser.getAllData().size() != 0)
-    sceneManager = std::make_unique<SceneManager>(parser.getAllData());
-  else {
-    std::cerr << "Pas de json disponible" << std::endl;
-    return 0;
-  }
-
+    if (parser.getAllData().size() != 0)
+        sceneManager = std::make_unique<SceneManager>(parser.getAllData(), registry);
+    else {
+        std::cerr << "Pas de json disponible" << std::endl;
+        return 0;
+    }
   sceneManager.get()->loadScene(sceneManager.get()->getAllScenes().front());
   Renderer renderer(1920, 1080, "SuperJeu");
   Inputer inputs(renderer.getWindow());

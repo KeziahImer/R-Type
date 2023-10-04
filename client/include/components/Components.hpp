@@ -48,6 +48,7 @@ struct Shoot {
   std::chrono::_V2::system_clock::duration lastShoot;
 };
 
-struct parallax {
-  bool parallax;
+struct Parallax
+{
+    bool parallax;
 };
