@@ -119,9 +119,10 @@ sf::Keyboard::Key mapStringToKeyboardKey(const std::string &keyString)
     return sf::Keyboard::Unknown;
 }
 
-ComponentFactory::ComponentFactory(GameEngine::Registry &registry): _registry(registry)
+ComponentFactory::ComponentFactory(GameEngine::Registry &registry) : _registry(registry)
 {
-    this->_components.emplace("sprite", [this](std::string id, const GameEngine::EntityID &entity, const json &data) {
+    this->_components.emplace("sprite", [this](std::string id, const GameEngine::EntityID &entity, const json &data)
+                              {
         std::string path = data["path"];
         bool reverse = data["reverse"];
         float sizeTileX = data["sizeTileX"];
@@ -131,37 +132,37 @@ ComponentFactory::ComponentFactory(GameEngine::Registry &registry): _registry(re
 
         Sprite sprite = Sprite{path, reverse, sizeTileX, sizeTileY, tileX, tileY};
         _registry.addComponent<Sprite>(entity, sprite);
-        return sprite;
-    });
+        return sprite; });
 
-    this->_components.emplace("position", [this](std::string id, const GameEngine::EntityID &entity, const json &data) {
+    this->_components.emplace("position", [this](std::string id, const GameEngine::EntityID &entity, const json &data)
+                              {
         float x = data["x"];
         float y = data["y"];
 
         Position position = Position{x, y};
         _registry.addComponent<Position>(entity, position);
-        return position;
-    });
+        return position; });
 
-    this->_components.emplace("size", [this](std::string id, const GameEngine::EntityID &entity, const json &data) {
+    this->_components.emplace("size", [this](std::string id, const GameEngine::EntityID &entity, const json &data)
+                              {
         double scaleX = data["scaleX"];
         double scaleY = data["scaleY"];
 
         Size size = Size{scaleX, scaleY};
         _registry.addComponent<Size>(entity, size);
-        return size;
-    });
+        return size; });
 
-    this->_components.emplace("velocity", [this](std::string id, const GameEngine::EntityID &entity, const json &data) {
+    this->_components.emplace("velocity", [this](std::string id, const GameEngine::EntityID &entity, const json &data)
+                              {
         float x = data["x"];
         float y = data["y"];
 
         Velocity velocity = Velocity{x, y};
         _registry.addComponent<Velocity>(entity, velocity);
-        return velocity;
-    });
+        return velocity; });
 
-    this->_components.emplace("movable", [this](std::string id, const GameEngine::EntityID &entity, const json &data) {
+    this->_components.emplace("movable", [this](std::string id, const GameEngine::EntityID &entity, const json &data)
+                              {
         std::map<sf::Keyboard::Key, std::pair<float, float>> keybinds;
 
         for (const auto& entry : data["keybinds"].items()) {
@@ -173,34 +174,27 @@ ComponentFactory::ComponentFactory(GameEngine::Registry &registry): _registry(re
 
         Movable movable = Movable{keybinds};
         _registry.addComponent<Movable>(entity, movable);
-        return movable;
-    });
+        return movable; });
 
-    this->_components.emplace("shoot", [this](std::string id, const GameEngine::EntityID &entity, const json &data) {
-        std::cout << "Ici" << std::endl;
+    this->_components.emplace("shoot", [this](std::string id, const GameEngine::EntityID &entity, const json &data)
+                              {
         sf::Keyboard::Key input = mapStringToKeyboardKey(data["input"]);
-        std::cout << "Ici1" << std::endl;
         int speedX = data["speedX"];
-        std::cout << "Ici2" << std::endl;
         bool canShoot = data["canShoot"];
-        std::cout << "Ici3" << std::endl;
         int timeMillisecond = data["timeMillisecond"];
-        std::cout << "Ici4" << std::endl;
         std::chrono::system_clock::duration lastShoot;
 
         Shoot shoot = Shoot{input, speedX, canShoot, timeMillisecond, lastShoot};
         _registry.addComponent<Shoot>(entity, shoot);
-        return shoot;
-    });
+        return shoot; });
 
-    this->_components.emplace("parallax", [this](std::string id, const GameEngine::EntityID &entity, const json &data) {
+    this->_components.emplace("parallax", [this](std::string id, const GameEngine::EntityID &entity, const json &data)
+                              {
         bool para = data["parallax"];
 
         Parallax parallax = Parallax{para};
         _registry.addComponent<Parallax>(entity, parallax);
-        return parallax;
-    });
-
+        return parallax; });
 }
 
 Component ComponentFactory::getComponent(const std::string &name, const GameEngine::EntityID &entity, const std::string &id, const json &data)
