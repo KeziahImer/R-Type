@@ -42,8 +42,13 @@ void Renderer::render(GameEngine::Registry registry)
 void Renderer::renderSprite(Sprite sprite, Position position, Size size)
 {
     sf::Texture texture;
-    if (!texture.loadFromFile(sprite.path))
+    if (_textures.find(sprite.path) == _textures.end()) {
+        if (!texture.loadFromFile(sprite.path))
         return;
+        _textures[sprite.path] = texture;
+    } else {
+        texture = _textures[sprite.path];
+    }
     sf::Sprite Sprite;
     Sprite.setTexture(texture);
     Sprite.setTextureRect(sf::IntRect(sprite.sizeTileX * sprite.tileX, sprite.sizeTileY * sprite.tileY, sprite.sizeTileX, sprite.sizeTileY));

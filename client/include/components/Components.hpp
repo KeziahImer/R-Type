@@ -26,12 +26,13 @@ struct Sprite
     float sizeTileY;
     int tileX;
     int tileY;
+    
 };
 
 struct Velocity
 {
-    int x;
-    int y;
+    float x;
+    float y;
 };
 
 struct Size
@@ -42,7 +43,7 @@ struct Size
 
 struct Movable
 {
-    std::map<enum sf::Keyboard::Key, std::pair<int, int>> keybinds;
+    std::map<enum sf::Keyboard::Key, std::pair<float, float>> keybinds;
 };
 
 struct Shoot

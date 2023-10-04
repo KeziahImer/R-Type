@@ -14,6 +14,8 @@
 #include <functional>
 #include <SFML/Graphics.hpp>
 
+#include "../Clock.hpp"
+
 namespace GameEngine
 {
     using EntityID = size_t;
@@ -191,6 +193,8 @@ namespace GameEngine
         {
             return _inputsMap;
         }
+
+        Clock clock = Clock(60);
 
     private:
         std::unordered_map<std::type_index, std::any> components_;

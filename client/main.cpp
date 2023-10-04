@@ -7,6 +7,7 @@
 #include "SceneManager.hpp"
 #include "Inputer.hpp"
 #include "Systems.hpp"
+#include "Clock.hpp"
 
 int main()
 {
@@ -28,6 +29,11 @@ int main()
     Inputer inputs(renderer.getWindow());
     Systems systems;
     std::map<enum sf::Keyboard::Key, bool> inputsMap;
+
+
+
+
+
     GameEngine::EntityID background = registry.createEntity("background");
     GameEngine::EntityID background1 = registry.createEntity("background1");
     GameEngine::EntityID entity = registry.createEntity("player");
@@ -40,17 +46,17 @@ int main()
     registry.addComponent<Size>(enemy, Size(2, 2));
     registry.addComponent<Size>(background, Size((double)1920 / 514, (double)1080 / 360));
     registry.addComponent<Size>(background1, Size((double)1920 / 514, (double)1080 / 360));
-    std::map<sf::Keyboard::Key, std::pair<int, int>> keybinds{{sf::Keyboard::Z, std::make_pair<int, int>(0, -5)}, {sf::Keyboard::Q, std::make_pair<int, int>(-5, 0)}, {sf::Keyboard::S, std::make_pair<int, int>(0, 5)}, {sf::Keyboard::D, std::make_pair<int, int>(5, 0)}};
+    std::map<sf::Keyboard::Key, std::pair<float, float>> keybinds{{sf::Keyboard::Z, std::make_pair<float, float>(0, -0.5)}, {sf::Keyboard::Q, std::make_pair<float, float>(-0.5, 0)}, {sf::Keyboard::S, std::make_pair<float, float>(0, 0.5)}, {sf::Keyboard::D, std::make_pair<float, float>(0.5, 0)}};
     registry.addComponent<Movable>(entity, Movable(keybinds));
     registry.addComponent<Velocity>(entity, Velocity(0, 0));
-    registry.addComponent<Velocity>(background, Velocity(-2, 0));
-    registry.addComponent<Velocity>(background1, Velocity(-2, 0));
-    registry.addComponent<Velocity>(enemy, Velocity(-5, 0));
+    registry.addComponent<Velocity>(background, Velocity(-0.2, 0));
+    registry.addComponent<Velocity>(background1, Velocity(-0.2, 0));
+    registry.addComponent<Velocity>(enemy, Velocity(-0.5, 0));
     registry.addComponent<Sprite>(entity, Sprite("./client/assets/Player.gif", false, 33, 17, 2, 2));
     registry.addComponent<Sprite>(enemy, Sprite("./client/assets/Player.gif", true, 33, 17, 2, 3));
     registry.addComponent<Sprite>(background, Sprite("./client/assets/backgroundSpace.jpg", false, 514, 360, 0, 0));
     registry.addComponent<Sprite>(background1, Sprite("./client/assets/backgroundSpace.jpg", false, 514, 360, 0, 0));
-    registry.addComponent<Shoot>(entity, Shoot(sf::Keyboard::Space, 15, true, 250, std::chrono::system_clock::now().time_since_epoch()));
+    registry.addComponent<Shoot>(entity, Shoot(sf::Keyboard::Space, 1, true, 250, std::chrono::system_clock::now().time_since_epoch()));
     registry.addComponent<parallax>(background1, parallax(true));
     registry.addComponent<parallax>(background, parallax(true));
     registry.addComponent<parallax>(entity, parallax(false));
@@ -74,6 +80,8 @@ int main()
     bool playing = true;
     while (playing)
     {
+        if (!registry.clock.checkFrame()) continue;
+        std::cout << background1 << ", " << background << std::endl;
         inputsMap = inputs.getInputs();
         registry.setInputs(inputsMap);
         registry.run();

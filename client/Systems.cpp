@@ -6,7 +6,6 @@
 */
 
 #include "Systems.hpp"
-#include "include/GameEngine/ECS.hpp"
 
 Systems::Systems()
 {
@@ -52,13 +51,15 @@ void Systems::checkVelocity(GameEngine::Registry &registry)
 {
     GameEngine::SparseArray<Velocity> &Velocities = registry.getComponents<Velocity>();
     GameEngine::SparseArray<Position> &Positions = registry.getComponents<Position>();
-
+    
+    float deltaTime = registry.clock.getDeltaTimeMilliseconds();
     for (size_t i = 0; i < Velocities.size(); i++)
     {
         try
         {
-            Positions[i].x = Positions[i].x + Velocities[i].x;
-            Positions[i].y = Positions[i].y + Velocities[i].y;
+            std:: cout << "resukta :" << (Velocities[i].x * deltaTime) << ", velocity :" << Velocities[i].x << ", delta: "<< deltaTime << ", entity: " << i<< std::endl;
+            Positions[i].x = Positions[i].x + (Velocities[i].x * deltaTime);
+            Positions[i].y = Positions[i].y + (Velocities[i].y * deltaTime);
         }
         catch (const std::exception &e)
         {
