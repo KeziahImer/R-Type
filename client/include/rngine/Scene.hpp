@@ -104,6 +104,8 @@ public:
   Scene &update() {
     if (!_loaded)
       throw std::runtime_error("Scene not loaded.");
+    if (!_registry.clock.checkFrame())
+      return *this;
     _registry.run();
     return *this;
   }

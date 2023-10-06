@@ -8,6 +8,7 @@
 #include <unordered_map>
 #include <vector>
 
+#include "./Clock.hpp"
 #include "./Entity.hpp"
 #include "./Keys.hpp"
 #include "./SparseArray.hpp"
@@ -87,11 +88,9 @@ public:
     }
   }
 
-  void setInputs(std::map<enum RNGine::Key, bool> &inputsMap) {
-    _inputsMap = inputsMap;
-  }
-
-  std::map<enum RNGine::Key, bool> getInputs() { return _inputsMap; }
+public:
+  std::map<enum RNGine::Key, bool> inputs;
+  Clock clock = Clock(60);
 
 private:
   std::unordered_map<std::type_index, std::any> components_;
@@ -101,7 +100,6 @@ private:
   std::map<std::string, RNGine::Entity> _entities;
   size_t nextEntityID_ = 0;
   std::vector<SystemBundle> _bundles;
-  std::map<enum RNGine::Key, bool> _inputsMap;
 };
 }; // namespace RNGine
 
