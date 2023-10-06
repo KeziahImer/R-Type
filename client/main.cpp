@@ -1,5 +1,6 @@
 #include "rngine/Entity.hpp"
 #include "rngine/SparseArray.hpp"
+#include "rngine/SystemBundle.hpp"
 #include <iostream>
 
 int main() {
@@ -13,5 +14,19 @@ int main() {
       std::cout << *num << std::endl;
     }
   }
+
+  RNGine::SystemBundle bundle;
+
+  bundle.push_back(
+      []() { std::cout << "0 Hello world from bundle" << std::endl; });
+  bundle.push_back(
+      []() { std::cout << "1 Hello world from bundle" << std::endl; });
+  bundle.push_back(
+      []() { std::cout << "2 Hello world from bundle" << std::endl; });
+  bundle.push_back(
+      []() { std::cout << "3 Hello world from bundle" << std::endl; });
+
+  bundle.run();
+
   return 0;
 }
