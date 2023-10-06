@@ -11,11 +11,14 @@
 #include "./Entity.hpp"
 #include "./Keys.hpp"
 #include "./SparseArray.hpp"
-#include "./SystemBundle.hpp"
 
 namespace RNGine {
+
 class Registry {
 public:
+  using System = std::function<void(Registry &)>;
+  using SystemBundle = std::vector<System>;
+
   RNGine::Entity createEntity(std::string const &name) {
     RNGine::Entity id = nextEntityID_++;
     _entities[name] = id;
@@ -30,7 +33,7 @@ public:
     throw std::runtime_error("Entity not found in registry.");
   }
 
-  Registry &addBundle(RNGine::SystemBundle const &bundle) {
+  Registry &addBundle(SystemBundle const &bundle) {
     _bundles.push_back(bundle);
     return *this;
   }
@@ -42,7 +45,9 @@ public:
 
   Registry &run(void) {
     for (auto &bundle : _bundles) {
-      bundle.run();
+      for (auto &system : bundle) {
+        system(*this);
+      }
     }
     return *this;
   }
@@ -95,7 +100,7 @@ private:
       _removes;
   std::map<std::string, RNGine::Entity> _entities;
   size_t nextEntityID_ = 0;
-  std::vector<RNGine::SystemBundle> _bundles;
+  std::vector<SystemBundle> _bundles;
   std::map<enum RNGine::Key, bool> _inputsMap;
 };
 }; // namespace RNGine
