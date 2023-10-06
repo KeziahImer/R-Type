@@ -45,10 +45,9 @@ struct Shoot {
   int speedX;
   bool canShoot;
   int timeMillisecond;
-  std::chrono::duration<long long, std::ratio<1, 10000000>> lastShoot;
+  int64_t lastShoot;
 };
 
-struct Parallax
-{
-    bool parallax;
+struct Parallax {
+  bool parallax;
 };

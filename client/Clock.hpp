@@ -18,10 +18,15 @@ public:
   float getDeltaTimeSeconds() const;
   int64_t getDeltaTimeMilliseconds() const;
 
+  static int64_t getNowMilliseconds() {
+    auto now = std::chrono::system_clock::now().time_since_epoch();
+    return std::chrono::duration_cast<std::chrono::milliseconds>(now).count();
+  }
+
 private:
   int _fps;
-  std::chrono::duration<long long, std::ratio<1, 10000000>> _lastUpdate;
-  std::chrono::duration<long long, std::ratio<1, 10000000>> _actualUpdate;
+  int64_t _lastUpdate;
+  int64_t _actualUpdate;
 };
 
 #endif /* !CLOCK_HPP_ */

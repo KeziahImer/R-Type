@@ -44,13 +44,14 @@ add_executable(r-type_client ${SOURCE_FILES})
 
 target_link_libraries(r-type_client PRIVATE sfml-graphics sfml-window sfml-system nlohmann_json::nlohmann_json)
 
-add_custom_command(
-    TARGET r-type_client
-    POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy
-        "${SFML_BINARY_DIR}/lib/Release/sfml-window-2.dll"
-        "${SFML_BINARY_DIR}/lib/Release/sfml-graphics-2.dll"
-        "${SFML_BINARY_DIR}/lib/Release/sfml-system-2.dll"
-        "$<TARGET_FILE_DIR:r-type_client>"
-)
-
+if(WIN32)
+  add_custom_command(
+      TARGET r-type_client
+      POST_BUILD
+      COMMAND ${CMAKE_COMMAND} -E copy
+          "${SFML_BINARY_DIR}/lib/Release/sfml-window-2.dll"
+          "${SFML_BINARY_DIR}/lib/Release/sfml-graphics-2.dll"
+          "${SFML_BINARY_DIR}/lib/Release/sfml-system-2.dll"
+          "$<TARGET_FILE_DIR:r-type_client>"
+  )
+endif()

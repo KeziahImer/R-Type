@@ -10,7 +10,7 @@
 #include "Clock.hpp"
 
 Clock::Clock(int fps) {
-  auto lastUpdate = std::chrono::system_clock::now().time_since_epoch();
+  auto lastUpdate = Clock::getNowMilliseconds();
   _lastUpdate = lastUpdate;
   _actualUpdate = lastUpdate;
   _fps = fps;
@@ -19,11 +19,9 @@ Clock::Clock(int fps) {
 Clock::~Clock() {}
 
 bool Clock::checkFrame() {
-  auto actualTime = std::chrono::system_clock::now().time_since_epoch();
+  auto actualTime = Clock::getNowMilliseconds();
   int64_t timePerFrame = 1000 / _fps;
-  if (std::chrono::duration_cast<std::chrono::milliseconds>(actualTime -
-                                                            _actualUpdate)
-          .count() > timePerFrame) {
+  if (actualTime - _actualUpdate > timePerFrame) {
     _lastUpdate = _actualUpdate;
     _actualUpdate = actualTime;
     return true;
@@ -32,15 +30,11 @@ bool Clock::checkFrame() {
 }
 
 float Clock::getDeltaTimeSeconds() const {
-  float time = std::chrono::duration_cast<std::chrono::milliseconds>(
-                   _actualUpdate - _lastUpdate)
-                   .count();
+  float time = _actualUpdate - _lastUpdate;
   float result = time / 1000;
   return result;
 }
 
 int64_t Clock::getDeltaTimeMilliseconds() const {
-  return std::chrono::duration_cast<std::chrono::milliseconds>(_actualUpdate -
-                                                               _lastUpdate)
-      .count();
+  return _actualUpdate - _lastUpdate;
 }
