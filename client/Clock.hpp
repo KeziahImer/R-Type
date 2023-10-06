@@ -20,8 +20,8 @@ public:
 
 private:
   int _fps;
-  std::chrono::_V2::system_clock::duration _lastUpdate;
-  std::chrono::_V2::system_clock::duration _actualUpdate;
+  std::chrono::duration<long long, std::ratio<1, 10000000>> _lastUpdate;
+  std::chrono::duration<long long, std::ratio<1, 10000000>> _actualUpdate;
 };
 
 #endif /* !CLOCK_HPP_ */
