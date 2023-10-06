@@ -68,7 +68,7 @@ public:
   void clear() { _data.clear(); }
 
   void run() {
-    for (auto const &system : _data) {
+    for (auto &system : _data) {
       system();
     }
   }

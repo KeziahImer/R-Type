@@ -39,7 +39,8 @@ public:
     if (idx < _data.size()) {
       return _data[idx];
     } else {
-      return std::nullopt;
+      static std::optional<Component> empty;
+      return empty;
     }
   }
 
@@ -47,7 +48,8 @@ public:
     if (idx < _data.size()) {
       return _data[idx];
     } else {
-      return std::nullopt;
+      static std::optional<Component> empty;
+      return empty;
     }
   }
 

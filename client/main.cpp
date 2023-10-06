@@ -1,4 +1,5 @@
 #include "rngine/Entity.hpp"
+#include "rngine/Registry.hpp"
 #include "rngine/SparseArray.hpp"
 #include "rngine/SystemBundle.hpp"
 #include <iostream>
@@ -27,6 +28,23 @@ int main() {
       []() { std::cout << "3 Hello world from bundle" << std::endl; });
 
   bundle.run();
+
+  RNGine::Registry registry;
+
+  registry.addBundle(bundle);
+
+  registry.run();
+
+  auto test = registry.createEntity("test");
+  registry.addComponent(test, 42);
+
+  auto components = registry.getComponents<int>();
+  auto component = components[test];
+
+  std::cout << (component.has_value() ? *component : -84) << std::endl;
+  component = components[54375];
+
+  std::cout << (component.has_value() ? *component : -84) << std::endl;
 
   return 0;
 }
