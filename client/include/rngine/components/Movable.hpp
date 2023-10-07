@@ -8,6 +8,7 @@
 #ifndef _RNGINE_COMPONENTS_MOVABLE_HPP_
 #define _RNGINE_COMPONENTS_MOVABLE_HPP_
 
+#include <map>
 #include <utility>
 
 #include "../Keys.hpp"
