@@ -9,6 +9,7 @@
 #define _RNGINE_CLOCK_HPP_
 #include <chrono>
 
+namespace RNGine {
 class Clock {
 public:
   Clock(int fps) {
@@ -49,5 +50,6 @@ private:
   int64_t _lastUpdate;
   int64_t _actualUpdate;
 };
+} // namespace RNGine
 
 #endif
