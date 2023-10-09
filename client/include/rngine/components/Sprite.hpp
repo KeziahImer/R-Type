@@ -18,10 +18,11 @@ struct Sprite {
   float sizeTileY;
   int tileX;
   int tileY;
+  int layer;
 
   static Sprite createSprite(const std::string &path, bool reverse,
                              float sizeTileX, float sizeTileY, int tileX,
-                             int tileY) {
+                             int tileY, int layer) {
 
     auto sprite = RNGine::components::Sprite();
     sprite.path = path;
@@ -30,6 +31,7 @@ struct Sprite {
     sprite.sizeTileY = sizeTileY;
     sprite.tileX = tileX;
     sprite.tileY = tileY;
+    sprite.layer = layer;
     return sprite;
   }
 };

@@ -39,9 +39,29 @@ public:
     _scenes[index].load();
   }
 
+  void setInputs() {
+    sf::Event event;
+    while (_renderer.getWindow().pollEvent(event)) {
+      switch (event.type) {
+      case sf::Event::KeyPressed:
+        _keybinds[static_cast<enum RNGine::Key>(event.key.code)] = true;
+        break;
+      case sf::Event::KeyReleased:
+        _keybinds[static_cast<enum RNGine::Key>(event.key.code)] = false;
+        break;
+      case sf::Event::Closed:
+        _renderer.getWindow().close();
+        break;
+      default:
+        break;
+      }
+    }
+  }
+
   void update() {
     if (_scenes.size() > 0) {
-      _renderer.render(_scenes[_loadedScene].update());
+      setInputs();
+      _renderer.render(_scenes[_loadedScene].update(_keybinds));
     }
   }
 
@@ -51,6 +71,7 @@ private:
   size_t _loadedScene;
   std::vector<RNGine::Scene> _scenes;
   RNGine::Renderer _renderer = RNGine::Renderer(1920, 1080, "R-type");
+  std::map<enum RNGine::Key, bool> _keybinds;
 };
 }; // namespace RNGine
 
