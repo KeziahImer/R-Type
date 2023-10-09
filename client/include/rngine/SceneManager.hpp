@@ -15,6 +15,7 @@
 
 #include "./Registry.hpp"
 #include "./Scene.hpp"
+#include "rngine/Renderer.hpp"
 
 namespace RNGine {
 /**
@@ -40,7 +41,7 @@ public:
 
   void update() {
     if (_scenes.size() > 0) {
-      _scenes[_loadedScene].update();
+      _renderer.render(_scenes[_loadedScene].update());
     }
   }
 
@@ -49,6 +50,7 @@ public:
 private:
   size_t _loadedScene;
   std::vector<RNGine::Scene> _scenes;
+  RNGine::Renderer _renderer = RNGine::Renderer(1920, 1080, "R-type");
 };
 }; // namespace RNGine
 
