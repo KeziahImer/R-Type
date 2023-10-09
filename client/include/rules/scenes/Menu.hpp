@@ -10,6 +10,7 @@
 
 #include "rngine/Scene.hpp"
 #include "rngine/components/Position.hpp"
+#include "rngine/components/SelfDestroy.hpp"
 #include "rngine/components/Size.hpp"
 #include "rngine/components/Sprite.hpp"
 #include "rngine/components/Velocity.hpp"
@@ -23,6 +24,7 @@ public:
 
   void createBackground(RNGine::Entity e);
   void createPlayer(RNGine::Entity e);
+  void createEnemy(RNGine::Entity e, float posY);
 };
 }; // namespace Rtype
 
