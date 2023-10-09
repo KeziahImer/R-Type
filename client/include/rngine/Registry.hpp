@@ -3,6 +3,7 @@
 
 #include <any>
 #include <functional>
+#include <iostream>
 #include <map>
 #include <memory>
 #include <typeindex>
@@ -46,9 +47,12 @@ public:
   }
 
   Registry &run(void) {
+    int i = 0;
     for (auto &bundle : _bundles) {
       for (auto &system : bundle) {
+        std::cout << i++ << " system" << std::endl;
         system(*this);
+        std::cout << i++ << " system worked" << std::endl;
       }
     }
     return *this;
@@ -64,6 +68,9 @@ public:
 
   template <typename Component> SparseArray<Component> &getComponents() {
     auto type_id = std::type_index(typeid(Component));
+    if (!components_[type_id].has_value()) {
+      components_[type_id] = std::make_any<RNGine::SparseArray<Component>>();
+    }
     return std::any_cast<SparseArray<Component> &>(components_[type_id]);
   }
 
