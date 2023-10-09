@@ -18,19 +18,12 @@ int main(int argc, char *argv[])
         io_service io_service;
 
         udp::socket socket(io_service, udp::endpoint(udp::v4(), 0));
-        udp::endpoint server_endpoint(ip::address::from_string("192.168.48.233"), 13);
-
-        std::cout << "Connecté au serveur!" << std::endl;
-
-        std::string message = "Bonjour, serveur!";
-        io_service.run();
+        udp::endpoint server_endpoint(ip::address::from_string("172.22.178.144"), 13);
+        std::string message = "login";
         socket.send_to(boost::asio::buffer(message), server_endpoint);
-        std::cout << "Connecté !" << std::endl;
         char buffer[128];
         udp::endpoint sender_endpoint;
         size_t bytes_received = socket.receive_from(boost::asio::buffer(buffer, sizeof(buffer)), sender_endpoint);
-
-        std::cout << "Réponse du serveur : " << std::string(buffer, bytes_received) << std::endl;
     }
     catch (std::exception &e)
     {
