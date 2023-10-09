@@ -8,7 +8,6 @@ project(
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
-set(FETCHCONTENT_QUIET FALSE)
 
 include_directories(
     ${CMAKE_SOURCE_DIR}/
@@ -36,12 +35,7 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(json)
 
-FetchContent_Declare(
-  Boost
-  GIT_REPOSITORY https://github.com/boostorg/boost.git
-  GIT_TAG boost-1.83.0
-)
-FetchContent_MakeAvailable(Boost)
+include_directories(include)
 
 file(GLOB_RECURSE SOURCE_FILES *.cpp)
 
