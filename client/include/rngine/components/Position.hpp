@@ -12,6 +12,14 @@ namespace components {
 struct Position {
   float x;
   float y;
+
+  static Position createPosition(float x, float y) {
+
+    auto sprite = RNGine::components::Position();
+    sprite.x = x;
+    sprite.y = y;
+    return sprite;
+  }
 };
 } // namespace components
 } // namespace RNGine

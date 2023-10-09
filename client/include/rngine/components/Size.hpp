@@ -12,6 +12,13 @@ namespace components {
 struct Size {
   double scaleX;
   double scaleY;
+
+  static Size createSize(double scaleX, double scaleY) {
+    auto val = Size();
+    val.scaleX = scaleX;
+    val.scaleY = scaleY;
+    return val;
+  }
 };
 } // namespace components
 } // namespace RNGine

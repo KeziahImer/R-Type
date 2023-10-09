@@ -39,14 +39,12 @@ public:
   }
 
   void update() {
-    permanentScene.update();
-    _scenes[_loadedScene].update();
+    if (_scenes.size() > 0) {
+      _scenes[_loadedScene].update();
+    }
   }
 
   RNGine::Scene &getActualScene() { return _scenes[_loadedScene]; }
-
-public:
-  RNGine::Scene permanentScene;
 
 private:
   size_t _loadedScene;
