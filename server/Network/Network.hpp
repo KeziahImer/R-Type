@@ -5,6 +5,10 @@
 ** Network
 */
 
+#ifndef NETWORK_HPP_
+#define NETWORK_HPP_
+
+#include "../Game/Game.hpp"
 #include <boost/asio.hpp>
 #include <iostream>
 #include <iomanip>
@@ -19,11 +23,17 @@ public:
 
 private:
     void receiveRequest();
-    void sendRequest(std::size_t);
+    void sendRequest();
+    void treatRequest();
 
+    Game _game;
     boost::asio::ip::udp::socket _socket;
     boost::asio::ip::udp::endpoint _senderEndpoint;
     std::chrono::time_point<std::chrono::_V2::system_clock, std::chrono::_V2::system_clock::duration> _tStart;
+    std::string _recvBuffer;
+    std::string _sendBuffer;
+    char _buffer[1024];
     std::size_t _maxLength = 1024;
-    char _recvBuffer[1024];
 };
+
+#endif /* !NETWORK_HPP_ */

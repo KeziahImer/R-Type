@@ -14,6 +14,7 @@ set(BOOST_ENABLE_CMAKE ON)
 
 include_directories(
     ${CMAKE_SOURCE_DIR}/Network
+    ${CMAKE_SOURCE_DIR}/Paquet
 )
 
 include(FetchContent)
