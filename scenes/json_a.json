@@ -1,82 +1,82 @@
 {
-    "entities": [
+  "entities": [
+    {
+      "id": "Player",
+      "components": [
         {
-            "id": "Player",
-            "components": [
-                {
-                    "id": "position",
-                    "data": {
-                        "x": 0,
-                        "y": 0
-                    }
-                },
-                {
-                    "id": "sprites",
-                    "data": {
-                        "sprites": []
-                    }
-                }
-            ],
-            "addons": [
-                {
-                    "id": "AddVelocityOnPress",
-                    "params": {
-                        "speed": 5
-                    }
-                }
-            ]
+          "id": "position",
+          "data": {
+            "x": 0,
+            "y": 0
+          }
         },
         {
-            "id": "Ennemy01",
-            "components": [
-                {
-                    "id": "position",
-                    "data": {
-                        "x": 0,
-                        "y": 0
-                    }
-                },
-                {
-                    "id": "sprites",
-                    "data": {
-                        "sprites": []
-                    }
-                }
-            ],
-            "addons": [
-                {
-                    "id": "AddVelocityOnPress",
-                    "params": {
-                        "speed": 5
-                    }
-                }
-            ]
-        },
-        {
-            "id": "Ennemy02",
-            "components": [
-                {
-                    "id": "position",
-                    "data": {
-                        "x": 0,
-                        "y": 0
-                    }
-                },
-                {
-                    "id": "sprites",
-                    "data": {
-                        "sprites": []
-                    }
-                }
-            ],
-            "addons": [
-                {
-                    "id": "AddVelocityOnPress",
-                    "params": {
-                        "speed": 5
-                    }
-                }
-            ]
+          "id": "sprites",
+          "data": {
+            "sprites": []
+          }
         }
-    ]
+      ],
+      "addons": [
+        {
+          "id": "AddVelocityOnPress",
+          "params": {
+            "speed": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "Ennemy01",
+      "components": [
+        {
+          "id": "position",
+          "data": {
+            "x": 0,
+            "y": 0
+          }
+        },
+        {
+          "id": "sprites",
+          "data": {
+            "sprites": []
+          }
+        }
+      ],
+      "addons": [
+        {
+          "id": "AddVelocityOnPress",
+          "params": {
+            "speed": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "Ennemy02",
+      "components": [
+        {
+          "id": "position",
+          "data": {
+            "x": 0,
+            "y": 0
+          }
+        },
+        {
+          "id": "sprites",
+          "data": {
+            "sprites": []
+          }
+        }
+      ],
+      "addons": [
+        {
+          "id": "AddVelocityOnPress",
+          "params": {
+            "speed": 5
+          }
+        }
+      ]
+    }
+  ]
 }
