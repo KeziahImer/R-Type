@@ -11,6 +11,7 @@
 #include "./components/Position.hpp"
 #include "./components/Size.hpp"
 #include "./components/Sprite.hpp"
+#include "rngine/components/text.hpp"
 #include <SFML/Graphics.hpp>
 
 namespace RNGine {
@@ -24,6 +25,7 @@ public:
     auto &Sprites = registry.getComponents<RNGine::components::Sprite>();
     auto &Positions = registry.getComponents<RNGine::components::Position>();
     auto &Sizes = registry.getComponents<RNGine::components::Size>();
+    auto &Texts = registry.getComponents<RNGine::components::Text>();
     auto entities = Sprites.size();
     _window.clear();
     for (int layer = 0; layer < 5; layer++) {
@@ -40,6 +42,13 @@ public:
         if (sprite->layer != layer)
           continue;
         renderSprite(*sprite, *position, *size);
+      }
+    }
+    for (size_t i = 0; i < Texts.size(); i++) {
+      std::cout << "Text :" << Texts[i].has_value()
+                << ", Pos: " << Positions[i].has_value() << std::endl;
+      if (Texts[i].has_value() && Positions[i].has_value()) {
+        renderTexte(*Texts[i], *Positions[i]);
       }
     }
     _window.display();
@@ -66,6 +75,16 @@ public:
       scaleX = scaleX * -1;
     Sprite.setScale(scaleX, size.scaleY);
     _window.draw(Sprite);
+  }
+  void renderTexte(RNGine::components::Text text,
+                   RNGine::components::Position position) {
+    std::cout << "Try to print text" << std::endl;
+    sf::Text Text;
+    Text.setString(text.text);
+    Text.setFillColor(text.color);
+    Text.setCharacterSize(text.CharacterSize);
+    Text.setPosition(position.x, position.y);
+    _window.draw(Text);
   }
 
   sf::RenderWindow &getWindow() { return _window; }

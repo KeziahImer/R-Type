@@ -11,10 +11,12 @@ namespace RNGine {
 namespace components {
 struct MakeDamage {
   float Damage;
+  bool ally;
 
-  static MakeDamage createMakeDamage(float Damage) {
+  static MakeDamage createMakeDamage(float Damage, bool ally) {
     auto val = MakeDamage();
     val.Damage = Damage;
+    val.ally = ally;
     return val;
   }
 };
