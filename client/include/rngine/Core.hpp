@@ -21,9 +21,8 @@ public:
       _running = manager.update();
     }
   }
-  SceneManager manager;
 
-private:
+  SceneManager manager = SceneManager();
   bool _running = true;
 };
 }; // namespace RNGine

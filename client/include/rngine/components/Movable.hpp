@@ -16,7 +16,7 @@
 namespace RNGine {
 namespace components {
 struct Movable {
-  std::map<enum RNGine::Key, std::pair<float, float>> keybinds;
+  std::map<enum RNGine::Key, std::pair<float, float>> keybinds = {};
 
   static Movable
   createmovable(std::map<enum RNGine::Key, std::pair<float, float>> keybinds) {

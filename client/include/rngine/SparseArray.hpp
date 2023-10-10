@@ -90,7 +90,7 @@ public:
   }
 
 private:
-  container_t _data;
+  container_t _data = {};
 };
 }; // namespace RNGine
 

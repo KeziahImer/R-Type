@@ -120,8 +120,8 @@ public:
 
 protected:
   std::string _id;
-  RNGine::Registry _registry;
-  RNGine::Registry _initial;
+  RNGine::Registry _registry = RNGine::Registry();
+  RNGine::Registry _initial = RNGine::Registry();
   bool _loaded = false;
 };
 }; // namespace RNGine
