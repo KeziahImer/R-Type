@@ -8,6 +8,7 @@
 #include "rngine/components/Movable.hpp"
 #include "rngine/components/Shoot.hpp"
 #include "rngine/components/text.hpp"
+#include "rules/systems/Engine.hpp"
 #include "rules/systems/Physics.hpp"
 #include "rules/systems/Shoots.hpp"
 #include <utility>
@@ -16,11 +17,13 @@ Rtype::MenuScene::MenuScene() {
   setId("menu");
   addBundle(Rtype::physicsSystems);
   addBundle(Rtype::shootsSystems);
+  addBundle(Rtype::engineSystems);
   createPlayer(createEntity("player"));
   createBackground(createEntity("background"));
   for (int i = 0; i < 30; i++) {
     createEnemy(createEntity("enemy"), 1920 + (1000 * i), rand() % 1000 + 1);
   }
+  createScore(createEntity("score"));
 }
 
 void Rtype::MenuScene::createBackground(RNGine::Entity e) {
@@ -33,7 +36,8 @@ void Rtype::MenuScene::createBackground(RNGine::Entity e) {
 
 void Rtype::MenuScene::createScore(RNGine::Entity e) {
   addComponent(e, RNGine::components::Position::createPosition(10, 10));
-  addComponent(e, RNGine::components::Text::createText("SCORE: 0",
+  addComponent(e, RNGine::components::Text::createText("SCORE: ", "0",
+                                                       "./assets/FontGame.TTF",
                                                        sf::Color::White, 50));
 }
 
@@ -56,7 +60,8 @@ void Rtype::MenuScene::createPlayer(RNGine::Entity e) {
                           std::chrono::system_clock::now().time_since_epoch())
                           .count(),
                       25, true));
-  addComponent(e, RNGine::components::Attackable::createAttackable(500, true));
+  addComponent(e,
+               RNGine::components::Attackable::createAttackable(500, 0, true));
 }
 
 void Rtype::MenuScene::createEnemy(RNGine::Entity e, float posX, float posY) {
@@ -65,7 +70,8 @@ void Rtype::MenuScene::createEnemy(RNGine::Entity e, float posX, float posY) {
   addComponent(e, RNGine::components::Position::createPosition(posX, posY));
   addComponent(e, RNGine::components::Size::createSize(3, 3));
   addComponent(e, RNGine::components::Velocity::createVelocity(-0.5, 0));
-  addComponent(e, RNGine::components::Attackable::createAttackable(75, false));
+  addComponent(e,
+               RNGine::components::Attackable::createAttackable(75, 25, false));
   addComponent(e, RNGine::components::Collider::createCollider(33 * 3, 17 * 3));
   addComponent(e, RNGine::components::Selfdestroy::createSelfDestroy(
                       posX + 150, 1080 + 150, -150, -150));

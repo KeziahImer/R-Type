@@ -1,4 +1,6 @@
 #include "rules/systems/Shoots.hpp"
+#include "rngine/components/text.hpp"
+#include <string>
 
 bool checkCollision(std::optional<RNGine::components::Collider> collisionA,
                     std::optional<RNGine::components::Collider> collisionB,
@@ -39,11 +41,8 @@ RNGine::Registry::System ShootCollisionSystem = [](RNGine::Registry &registry) {
         continue;
       if (checkCollision(Colliders[i], Colliders[x], Positions[i],
                          Positions[x])) {
-        std::cout << "Collision with :" << i << ", " << Attackables[i]->ally
-                  << " | " << MakeDamages[x]->ally << std::endl;
         if (Attackables[i]->ally == MakeDamages[x]->ally)
           continue;
-        std::cout << "Make damage at :" << i << std::endl;
         Attackables[i]->health =
             Attackables[i]->health - MakeDamages[x]->Damage;
       }
@@ -157,20 +156,7 @@ RNGine::Registry::System EnemyShoot = [](RNGine::Registry &registry) {
   }
 };
 
-RNGine::Registry::System CheckHealth = [](RNGine::Registry &registry) {
-  RNGine::SparseArray<RNGine::components::Attackable> &Attackables =
-      registry.getComponents<RNGine::components::Attackable>();
-
-  for (size_t i = 0; i < Attackables.size(); i++) {
-    if (!Attackables[i].has_value())
-      continue;
-    if (Attackables[i]->health <= 0) {
-      registry.removeEntity(i);
-    }
-  }
-};
-
 namespace Rtype {
-RNGine::Registry::SystemBundle shootsSystems = {
-    ShootCollisionSystem, ShootSystem, CheckHealth, EnemyShoot};
+RNGine::Registry::SystemBundle shootsSystems = {ShootCollisionSystem,
+                                                ShootSystem, EnemyShoot};
 }
