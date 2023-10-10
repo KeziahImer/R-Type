@@ -99,13 +99,13 @@ public:
   Clock clock = Clock(60);
 
 private:
-  std::unordered_map<std::type_index, std::any> components_;
+  std::unordered_map<std::type_index, std::any> components_ = {};
   std::unordered_map<std::type_index, std::function<Registry &(
                                           Registry &, RNGine::Entity entity)>>
-      _removes;
-  std::map<std::string, RNGine::Entity> _entities;
+      _removes = {};
+  std::map<std::string, RNGine::Entity> _entities = {};
   size_t nextEntityID_ = 0;
-  std::vector<SystemBundle> _bundles;
+  std::vector<SystemBundle> _bundles = {};
 };
 }; // namespace RNGine
 

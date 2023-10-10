@@ -12,13 +12,13 @@
 namespace RNGine {
 namespace components {
 struct Sprite {
-  std::string path;
-  bool reverse;
-  float sizeTileX;
-  float sizeTileY;
-  int tileX;
-  int tileY;
-  int layer;
+  std::string path = "";
+  bool reverse = false;
+  float sizeTileX = 0;
+  float sizeTileY = 0;
+  int tileX = 0;
+  int tileY = 0;
+  int layer = 0;
 
   static Sprite createSprite(const std::string &path, bool reverse,
                              float sizeTileX, float sizeTileY, int tileX,

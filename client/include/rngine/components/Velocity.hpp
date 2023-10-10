@@ -10,8 +10,8 @@
 namespace RNGine {
 namespace components {
 struct Velocity {
-  float x;
-  float y;
+  float x = 0;
+  float y = 0;
 
   static Velocity createVelocity(float x, float y) {
     auto val = Velocity();
