@@ -26,7 +26,7 @@ public:
   void createPlayer(RNGine::Entity e);
   void createEnemy(RNGine::Entity e, float posX, float posY);
   void createScore(RNGine::Entity e);
-  void createHealthBar(RNGine::Entity e, float hp);
+  void createHealthBar(RNGine::Entity e, RNGine::Entity entity, float hp);
 };
 }; // namespace Rtype
 

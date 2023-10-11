@@ -43,8 +43,15 @@ RNGine::Registry::System ShootCollisionSystem = [](RNGine::Registry &registry) {
                          Positions[x])) {
         if (Attackables[i]->ally == MakeDamages[x]->ally)
           continue;
+        if (!Attackables[i]->_Attackable)
+          continue;
         Attackables[i]->health =
             Attackables[i]->health - MakeDamages[x]->Damage;
+        Attackables[i]->_Attackable = false;
+        Attackables[i]->lastShoot =
+            std::chrono::duration_cast<std::chrono::milliseconds>(
+                std::chrono::system_clock::now().time_since_epoch())
+                .count();
       }
     }
   }
@@ -156,7 +163,32 @@ RNGine::Registry::System EnemyShoot = [](RNGine::Registry &registry) {
   }
 };
 
+RNGine::Registry::System CheckInvisibility = [](RNGine::Registry &registry) {
+  // Obtenez toutes les entités avec le composant de collision
+  auto &Colliders = registry.getComponents<RNGine::components::Collider>();
+  auto &MakeDamages = registry.getComponents<RNGine::components::MakeDamage>();
+  RNGine::SparseArray<RNGine::components::Position> &Positions =
+      registry.getComponents<RNGine::components::Position>();
+  auto &Attackables = registry.getComponents<RNGine::components::Attackable>();
+
+  for (size_t i = 0; i < Attackables.size(); i++) {
+    if (!Attackables[i].has_value())
+      continue;
+    if (std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::system_clock::now().time_since_epoch())
+                .count() -
+            Attackables[i]->lastShoot >
+        Attackables[i]->invinsibilityTime) {
+      Attackables[i]->_Attackable = true;
+      Attackables[i]->lastShoot =
+          std::chrono::duration_cast<std::chrono::milliseconds>(
+              std::chrono::system_clock::now().time_since_epoch())
+              .count();
+    }
+  }
+};
+
 namespace Rtype {
-RNGine::Registry::SystemBundle shootsSystems = {ShootCollisionSystem,
-                                                ShootSystem, EnemyShoot};
+RNGine::Registry::SystemBundle shootsSystems = {
+    ShootCollisionSystem, ShootSystem, EnemyShoot, CheckInvisibility};
 }

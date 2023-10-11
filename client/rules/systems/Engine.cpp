@@ -47,12 +47,16 @@ RNGine::Registry::System UpdateHealthBar = [](RNGine::Registry &registry) {
       registry.getComponents<RNGine::components::Sprite>();
   RNGine::SparseArray<RNGine::components::Size> &Sizes =
       registry.getComponents<RNGine::components::Size>();
+  RNGine::SparseArray<RNGine::components::Attackable> &Attackables =
+      registry.getComponents<RNGine::components::Attackable>();
 
   for (size_t i = 0; i < healthBars.size(); i++) {
-    if (!healthBars[i].has_value())
+    if (!healthBars[i].has_value() ||
+        !Attackables[healthBars[i]->entity].has_value())
       continue;
-    healthBars[i]->textHealth = std::to_string(healthBars[i]->hp) + "/" +
-                                std::to_string(healthBars[i]->maxHp);
+    healthBars[i]->hp = Attackables[healthBars[i]->entity]->health;
+    healthBars[i]->textHealth = std::to_string((int)healthBars[i]->hp) + "/" +
+                                std::to_string((int)healthBars[i]->maxHp);
     if (!Positions[healthBars[i]->entity].has_value() ||
         !Positions[i].has_value() ||
         !Sprites[healthBars[i]->entity].has_value() ||

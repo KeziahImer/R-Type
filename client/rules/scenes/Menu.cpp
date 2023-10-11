@@ -42,11 +42,12 @@ void Rtype::MenuScene::createScore(RNGine::Entity e) {
                                                        sf::Color::White, 50));
 }
 
-void Rtype::MenuScene::createHealthBar(RNGine::Entity e, float hp) {
+void Rtype::MenuScene::createHealthBar(RNGine::Entity e, RNGine::Entity entity,
+                                       float hp) {
   addComponent(e, RNGine::components::Position::createPosition(10, 10));
-  addComponent(e,
-               RNGine::components::healthBar::createhealthBar(
-                   hp, hp, e, "./assets/FontGame.TTF", sf::Color::White, 11));
+  addComponent(
+      e, RNGine::components::healthBar::createhealthBar(
+             hp, hp, entity, "./assets/FontGame.TTF", sf::Color::White, 11));
 }
 
 void Rtype::MenuScene::createPlayer(RNGine::Entity e) {
@@ -68,9 +69,9 @@ void Rtype::MenuScene::createPlayer(RNGine::Entity e) {
                           std::chrono::system_clock::now().time_since_epoch())
                           .count(),
                       25, true));
-  addComponent(e,
-               RNGine::components::Attackable::createAttackable(500, 0, true));
-  createHealthBar(createEntity("healthBar"), 500);
+  addComponent(
+      e, RNGine::components::Attackable::createAttackable(500, 0, true, true));
+  createHealthBar(createEntity("healthBar"), e, 500);
 }
 
 void Rtype::MenuScene::createEnemy(RNGine::Entity e, float posX, float posY) {
@@ -79,8 +80,8 @@ void Rtype::MenuScene::createEnemy(RNGine::Entity e, float posX, float posY) {
   addComponent(e, RNGine::components::Position::createPosition(posX, posY));
   addComponent(e, RNGine::components::Size::createSize(3, 3));
   addComponent(e, RNGine::components::Velocity::createVelocity(-0.5, 0));
-  addComponent(e,
-               RNGine::components::Attackable::createAttackable(75, 25, false));
+  addComponent(
+      e, RNGine::components::Attackable::createAttackable(75, 25, false, true));
   addComponent(e, RNGine::components::Collider::createCollider(33 * 3, 17 * 3));
   addComponent(e, RNGine::components::Selfdestroy::createSelfDestroy(
                       posX + 150, 1080 + 150, -150, -150));
@@ -90,5 +91,4 @@ void Rtype::MenuScene::createEnemy(RNGine::Entity e, float posX, float posY) {
                           std::chrono::system_clock::now().time_since_epoch())
                           .count(),
                       25, false));
-  createHealthBar(createEntity("healthBar"), 75);
 }
