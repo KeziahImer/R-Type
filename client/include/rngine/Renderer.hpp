@@ -12,6 +12,7 @@
 #include "./components/Size.hpp"
 #include "./components/Sprite.hpp"
 #include "SFML/Graphics/Font.hpp"
+#include "rngine/components/healthBar.hpp"
 #include "rngine/components/text.hpp"
 #include <SFML/Graphics.hpp>
 
@@ -27,6 +28,7 @@ public:
     auto &Positions = registry.getComponents<RNGine::components::Position>();
     auto &Sizes = registry.getComponents<RNGine::components::Size>();
     auto &Texts = registry.getComponents<RNGine::components::Text>();
+    auto &healthBars = registry.getComponents<RNGine::components::healthBar>();
     auto entities = Sprites.size();
     _window.clear();
     for (int layer = 0; layer < 5; layer++) {
@@ -48,6 +50,11 @@ public:
     for (size_t i = 0; i < Texts.size(); i++) {
       if (Texts[i].has_value() && Positions[i].has_value()) {
         renderTexte(*Texts[i], *Positions[i]);
+      }
+    }
+    for (size_t i = 0; i < healthBars.size(); i++) {
+      if (healthBars[i].has_value() && Positions[i].has_value()) {
+        renderHealth(*healthBars[i], *Positions[i]);
       }
     }
     _window.display();
@@ -89,6 +96,25 @@ public:
     }
     sf::Text Text;
     Text.setString(text.text + text.text2);
+    Text.setFillColor(text.color);
+    Text.setCharacterSize(text.CharacterSize);
+    Text.setPosition(position.x, position.y);
+    Text.setFont(font);
+    _window.draw(Text);
+  }
+
+  void renderHealth(RNGine::components::healthBar text,
+                    RNGine::components::Position position) {
+    sf::Font font;
+    if (_fonts.find(text.font) == _fonts.end()) {
+      if (!font.loadFromFile(text.font))
+        return;
+      _fonts[text.font] = font;
+    } else {
+      font = _fonts[text.font];
+    }
+    sf::Text Text;
+    Text.setString(text.textHealth);
     Text.setFillColor(text.color);
     Text.setCharacterSize(text.CharacterSize);
     Text.setPosition(position.x, position.y);

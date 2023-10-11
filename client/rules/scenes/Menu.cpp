@@ -7,6 +7,7 @@
 #include "rngine/components/EnemyShoot.hpp"
 #include "rngine/components/Movable.hpp"
 #include "rngine/components/Shoot.hpp"
+#include "rngine/components/healthBar.hpp"
 #include "rngine/components/text.hpp"
 #include "rules/systems/Engine.hpp"
 #include "rules/systems/Physics.hpp"
@@ -41,6 +42,13 @@ void Rtype::MenuScene::createScore(RNGine::Entity e) {
                                                        sf::Color::White, 50));
 }
 
+void Rtype::MenuScene::createHealthBar(RNGine::Entity e, float hp) {
+  addComponent(e, RNGine::components::Position::createPosition(10, 10));
+  addComponent(e,
+               RNGine::components::healthBar::createhealthBar(
+                   hp, hp, e, "./assets/FontGame.TTF", sf::Color::White, 11));
+}
+
 void Rtype::MenuScene::createPlayer(RNGine::Entity e) {
   addComponent(e, RNGine::components::Sprite::createSprite(
                       "./assets/Player.gif", false, 33, 17, 2, 2, 1));
@@ -62,6 +70,7 @@ void Rtype::MenuScene::createPlayer(RNGine::Entity e) {
                       25, true));
   addComponent(e,
                RNGine::components::Attackable::createAttackable(500, 0, true));
+  createHealthBar(createEntity("healthBar"), 500);
 }
 
 void Rtype::MenuScene::createEnemy(RNGine::Entity e, float posX, float posY) {
@@ -81,4 +90,5 @@ void Rtype::MenuScene::createEnemy(RNGine::Entity e, float posX, float posY) {
                           std::chrono::system_clock::now().time_since_epoch())
                           .count(),
                       25, false));
+  createHealthBar(createEntity("healthBar"), 75);
 }
