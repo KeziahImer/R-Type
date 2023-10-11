@@ -15,6 +15,7 @@
 
 #include "./Registry.hpp"
 #include "./Scene.hpp"
+#include "SFML/Window/Event.hpp"
 #include "rngine/Renderer.hpp"
 
 namespace RNGine {
