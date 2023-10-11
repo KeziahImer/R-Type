@@ -94,9 +94,15 @@ public:
     }
   }
 
+  void setInputs(const std::map<enum RNGine::Key, bool> &keybinds,
+                 std::vector<std::pair<int, int>> &mouseBinds) {
+    inputs = keybinds;
+    _mouseBinds = &mouseBinds;
+  }
+
 public:
   std::map<enum RNGine::Key, bool> inputs;
-  std::map<std::pair<int, int>, bool> _mouseBinds;
+  std::vector<std::pair<int, int>> *_mouseBinds;
   Clock clock = Clock(60);
   int _gameScore = 0;
 

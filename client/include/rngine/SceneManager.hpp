@@ -52,8 +52,8 @@ public:
         break;
       case sf::Event::MouseButtonPressed:
         if (event.mouseButton.button == sf::Mouse::Left) {
-          _mouseBinds[std::make_pair(event.mouseButton.x, event.mouseButton.y)] =
-              true;
+          _mouseBinds.push_back(
+              std::make_pair(event.mouseButton.x, event.mouseButton.y));
         }
         break;
       case sf::Event::Closed:
@@ -69,7 +69,7 @@ public:
   bool update() {
     if (_scenes.size() > 0) {
       setInputs();
-      _renderer.render(_scenes[_loadedScene].update(_keybinds, _mouseBinds)); 
+      _renderer.render(_scenes[_loadedScene].update(_keybinds, _mouseBinds));
     }
     return _running;
   }
@@ -82,7 +82,7 @@ private:
   std::vector<RNGine::Scene> _scenes;
   RNGine::Renderer _renderer = RNGine::Renderer(1920, 1080, "R-type");
   std::map<enum RNGine::Key, bool> _keybinds;
-  std::map<std::pair<int, int>, bool> _mouseBinds;
+  std::vector<std::pair<int, int>> _mouseBinds;
 };
 }; // namespace RNGine
 

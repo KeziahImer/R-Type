@@ -71,16 +71,14 @@ void Rtype::MenuScene::createPlayer(RNGine::Entity e) {
                       std::chrono::duration_cast<std::chrono::milliseconds>(
                           std::chrono::system_clock::now().time_since_epoch())
                           .count(),
-                      25));
+                      25, true));
   addComponent(e, RNGine::components::Selfdestroy::createSelfDestroy(
                       1920 + 150, 1080 + 150, -150, -150));
   addComponent(e,
                RNGine::components::Clickable::createClickable(33 * 3, 17 * 3));
-                      25, true));
-                      addComponent(
-                          e, RNGine::components::Attackable::createAttackable(
-                                 500, 0, true, true));
-                      createHealthBar(createEntity("healthBar"), e, 500);
+  addComponent(
+      e, RNGine::components::Attackable::createAttackable(500, 0, true, true));
+  createHealthBar(createEntity("healthBar"), e, 500);
 }
 
 void Rtype::MenuScene::createEnemy(RNGine::Entity e, float posX, float posY) {
