@@ -1,7 +1,6 @@
 {
   "editor.formatOnSave": true,
   "files.associations": {
-    "*.ipp": "cpp",
     "cctype": "cpp",
     "clocale": "cpp",
     "cmath": "cpp",
@@ -15,6 +14,7 @@
     "ctime": "cpp",
     "cwchar": "cpp",
     "cwctype": "cpp",
+    "*.ipp": "cpp",
     "any": "cpp",
     "array": "cpp",
     "atomic": "cpp",
