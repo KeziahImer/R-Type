@@ -6,10 +6,9 @@
 */
 
 #include "Network.hpp"
-#include "../Paquet/Paquet.hpp"
 
-Network::Network(boost::asio::io_context &io_context, const std::chrono::time_point<std::chrono::_V2::system_clock, std::chrono::_V2::system_clock::duration> &tStart)
-    : _socket(io_context, boost::asio::ip::udp::endpoint(boost::asio::ip::udp::v4(), 13)), _tStart(tStart)
+Network::Network(boost::asio::io_context &io_context)
+    : _socket(io_context, boost::asio::ip::udp::endpoint(boost::asio::ip::udp::v4(), 13))
 {
     receiveRequest();
 }
@@ -20,41 +19,46 @@ void Network::receiveRequest()
                                [&](const boost::system::error_code &error, std::size_t bytes_received)
                                {
                                    if (!error)
-                                   {
-                                       _recvBuffer = std::string(_buffer, bytes_received);
-                                       const auto tEnd = std::chrono::high_resolution_clock::now();
-                                       const auto time = std::chrono::duration<double, std::milli>(tEnd - _tStart).count();
-                                       std::cout << "Received: " << _recvBuffer << std::endl;
-                                       treatRequest();
-                                       sendRequest();
-                                   }
+                                       checkEndpoint();
                                    memset(_buffer, 0, _maxLength);
                                    receiveRequest();
                                });
 }
 
-void Network::sendRequest()
+void Network::sendRequest(boost::asio::ip::udp::endpoint endpoint)
 {
-    _socket.async_send_to(boost::asio::buffer(_sendBuffer.c_str(), _sendBuffer.length()), _senderEndpoint,
+    _socket.async_send_to(boost::asio::buffer(_buffer, _maxLength), endpoint,
                           [&](const boost::system::error_code &error, std::size_t bytes_sent)
                           {
                               if (!error)
-                                  std::cout << "Sent: " << _sendBuffer << std::endl;
-                              _recvBuffer = "";
-                              _sendBuffer = "";
+                                  std::cout << "Sent: " << _buffer << std::endl;
                           });
 }
 
-void Network::treatRequest()
+void Network::checkEndpoint()
 {
-    if (_recvBuffer == "login")
+    int verif = 0;
+    for (auto player : _players)
     {
-        const int value = _game.addPlayer();
-        if (value == 0)
-            _sendBuffer = "200 player" + std::to_string(_game.getNbPlayers());
-        else
-            _sendBuffer = "204 too much players";
+        if (player.address == _senderEndpoint.address().to_string() && player.port == _senderEndpoint.port())
+        {
+            verif = 1;
+            break;
+        }
+    }
+    if (verif == 0)
+    {
+        Player_t newPlayer;
+        newPlayer.address = _senderEndpoint.address().to_string();
+        newPlayer.port = _senderEndpoint.port();
+        _players.push_back(newPlayer);
     }
     else
-        _sendBuffer = "400 wrongCommand";
+    {
+        for (auto player : _players)
+        {
+            if (player.address != _senderEndpoint.address().to_string() && player.port != _senderEndpoint.port())
+                sendRequest(player.endpoint);
+        }
+    }
 }

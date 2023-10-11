@@ -11,9 +11,8 @@ int main()
 {
     try
     {
-        auto tStart = std::chrono::high_resolution_clock::now();
         boost::asio::io_context ioContext;
-        Network server(ioContext, tStart);
+        Network server(ioContext);
         ioContext.run();
     }
     catch (std::exception &e)
