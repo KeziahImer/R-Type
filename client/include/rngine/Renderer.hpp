@@ -11,7 +11,9 @@
 #include "./components/Position.hpp"
 #include "./components/Size.hpp"
 #include "./components/Sprite.hpp"
+#include "SFML/Graphics/Color.hpp"
 #include "SFML/Graphics/Font.hpp"
+#include "SFML/Graphics/RectangleShape.hpp"
 #include "rngine/components/healthBar.hpp"
 #include "rngine/components/text.hpp"
 #include <SFML/Graphics.hpp>
@@ -53,8 +55,12 @@ public:
       }
     }
     for (size_t i = 0; i < healthBars.size(); i++) {
-      if (healthBars[i].has_value() && Positions[i].has_value()) {
-        renderHealth(*healthBars[i], *Positions[i]);
+      if (healthBars[i].has_value() && Positions[i].has_value() &&
+          Sprites[healthBars[i]->entity].has_value() &&
+          Sizes[healthBars[i]->entity].has_value()) {
+        renderHealth(*healthBars[i], *Positions[i],
+                     *Sprites[healthBars[i]->entity],
+                     *Sizes[healthBars[i]->entity]);
       }
     }
     _window.display();
@@ -104,22 +110,20 @@ public:
   }
 
   void renderHealth(RNGine::components::healthBar text,
-                    RNGine::components::Position position) {
-    sf::Font font;
-    if (_fonts.find(text.font) == _fonts.end()) {
-      if (!font.loadFromFile(text.font))
-        return;
-      _fonts[text.font] = font;
-    } else {
-      font = _fonts[text.font];
-    }
-    sf::Text Text;
-    Text.setString(text.textHealth);
-    Text.setFillColor(text.color);
-    Text.setCharacterSize(text.CharacterSize);
-    Text.setPosition(position.x, position.y);
-    Text.setFont(font);
-    _window.draw(Text);
+                    RNGine::components::Position position,
+                    RNGine::components::Sprite sprite,
+                    RNGine::components::Size size) {
+
+    sf::RectangleShape HealthSquare(
+        sf::Vector2f(sprite.sizeTileX * size.scaleX, 15));
+    sf::RectangleShape Health(sf::Vector2f(
+        (text.hp / text.maxHp) * sprite.sizeTileX * size.scaleX - 5, 10));
+    HealthSquare.setFillColor(sf::Color::White);
+    HealthSquare.setPosition(position.x, position.y);
+    Health.setFillColor(text.color);
+    Health.setPosition(position.x + 2.5, position.y + 2.5);
+    _window.draw(HealthSquare);
+    _window.draw(Health);
   }
 
   sf::RenderWindow &getWindow() { return _window; }

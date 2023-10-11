@@ -50,7 +50,7 @@ void Rtype::MenuScene::createHealthBar(RNGine::Entity e, RNGine::Entity entity,
   addComponent(e, RNGine::components::Position::createPosition(10, 10));
   addComponent(
       e, RNGine::components::healthBar::createhealthBar(
-             hp, hp, entity, "./assets/FontGame.TTF", sf::Color::White, 11));
+             hp, hp, entity, "./assets/FontGame.TTF", sf::Color::Green, 11));
 }
 
 void Rtype::MenuScene::createPlayer(RNGine::Entity e) {

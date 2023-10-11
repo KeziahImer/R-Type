@@ -30,10 +30,7 @@ struct healthBar {
     val.hp = hp;
     val.maxHp = maxHp;
     val.entity = entity;
-    val.font = font;
     val.color = color;
-    val.CharacterSize = CharacterSize;
-    val.textHealth = std::to_string(hp) + "/" + std::to_string(maxHp);
 
     return val;
   }
