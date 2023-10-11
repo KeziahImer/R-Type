@@ -104,8 +104,9 @@ public:
 
   int i = 0;
 
-  Registry &update(const std::map<enum RNGine::Key, bool> &_keybinds) {
+  Registry &update(const std::map<enum RNGine::Key, bool> &_keybinds, std::map<std::pair<int, int>, bool> &_mouseBinds) {
     _registry.inputs = _keybinds;
+    _registry._mouseBinds = _mouseBinds;
     if (!_loaded)
       throw std::runtime_error("Scene not loaded.");
     if (!_registry.clock.checkFrame())

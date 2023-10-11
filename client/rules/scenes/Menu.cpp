@@ -5,14 +5,17 @@
 #include "rngine/components/Collider.hpp"
 #include "rngine/components/Movable.hpp"
 #include "rngine/components/Shoot.hpp"
+#include "rngine/components/Clickable.hpp"
 #include "rules/systems/Physics.hpp"
 #include "rules/systems/Shoots.hpp"
+#include "rules/systems/Click.hpp"
 #include <utility>
 
 Rtype::MenuScene::MenuScene() {
   setId("menu");
   addBundle(Rtype::physicsSystems);
   addBundle(Rtype::shootsSystems);
+  addBundle(Rtype::clickSystems);
   createPlayer(createEntity("player"));
   createBackground(createEntity("background"));
   createEnemy(createEntity("enemy"), 150);
@@ -49,6 +52,7 @@ void Rtype::MenuScene::createPlayer(RNGine::Entity e) {
                       25));
   addComponent(e, RNGine::components::Selfdestroy::createSelfDestroy(
                       1920 + 150, 1080 + 150, -150, -150));
+  addComponent(e, RNGine::components::Clickable::createClickable(33 * 3, 17 * 3));
 }
 
 void Rtype::MenuScene::createEnemy(RNGine::Entity e, float posY) {
