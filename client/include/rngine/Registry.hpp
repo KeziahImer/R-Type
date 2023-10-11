@@ -96,6 +96,7 @@ public:
 
 public:
   std::map<enum RNGine::Key, bool> inputs;
+  std::map<std::pair<int, int>, bool> _mouseBinds;
   Clock clock = Clock(60);
   int _gameScore = 0;
 
