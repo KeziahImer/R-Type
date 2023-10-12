@@ -15,6 +15,8 @@ include_directories(
 
 include(FetchContent)
 
+set(SFML_BUILD_SHARED_LIBS TRUE)
+
 FetchContent_Declare(
   sfml
   GIT_REPOSITORY "https://github.com/SFML/SFML.git"
@@ -24,6 +26,9 @@ FetchContent_Declare(
 )
 
 FetchContent_MakeAvailable(SFML)
+
+set(JSON_BuildTests OFF CACHE INTERNAL "")
+set(JSON_Install OFF CACHE INTERNAL "")
 
 FetchContent_Declare(
   json
