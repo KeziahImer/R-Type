@@ -14,9 +14,11 @@
 #include "SFML/Graphics/Color.hpp"
 #include "SFML/Graphics/Font.hpp"
 #include "SFML/Graphics/RectangleShape.hpp"
+#include "rngine/components/Clickable.hpp"
 #include "rngine/components/healthBar.hpp"
 #include "rngine/components/text.hpp"
 #include <SFML/Graphics.hpp>
+#include <cstring>
 
 namespace RNGine {
 class Renderer {
@@ -31,6 +33,7 @@ public:
     auto &Sizes = registry.getComponents<RNGine::components::Size>();
     auto &Texts = registry.getComponents<RNGine::components::Text>();
     auto &healthBars = registry.getComponents<RNGine::components::healthBar>();
+    auto &Buttons = registry.getComponents<RNGine::components::Button>();
     auto entities = Sprites.size();
     _window.clear();
     for (int layer = 0; layer < 5; layer++) {
@@ -61,6 +64,11 @@ public:
         renderHealth(*healthBars[i], *Positions[i],
                      *Sprites[healthBars[i]->entity],
                      *Sizes[healthBars[i]->entity]);
+      }
+    }
+    for (size_t i = 0; i < Buttons.size(); i++) {
+      if (Buttons[i].has_value() && Positions[i].has_value()) {
+        renderButton(*Buttons[i], *Positions[i]);
       }
     }
     _window.display();
@@ -124,6 +132,33 @@ public:
     Health.setPosition(position.x + 2.5, position.y + 2.5);
     _window.draw(HealthSquare);
     _window.draw(Health);
+  }
+
+  void renderButton(RNGine::components::Button button,
+                    RNGine::components::Position position) {
+
+    sf::Font font;
+    if (_fonts.find(button.font) == _fonts.end()) {
+      if (!font.loadFromFile(button.font))
+        return;
+      _fonts[button.font] = font;
+    } else {
+      font = _fonts[button.font];
+    }
+    sf::RectangleShape ButtonSquare(sf::Vector2f(button.x, button.y));
+    ButtonSquare.setFillColor(sf::Color::Black);
+    ButtonSquare.setOutlineColor(button.color);
+    ButtonSquare.setOutlineThickness(5);
+    ButtonSquare.setPosition(position.x, position.y);
+    sf::Text Text;
+    Text.setString(button.buttonText);
+    Text.setFillColor(button.color);
+    Text.setCharacterSize(button.CharacterSize);
+    Text.setPosition(position.x + 15,
+                     position.y + (button.y - button.CharacterSize) / 2);
+    Text.setFont(font);
+    _window.draw(ButtonSquare);
+    _window.draw(Text);
   }
 
   sf::RenderWindow &getWindow() { return _window; }
