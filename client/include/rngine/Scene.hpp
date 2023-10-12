@@ -115,7 +115,7 @@ public:
 
   void setId(std::string const &id) { _id = id; }
 
-private:
+protected:
   std::string _id;
   RNGine::Registry _registry;
   RNGine::Registry _initial;
