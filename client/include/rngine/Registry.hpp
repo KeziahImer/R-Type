@@ -50,9 +50,7 @@ public:
     int i = 0;
     for (auto &bundle : _bundles) {
       for (auto &system : bundle) {
-        std::cout << i++ << " system" << std::endl;
         system(*this);
-        std::cout << i++ << " system worked" << std::endl;
       }
     }
     return *this;

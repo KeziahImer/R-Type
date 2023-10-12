@@ -104,14 +104,13 @@ public:
 
   int i = 0;
 
-  Registry &update() {
+  Registry &update(const std::map<enum RNGine::Key, bool> &_keybinds) {
+    _registry.inputs = _keybinds;
     if (!_loaded)
       throw std::runtime_error("Scene not loaded.");
     if (!_registry.clock.checkFrame())
       return _registry;
-    std::cout << i++ << " run" << std::endl;
     _registry.run();
-    std::cout << i << " finished" << std::endl;
     return _registry;
   }
 

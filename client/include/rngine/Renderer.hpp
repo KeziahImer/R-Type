@@ -26,17 +26,21 @@ public:
     auto &Sizes = registry.getComponents<RNGine::components::Size>();
     auto entities = Sprites.size();
     _window.clear();
-    for (size_t i = 0; i < entities; i++) {
-      auto sprite = Sprites[i];
-      if (!sprite.has_value())
-        continue;
-      auto position = Positions[i];
-      if (!position.has_value())
-        continue;
-      auto size = Sizes[i];
-      if (!size.has_value())
-        continue;
-      renderSprite(*sprite, *position, *size);
+    for (int layer = 0; layer < 5; layer++) {
+      for (size_t i = 0; i < entities; i++) {
+        auto sprite = Sprites[i];
+        if (!sprite.has_value())
+          continue;
+        auto position = Positions[i];
+        if (!position.has_value())
+          continue;
+        auto size = Sizes[i];
+        if (!size.has_value())
+          continue;
+        if (sprite->layer != layer)
+          continue;
+        renderSprite(*sprite, *position, *size);
+      }
     }
     _window.display();
   }
