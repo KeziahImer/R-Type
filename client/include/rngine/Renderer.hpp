@@ -11,9 +11,9 @@
 #include "./components/Position.hpp"
 #include "./components/Size.hpp"
 #include "./components/Sprite.hpp"
-#include "SFML/Graphics/Font.hpp"
-#include "rngine/components/text.hpp"
+#include "./components/text.hpp"
 #include <SFML/Graphics.hpp>
+#include <SFML/Graphics/Font.hpp>
 
 namespace RNGine {
 class Renderer {

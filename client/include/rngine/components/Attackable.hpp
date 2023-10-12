@@ -15,7 +15,7 @@ struct Attackable {
   bool ally;
 
   static Attackable createAttackable(int health, int points, bool ally);
-  };
+};
 } // namespace components
 } // namespace RNGine
 
