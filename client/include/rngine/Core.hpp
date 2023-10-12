@@ -6,6 +6,7 @@
 */
 
 #include <cstddef>
+#include <immintrin.h>
 
 #ifndef _RNGINE_CORE_HPP_
 #define _RNGINE_CORE_HPP_
@@ -16,12 +17,14 @@ namespace RNGine {
 class Core {
 public:
   void loop() {
-    while (true) {
-      manager.update();
+    while (_running) {
+      _running = manager.update();
     }
   }
-
   SceneManager manager;
+
+private:
+  bool _running = true;
 };
 }; // namespace RNGine
 

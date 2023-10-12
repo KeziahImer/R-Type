@@ -51,6 +51,7 @@ public:
         break;
       case sf::Event::Closed:
         _renderer.getWindow().close();
+        _running = false;
         break;
       default:
         break;
@@ -58,16 +59,18 @@ public:
     }
   }
 
-  void update() {
+  bool update() {
     if (_scenes.size() > 0) {
       setInputs();
       _renderer.render(_scenes[_loadedScene].update(_keybinds));
     }
+    return _running;
   }
 
   RNGine::Scene &getActualScene() { return _scenes[_loadedScene]; }
 
 private:
+  bool _running = true;
   size_t _loadedScene;
   std::vector<RNGine::Scene> _scenes;
   RNGine::Renderer _renderer = RNGine::Renderer(1920, 1080, "R-type");
