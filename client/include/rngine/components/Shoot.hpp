@@ -19,10 +19,24 @@ namespace RNGine {
 namespace components {
 struct Shoot {
   enum RNGine::Key Input;
-  int speedX;
-  bool canShoot;
+  float speedX;
+  float speedY;
   int timeMillisecond;
   int64_t lastShoot;
+  float power;
+
+  static Shoot createShoot(enum RNGine::Key Input, float speedX, float speedY,
+                           int timeMillisecond, int64_t lastShoot,
+                           float power) {
+    auto val = Shoot();
+    val.Input = Input;
+    val.speedX = speedX;
+    val.speedY = speedY;
+    val.timeMillisecond = timeMillisecond;
+    val.lastShoot = lastShoot;
+    val.power = power;
+    return val;
+  }
 };
 } // namespace components
 } // namespace RNGine
