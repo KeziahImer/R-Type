@@ -1,13 +1,6 @@
-#include "rngine/Keys.hpp"
-#include "rngine/Registry.hpp"
-#include "rngine/components/Attackable.hpp"
-#include "rngine/components/MakeDamage.hpp"
-#include "rngine/components/SelfDestroy.hpp"
-#include "rngine/components/Shoot.hpp"
-#include "rngine/components/Size.hpp"
-#include "rngine/components/Sprite.hpp"
-#include "rngine/components/Velocity.hpp"
-#include "rules/systems/Physics.hpp"
+#include "rules/systems/Shoots.hpp"
+#include "rngine/components/text.hpp"
+#include <string>
 
 bool checkCollision(std::optional<RNGine::components::Collider> collisionA,
                     std::optional<RNGine::components::Collider> collisionB,
@@ -48,6 +41,8 @@ RNGine::Registry::System ShootCollisionSystem = [](RNGine::Registry &registry) {
         continue;
       if (checkCollision(Colliders[i], Colliders[x], Positions[i],
                          Positions[x])) {
+        if (Attackables[i]->ally == MakeDamages[x]->ally)
+          continue;
         Attackables[i]->health =
             Attackables[i]->health - MakeDamages[x]->Damage;
       }
@@ -60,10 +55,18 @@ RNGine::Registry::System ShootSystem = [](RNGine::Registry &registry) {
       registry.getComponents<RNGine::components::Shoot>();
   RNGine::SparseArray<RNGine::components::Position> &Positions =
       registry.getComponents<RNGine::components::Position>();
+  RNGine::SparseArray<RNGine::components::Sprite> &Sprites =
+      registry.getComponents<RNGine::components::Sprite>();
+  RNGine::SparseArray<RNGine::components::Size> &Sizes =
+      registry.getComponents<RNGine::components::Size>();
+  RNGine::SparseArray<RNGine::components::Velocity> &Velocities =
+      registry.getComponents<RNGine::components::Velocity>();
   std::map<enum RNGine::Key, bool> inputs = registry.inputs;
 
   for (size_t i = 0; i < Shoots.size(); i++) {
-    if (!Shoots[i].has_value())
+    if (!Shoots[i].has_value() || !Positions[i].has_value() ||
+        !Sprites[i].has_value() || !Sizes[i].has_value() ||
+        !Velocities[i].has_value())
       continue;
     for (auto inputPress : inputs) {
       if ((inputPress.first == Shoots[i]->Input) && inputPress.second) {
@@ -74,11 +77,15 @@ RNGine::Registry::System ShootSystem = [](RNGine::Registry &registry) {
           Shoots[i]->lastShoot = time;
           RNGine::Entity shoot = registry.createEntity("shoot");
           registry.addComponent<RNGine::components::Position>(
-              shoot, RNGine::components::Position::createPosition(
-                         Positions[i]->x, Positions[i]->y));
+              shoot,
+              RNGine::components::Position::createPosition(
+                  Positions[i]->x + (Sprites[i]->sizeTileX * Sizes[i]->scaleX),
+                  Positions[i]->y +
+                      (Sprites[i]->sizeTileY * Sizes[i]->scaleY) / 2));
           registry.addComponent<RNGine::components::Velocity>(
-              shoot, RNGine::components::Velocity::createVelocity(
-                         Shoots[i]->speedX, Shoots[i]->speedY));
+              shoot,
+              RNGine::components::Velocity::createVelocity(
+                  Shoots[i]->speedX, Shoots[i]->speedY + Velocities[i]->y / 2));
           registry.addComponent<RNGine::components::Sprite>(
               shoot,
               RNGine::components::Sprite::createSprite(
@@ -89,30 +96,67 @@ RNGine::Registry::System ShootSystem = [](RNGine::Registry &registry) {
               shoot, RNGine::components::Collider::createCollider(33, 22));
           registry.addComponent(
               shoot, RNGine::components::MakeDamage::createMakeDamage(
-                         Shoots[i]->power));
+                         Shoots[i]->power, true));
           registry.addComponent(
               shoot, RNGine::components::Selfdestroy::createSelfDestroy(
-                         1920 + 150, 1080 + 150, -150, -150));
+                         1920, 1080 + 150, -150, -150));
         }
       }
     }
   }
 };
 
-RNGine::Registry::System CheckHealth = [](RNGine::Registry &registry) {
-  RNGine::SparseArray<RNGine::components::Attackable> &Attackables =
-      registry.getComponents<RNGine::components::Attackable>();
+RNGine::Registry::System EnemyShoot = [](RNGine::Registry &registry) {
+  RNGine::SparseArray<RNGine::components::Position> &Positions =
+      registry.getComponents<RNGine::components::Position>();
+  RNGine::SparseArray<RNGine::components::Sprite> &Sprites =
+      registry.getComponents<RNGine::components::Sprite>();
+  RNGine::SparseArray<RNGine::components::Size> &Sizes =
+      registry.getComponents<RNGine::components::Size>();
+  RNGine::SparseArray<RNGine::components::Velocity> &Velocities =
+      registry.getComponents<RNGine::components::Velocity>();
+  RNGine::SparseArray<RNGine::components::EnemyShoot> &EnemyShoots =
+      registry.getComponents<RNGine::components::EnemyShoot>();
+  std::map<enum RNGine::Key, bool> inputs = registry.inputs;
 
-  for (size_t i = 0; i < Attackables.size(); i++) {
-    if (!Attackables[i].has_value())
+  for (size_t i = 0; i < EnemyShoots.size(); i++) {
+    if (!EnemyShoots[i].has_value() || !Positions[i].has_value() ||
+        !Sprites[i].has_value() || !Sizes[i].has_value() ||
+        !Velocities[i].has_value())
       continue;
-    if (Attackables[i]->health <= 0) {
-      registry.removeEntity(i);
+    auto time = std::chrono::duration_cast<std::chrono::milliseconds>(
+                    std::chrono::system_clock::now().time_since_epoch())
+                    .count();
+    if (time - EnemyShoots[i]->lastShoot > EnemyShoots[i]->timeMillisecond) {
+      EnemyShoots[i]->lastShoot = time;
+      RNGine::Entity shoot = registry.createEntity("EnemyShoot");
+      registry.addComponent<RNGine::components::Position>(
+          shoot, RNGine::components::Position::createPosition(
+                     Positions[i]->x - 33,
+                     Positions[i]->y +
+                         (Sprites[i]->sizeTileY * Sizes[i]->scaleY) / 2));
+      registry.addComponent<RNGine::components::Velocity>(
+          shoot, RNGine::components::Velocity::createVelocity(
+                     EnemyShoots[i]->speedX,
+                     EnemyShoots[i]->speedY + Velocities[i]->y / 2));
+      registry.addComponent<RNGine::components::Sprite>(
+          shoot, RNGine::components::Sprite::createSprite(
+                     "./assets/ShootsAndPlayer.gif", true, 33, 22, 6, 1, 2));
+      registry.addComponent<RNGine::components::Size>(
+          shoot, RNGine::components::Size::createSize(1, 1));
+      registry.addComponent(
+          shoot, RNGine::components::Collider::createCollider(33, 22));
+      registry.addComponent(shoot,
+                            RNGine::components::MakeDamage::createMakeDamage(
+                                EnemyShoots[i]->power, false));
+      registry.addComponent(shoot,
+                            RNGine::components::Selfdestroy::createSelfDestroy(
+                                1920, 1080 + 150, -150, -150));
     }
   }
 };
 
 namespace Rtype {
 RNGine::Registry::SystemBundle shootsSystems = {ShootCollisionSystem,
-                                                ShootSystem, CheckHealth};
+                                                ShootSystem, EnemyShoot};
 }

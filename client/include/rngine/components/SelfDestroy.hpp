@@ -16,14 +16,7 @@ struct Selfdestroy {
   float MinY;
 
   static Selfdestroy createSelfDestroy(float MaxX, float MaxY, float MinX,
-                                       float MinY) {
-    auto val = Selfdestroy();
-    val.MaxX = MaxX;
-    val.MaxY = MaxY;
-    val.MinX = MinX;
-    val.MinY = MinY;
-    return val;
-  }
+                                       float MinY);
 };
 } // namespace components
 } // namespace RNGine

@@ -11,12 +11,10 @@ namespace RNGine {
 namespace components {
 struct Attackable {
   int health;
+  int points;
+  bool ally;
 
-  static Attackable createAttackable(int health) {
-    auto val = Attackable();
-    val.health = health;
-    return val;
-  }
+  static Attackable createAttackable(int health, int points, bool ally);
 };
 } // namespace components
 } // namespace RNGine

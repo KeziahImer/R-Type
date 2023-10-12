@@ -24,7 +24,8 @@ public:
 
   void createBackground(RNGine::Entity e);
   void createPlayer(RNGine::Entity e);
-  void createEnemy(RNGine::Entity e, float posY);
+  void createEnemy(RNGine::Entity e, float posX, float posY);
+  void createScore(RNGine::Entity e);
 };
 }; // namespace Rtype
 

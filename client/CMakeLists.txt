@@ -9,6 +9,10 @@ project(
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
 
+include_directories(
+    ${CMAKE_SOURCE_DIR}/
+)
+
 include(FetchContent)
 
 set(SFML_BUILD_SHARED_LIBS TRUE)
@@ -42,16 +46,4 @@ file(GLOB_RECURSE SOURCE_FILES *.cpp)
 
 add_executable(r-type_client ${SOURCE_FILES})
 
-target_link_libraries(r-type_client PRIVATE sfml-graphics sfml-window sfml-system nlohmann_json::nlohmann_json)
-
-if(WIN32)
-  add_custom_command(
-      TARGET r-type_client
-      POST_BUILD
-      COMMAND ${CMAKE_COMMAND} -E copy
-          "${SFML_BINARY_DIR}/lib/Release/sfml-window-2.dll"
-          "${SFML_BINARY_DIR}/lib/Release/sfml-graphics-2.dll"
-          "${SFML_BINARY_DIR}/lib/Release/sfml-system-2.dll"
-          "$<TARGET_FILE_DIR:r-type_client>"
-  )
-endif()
+target_link_libraries(r-type_client PRIVATE sfml-graphics sfml-window sfml-system nlohmann_json::nlohmann_json Boost::asio)

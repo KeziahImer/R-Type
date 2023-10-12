@@ -13,13 +13,7 @@ struct Position {
   float x = 0;
   float y = 0;
 
-  static Position createPosition(float x, float y) {
-
-    auto sprite = RNGine::components::Position();
-    sprite.x = x;
-    sprite.y = y;
-    return sprite;
-  }
+  static Position createPosition(float x, float y);
 };
 } // namespace components
 } // namespace RNGine
