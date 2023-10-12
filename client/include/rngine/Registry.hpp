@@ -2,6 +2,7 @@
 #define _RNGINE_REGISTRY_HPP_
 
 #include <any>
+#include <functional>
 #include <map>
 #include <memory>
 #include <typeindex>

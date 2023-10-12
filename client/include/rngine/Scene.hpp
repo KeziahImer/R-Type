@@ -102,13 +102,13 @@ public:
     return *this;
   }
 
-  Scene &update() {
+  Registry &update() {
     if (!_loaded)
       throw std::runtime_error("Scene not loaded.");
     if (!_registry.clock.checkFrame())
-      return *this;
+      return _registry;
     _registry.run();
-    return *this;
+    return _registry;
   }
 
   std::string getId() const { return _id; }

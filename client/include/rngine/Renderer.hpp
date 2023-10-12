@@ -13,9 +13,10 @@
 #include "./components/Sprite.hpp"
 #include <SFML/Graphics.hpp>
 
+namespace RNGine {
 class Renderer {
 public:
-  Renderer(int width, int height, std::string title) {
+  Renderer(int width, int height, const std::string &title) {
     _window.create(sf::VideoMode(width, height), title);
   }
 
@@ -69,5 +70,6 @@ private:
   sf::RenderWindow _window;
   std::map<std::string, sf::Texture> _textures;
 };
+} // namespace RNGine
 
 #endif
