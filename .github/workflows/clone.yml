@@ -19,3 +19,33 @@ jobs:
           git config --global user.email "alexandre.frede.pro@gmail.com"
           git remote add epitech https://FredeAlexandre:${{ secrets.PAT }}@github.com/EpitechPromo2026/B-CPP-500-TLS-5-1-rtype-adil.nouiri.git
           git push epitech main --force
+
+name: Push to Epitech Repository
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  force_push:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout source repository
+      uses: actions/checkout@v2
+
+    - name: Setup SSH agent
+      run: |
+        eval $(ssh-agent -s)
+        echo "${{ secrets.SSH_PRIVATE_KEY }}" | tr -d '\r' | ssh-add -
+
+    - name: Force push to target repository
+      run: |
+        git remote add epitech ssh://git@github.com:EpitechPromo2026/B-CPP-500-TLS-5-1-rtype-adil.nouiri.git
+        git fetch epitech
+        git push epitech main --force
+
+    - name: Cleanup
+      run: |
+        ssh-add -D
