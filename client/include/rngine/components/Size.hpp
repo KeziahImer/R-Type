@@ -10,8 +10,8 @@
 namespace RNGine {
 namespace components {
 struct Size {
-  double scaleX;
-  double scaleY;
+  double scaleX = 0;
+  double scaleY = 0;
 
   static Size createSize(double scaleX, double scaleY) {
     auto val = Size();

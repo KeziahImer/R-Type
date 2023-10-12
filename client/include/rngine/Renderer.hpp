@@ -71,8 +71,8 @@ public:
   sf::RenderWindow &getWindow() { return _window; }
 
 private:
-  sf::RenderWindow _window;
-  std::map<std::string, sf::Texture> _textures;
+  sf::RenderWindow _window = sf::RenderWindow();
+  std::map<std::string, sf::Texture> _textures = {};
 };
 } // namespace RNGine
 

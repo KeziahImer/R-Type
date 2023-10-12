@@ -18,12 +18,12 @@
 namespace RNGine {
 namespace components {
 struct Shoot {
-  enum RNGine::Key Input;
-  float speedX;
-  float speedY;
-  int timeMillisecond;
-  int64_t lastShoot;
-  float power;
+  enum RNGine::Key Input = RNGine::Key::KeyCount;
+  float speedX = 0;
+  float speedY = 0;
+  int timeMillisecond = 0;
+  int64_t lastShoot = 0;
+  float power = 0;
 
   static Shoot createShoot(enum RNGine::Key Input, float speedX, float speedY,
                            int timeMillisecond, int64_t lastShoot,

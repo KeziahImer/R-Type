@@ -71,7 +71,7 @@ public:
 
 private:
   bool _running = true;
-  size_t _loadedScene;
+  size_t _loadedScene = 0;
   std::vector<RNGine::Scene> _scenes;
   RNGine::Renderer _renderer = RNGine::Renderer(1920, 1080, "R-type");
   std::map<enum RNGine::Key, bool> _keybinds;
