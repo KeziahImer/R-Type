@@ -8,17 +8,22 @@
 #include "Network.hpp"
 
 int main() {
+  std::cout << "Il entre" << std::endl;
   boost::asio::io_context ioContext;
   Rtype::Network network(ioContext);
+  std::cout << "Il reste bloqué le chien" << std::endl;
 
-  RNGine::Core core(network);
+  std::cout << "Allo print moi stp" << std::endl;
+  // ioContext.run();
+
+  // RNGine::Core core(network);
+  RNGine::Core core;
   Rtype::MenuScene menu;
   
-  network.sendRequest();
+  // network.sendRequest();
 
   menu.load();
   core.manager.addScene(menu);
-  ioContext.run();
   core.loop();
   return 0;
 }
