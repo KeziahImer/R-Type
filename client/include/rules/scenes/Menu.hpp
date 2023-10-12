@@ -12,25 +12,17 @@
 #include "rngine/components/Position.hpp"
 #include "rngine/components/Size.hpp"
 #include "rngine/components/Sprite.hpp"
-#include "rules/systems/Physics.hpp"
+#include "rngine/components/Velocity.hpp"
 
 #include <cstddef>
 
 namespace Rtype {
 class MenuScene : public RNGine::Scene {
 public:
-  MenuScene() {
-    setId("menu");
-    addBundle(Rtype::physicsSystems);
-    createBackground(createEntity("background"));
-  }
+  MenuScene();
 
-  void createBackground(RNGine::Entity e) {
-    addComponent(e, RNGine::components::Sprite::createSprite(
-                        "./assets/backgroundSpace.jpg", false, 514, 360, 0, 0));
-    addComponent(e, RNGine::components::Position::createPosition(0, 0));
-    addComponent(e, RNGine::components::Size::createSize(3.73, 3));
-  }
+  void createBackground(RNGine::Entity e);
+  void createPlayer(RNGine::Entity e);
 };
 }; // namespace Rtype
 

@@ -102,12 +102,16 @@ public:
     return *this;
   }
 
+  int i = 0;
+
   Registry &update() {
     if (!_loaded)
       throw std::runtime_error("Scene not loaded.");
     if (!_registry.clock.checkFrame())
       return _registry;
+    std::cout << i++ << " run" << std::endl;
     _registry.run();
+    std::cout << i << " finished" << std::endl;
     return _registry;
   }
 
