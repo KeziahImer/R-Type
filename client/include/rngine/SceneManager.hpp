@@ -14,6 +14,7 @@
 #include <vector>
 
 #include "./Registry.hpp"
+#include "./Scene.hpp"
 
 namespace RNGine {
 /**
@@ -27,10 +28,7 @@ public:
     return index;
   }
 
-  void removeScene(size_t index) {
-    _scenes.erase(_scenes.begin() + index);
-    return *this;
-  }
+  void removeScene(size_t index) { _scenes.erase(_scenes.begin() + index); }
 
   void load(size_t index) {
     if (index == _loadedScene)
@@ -45,7 +43,7 @@ public:
     _scenes[_loadedScene].update();
   }
 
-  void getActualScene() { return _scenes[_loadedScene]; }
+  RNGine::Scene &getActualScene() { return _scenes[_loadedScene]; }
 
 public:
   RNGine::Scene permanentScene;

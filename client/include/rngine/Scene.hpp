@@ -21,6 +21,7 @@ namespace RNGine {
  */
 class Scene {
 public:
+  Scene() = default;
   Scene(const std::string &id) : _id(id) {}
 
   RNGine::Entity createEntity(std::string const &name) {
@@ -111,6 +112,8 @@ public:
   }
 
   std::string getId() const { return _id; }
+
+  void setId(std::string const &id) { _id = id; }
 
 private:
   std::string _id;

@@ -1,6 +1,9 @@
 
 #include <iostream>
 
-#include "rngine/Renderer.hpp"
+#include "rngine/Core.hpp"
 
-int main() { return 0; }
+int main() {
+  RNGine::Core core;
+  return 0;
+}
