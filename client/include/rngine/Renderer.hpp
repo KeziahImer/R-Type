@@ -11,6 +11,7 @@
 #include "./components/Position.hpp"
 #include "./components/Size.hpp"
 #include "./components/Sprite.hpp"
+#include "SFML/Graphics/Font.hpp"
 #include "rngine/components/text.hpp"
 #include <SFML/Graphics.hpp>
 
@@ -45,14 +46,13 @@ public:
       }
     }
     for (size_t i = 0; i < Texts.size(); i++) {
-      std::cout << "Text :" << Texts[i].has_value()
-                << ", Pos: " << Positions[i].has_value() << std::endl;
       if (Texts[i].has_value() && Positions[i].has_value()) {
         renderTexte(*Texts[i], *Positions[i]);
       }
     }
     _window.display();
   }
+
   void renderSprite(RNGine::components::Sprite sprite,
                     RNGine::components::Position position,
                     RNGine::components::Size size) {
@@ -76,14 +76,23 @@ public:
     Sprite.setScale(scaleX, size.scaleY);
     _window.draw(Sprite);
   }
+
   void renderTexte(RNGine::components::Text text,
                    RNGine::components::Position position) {
-    std::cout << "Try to print text" << std::endl;
+    sf::Font font;
+    if (_fonts.find(text.font) == _fonts.end()) {
+      if (!font.loadFromFile(text.font))
+        return;
+      _fonts[text.font] = font;
+    } else {
+      font = _fonts[text.font];
+    }
     sf::Text Text;
-    Text.setString(text.text);
+    Text.setString(text.text + text.text2);
     Text.setFillColor(text.color);
     Text.setCharacterSize(text.CharacterSize);
     Text.setPosition(position.x, position.y);
+    Text.setFont(font);
     _window.draw(Text);
   }
 
@@ -92,6 +101,7 @@ public:
 private:
   sf::RenderWindow _window = sf::RenderWindow();
   std::map<std::string, sf::Texture> _textures = {};
+  std::map<std::string, sf::Font> _fonts = {};
 };
 } // namespace RNGine
 
