@@ -35,12 +35,9 @@ public:
   void load(size_t index) {
     if (index == _loadedScene)
       return;
-    std::cout << "try unload " << std::endl;
     _scenes[_loadedScene].unload();
-    std::cout << "after unload " << std::endl;
     _scenes[index].load();
     _loadedScene = index;
-    std::cout << "after load " << std::endl;
   }
 
   void setInputs() {
@@ -71,7 +68,6 @@ public:
 
   bool update() {
     if (_scenes.size() > 0) {
-      std::cout << "run :" << _loadedScene << std::endl;
       setInputs();
       _renderer.render(_scenes[_loadedScene].update(_keybinds, _mouseBinds));
     }

@@ -24,9 +24,9 @@ void Rtype::GameScene::createBackground(RNGine::Entity e) {
 
 void Rtype::GameScene::createScore(RNGine::Entity e) {
   addComponent(e, RNGine::components::Position::createPosition(10, 10));
-  addComponent(e, RNGine::components::Text::createText("SCORE: ", "0",
-                                                       "./assets/FontGame.TTF",
-                                                       sf::Color::White, 50));
+  addComponent(e, RNGine::components::Text::createText(
+                      "SCORE: ", "0", "./assets/FontGame.TTF",
+                      sf::Color(90, 168, 246), 50));
 }
 
 void Rtype::GameScene::createHealthBar(RNGine::Entity e, RNGine::Entity entity,

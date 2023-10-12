@@ -18,9 +18,11 @@ class Core {
 public:
   void loop() {
     while (_running) {
-      _running = manager.update();
+      if (!manager.update())
+        _running = false;
     }
   }
+  void setRunning(bool running) { _running = running; };
 
   SceneManager manager = SceneManager();
   bool _running = true;
