@@ -13,12 +13,7 @@ struct Collider {
   float x;
   float y;
 
-  static Collider createCollider(float x, float y) {
-    auto val = Collider();
-    val.x = x;
-    val.y = y;
-    return val;
-  }
+  static Collider createCollider(float x, float y);
 };
 } // namespace components
 } // namespace RNGine

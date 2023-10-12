@@ -14,14 +14,8 @@ struct Attackable {
   int points;
   bool ally;
 
-  static Attackable createAttackable(int health, int points, bool ally) {
-    auto val = Attackable();
-    val.health = health;
-    val.ally = ally;
-    val.points = points;
-    return val;
-  }
-};
+  static Attackable createAttackable(int health, int points, bool ally);
+  };
 } // namespace components
 } // namespace RNGine
 

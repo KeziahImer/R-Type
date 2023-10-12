@@ -13,12 +13,7 @@ struct Size {
   double scaleX = 0;
   double scaleY = 0;
 
-  static Size createSize(double scaleX, double scaleY) {
-    auto val = Size();
-    val.scaleX = scaleX;
-    val.scaleY = scaleY;
-    return val;
-  }
+  static Size createSize(double scaleX, double scaleY);
 };
 } // namespace components
 } // namespace RNGine

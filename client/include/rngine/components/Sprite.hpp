@@ -22,18 +22,7 @@ struct Sprite {
 
   static Sprite createSprite(const std::string &path, bool reverse,
                              float sizeTileX, float sizeTileY, int tileX,
-                             int tileY, int layer) {
-
-    auto sprite = RNGine::components::Sprite();
-    sprite.path = path;
-    sprite.reverse = reverse;
-    sprite.sizeTileX = sizeTileX;
-    sprite.sizeTileY = sizeTileY;
-    sprite.tileX = tileX;
-    sprite.tileY = tileY;
-    sprite.layer = layer;
-    return sprite;
-  }
+                             int tileY, int layer);
 };
 } // namespace components
 } // namespace RNGine

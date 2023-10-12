@@ -13,12 +13,7 @@ struct MakeDamage {
   float Damage;
   bool ally;
 
-  static MakeDamage createMakeDamage(float Damage, bool ally) {
-    auto val = MakeDamage();
-    val.Damage = Damage;
-    val.ally = ally;
-    return val;
-  }
+  static MakeDamage createMakeDamage(float Damage, bool ally);
 };
 } // namespace components
 } // namespace RNGine
