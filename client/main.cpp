@@ -1,7 +1,6 @@
 #include "rngine/Entity.hpp"
 #include "rngine/Registry.hpp"
 #include "rngine/SparseArray.hpp"
-#include "rngine/SystemBundle.hpp"
 #include <iostream>
 
 int main() {
@@ -16,18 +15,20 @@ int main() {
     }
   }
 
-  RNGine::SystemBundle bundle;
+  RNGine::Registry::SystemBundle bundle;
 
-  bundle.push_back(
-      []() { std::cout << "0 Hello world from bundle" << std::endl; });
-  bundle.push_back(
-      []() { std::cout << "1 Hello world from bundle" << std::endl; });
-  bundle.push_back(
-      []() { std::cout << "2 Hello world from bundle" << std::endl; });
-  bundle.push_back(
-      []() { std::cout << "3 Hello world from bundle" << std::endl; });
-
-  bundle.run();
+  bundle.push_back([](RNGine::Registry &) {
+    std::cout << "0 Hello world from bundle" << std::endl;
+  });
+  bundle.push_back([](RNGine::Registry &) {
+    std::cout << "1 Hello world from bundle" << std::endl;
+  });
+  bundle.push_back([](RNGine::Registry &) {
+    std::cout << "2 Hello world from bundle" << std::endl;
+  });
+  bundle.push_back([](RNGine::Registry &) {
+    std::cout << "3 Hello world from bundle" << std::endl;
+  });
 
   RNGine::Registry registry;
 
