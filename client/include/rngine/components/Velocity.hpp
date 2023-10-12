@@ -12,6 +12,13 @@ namespace components {
 struct Velocity {
   float x;
   float y;
+
+  static Velocity createVelocity(float x, float y) {
+    auto val = Velocity();
+    val.x = x;
+    val.y = y;
+    return val;
+  }
 };
 } // namespace components
 } // namespace RNGine
