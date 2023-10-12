@@ -114,6 +114,8 @@ public:
     return _registry;
   }
 
+  RNGine::Registry &getRegistry() { return _registry; }
+
   std::string getId() const { return _id; }
 
   void setId(std::string const &id) { _id = id; }

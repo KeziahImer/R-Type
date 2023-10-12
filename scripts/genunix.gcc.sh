@@ -19,3 +19,15 @@ tar -czvf ./out/client.unix.gcc.tar.gz -C ./tmp/ . >/dev/null
 echo "Client bundled"
 
 rm -rf ./tmp
+
+echo "Bundling server..."
+mkdir -p tmp
+
+cp ./build/server/r-type_server ./tmp/r-type_server
+
+mkdir -p out
+tar -czvf ./out/server.unix.gcc.tar.gz -C ./tmp/ . >/dev/null
+
+echo "Server bundled"
+
+rm -rf ./tmp

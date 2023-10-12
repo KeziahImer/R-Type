@@ -15,24 +15,19 @@ Network::Network(boost::asio::io_context &io_context)
 
 void Network::receiveRequest()
 {
-    _socket.async_receive_from(boost::asio::buffer(_buffer, _maxLength), _senderEndpoint,
+    _socket.async_receive_from(boost::asio::buffer(&_data, sizeof(Data)), _senderEndpoint,
                                [&](const boost::system::error_code &error, std::size_t bytes_received)
                                {
                                    if (!error)
                                        checkEndpoint();
-                                   memset(_buffer, 0, _maxLength);
+                                   memset(&_data, 0, sizeof(Data));
                                    receiveRequest();
                                });
 }
 
 void Network::sendRequest(boost::asio::ip::udp::endpoint endpoint)
 {
-    _socket.async_send_to(boost::asio::buffer(_buffer, _maxLength), endpoint,
-                          [&](const boost::system::error_code &error, std::size_t bytes_sent)
-                          {
-                              if (!error)
-                                  std::cout << "Sent: " << _buffer << std::endl;
-                          });
+    _socket.send_to(boost::asio::buffer(&_data, sizeof(Data)), endpoint);
 }
 
 void Network::checkEndpoint()
@@ -48,13 +43,21 @@ void Network::checkEndpoint()
     }
     if (verif == 0)
     {
+        if (_players.size() == 4)
+        {
+            _data.code = ERROR;
+            _data.content = "Server is full";
+            sendRequest(_senderEndpoint);
+            return;
+        }
         Player_t newPlayer;
         newPlayer.address = _senderEndpoint.address().to_string();
         newPlayer.port = _senderEndpoint.port();
+        newPlayer.id = std::to_string(_players.size() + 1);
         _players.push_back(newPlayer);
-    }
-    else
-    {
+        std::cout << "New Player created: " << newPlayer.address << ":" << newPlayer.port << std::endl;
+        sendRequest(_senderEndpoint);
+    } else {
         for (auto player : _players)
         {
             if (player.address != _senderEndpoint.address().to_string() && player.port != _senderEndpoint.port())

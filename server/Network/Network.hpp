@@ -13,10 +13,26 @@
 #include <iostream>
 #include <iomanip>
 
-typedef struct Player_t
-{
+enum Command {
+    LOGIN,
+    MOVE
+};
+
+enum Code {
+    SUCCESS,
+    ERROR
+};
+
+typedef struct Data_t {
+    enum Command command;
+    std::string content;
+    enum Code code;
+} Data;
+
+typedef struct Player_t {
     boost::asio::ip::udp::endpoint endpoint;
     std::string address;
+    std::string id;
     int port;
 } Player;
 
@@ -33,9 +49,8 @@ private:
 
     boost::asio::ip::udp::socket _socket;
     boost::asio::ip::udp::endpoint _senderEndpoint;
-    char _buffer[1024];
-    std::size_t _maxLength = 1024;
-    std::vector<Player_t> _players;
+    std::vector<Player> _players;
+    Data _data;
 };
 
 #endif /* !NETWORK_HPP_ */
