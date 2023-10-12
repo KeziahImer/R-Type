@@ -4,8 +4,8 @@
 ** File description:
 ** Renderer
 */
-#ifndef _RNGINE_SCENE_HPP_
-#define _RNGINE_SCENE_HPP_
+#ifndef _RNGINE_RENDERER_HPP_
+#define _RNGINE_RENDERER_HPP_
 
 #include "./Registry.hpp"
 #include "./components/Position.hpp"
