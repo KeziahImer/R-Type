@@ -9,7 +9,6 @@ Rtype::MenuScene::MenuScene(RNGine::Core &core) {
       createEntity("button"), "SOLO",
       [&] {
         Rtype::GameScene game;
-        core.manager.addScene(game);
         core.manager.load(core.manager.addScene(game));
       },
       810, 400, 300, 50);
@@ -17,7 +16,6 @@ Rtype::MenuScene::MenuScene(RNGine::Core &core) {
       createEntity("buttonMulti"), "MULTIPLAYER",
       [&] {
         Rtype::LobbyScene lobby(core);
-        core.manager.addScene(lobby);
         core.manager.load(core.manager.addScene(lobby));
       },
       810, 500, 300, 50);

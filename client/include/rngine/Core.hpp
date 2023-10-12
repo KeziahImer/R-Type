@@ -18,6 +18,8 @@ class Core {
 public:
   void loop() {
     while (_running) {
+
+      std::cout << "before manager update" << std::endl;
       if (!manager.update())
         _running = false;
     }

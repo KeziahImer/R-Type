@@ -50,9 +50,12 @@ public:
     int i = 0;
     for (auto &bundle : _bundles) {
       for (auto &system : bundle) {
+        std::cout << "system " << std::endl;
         system(*this);
+        std::cout << " after system " << std::endl;
       }
     }
+    std::cout << "end registry run " << std::endl;
     return *this;
   }
 

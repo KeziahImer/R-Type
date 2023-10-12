@@ -33,11 +33,17 @@ public:
   void removeScene(size_t index) { _scenes.erase(_scenes.begin() + index); }
 
   void load(size_t index) {
-    if (index == _loadedScene)
+    if (index == _loadedScene) {
+      std::cout << "deja load: " << index << std::endl;
       return;
+    }
+    std::cout << "unload" << std::endl;
     _scenes[_loadedScene].unload();
+    std::cout << "before load" << std::endl;
     _scenes[index].load();
+    std::cout << "after load " << index << std::endl;
     _loadedScene = index;
+    std::cout << _loadedScene << std::endl;
   }
 
   void setInputs() {
@@ -67,8 +73,11 @@ public:
   }
 
   bool update() {
+    std::cout << "check size" << std::endl;
     if (_scenes.size() > 0) {
+      std::cout << "setInputs" << std::endl;
       setInputs();
+      std::cout << "after setInputs" << std::endl;
       _renderer.render(_scenes[_loadedScene].update(_keybinds, _mouseBinds));
     }
     return _running;

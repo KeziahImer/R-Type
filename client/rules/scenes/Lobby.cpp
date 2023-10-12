@@ -1,14 +1,13 @@
 #include "rules/scenes/Lobby.hpp"
 
 Rtype::LobbyScene::LobbyScene(RNGine::Core &core) {
-  setId("menu");
+  setId("lobby");
   addBundle(Rtype::clickSystems);
   createBackground(createEntity("background"));
   createButton(
       createEntity("button"), "START GAME",
       [&] {
         Rtype::GameScene game;
-        core.manager.addScene(game);
         core.manager.load(core.manager.addScene(game));
       },
       810, 400, 300, 50);
