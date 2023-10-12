@@ -12,6 +12,7 @@
 #include "rngine/components/Position.hpp"
 #include "rngine/components/Size.hpp"
 #include "rngine/components/Sprite.hpp"
+#include "rules/systems/Physics.hpp"
 
 #include <cstddef>
 
@@ -20,6 +21,7 @@ class MenuScene : public RNGine::Scene {
 public:
   MenuScene() {
     setId("menu");
+    addBundle(Rtype::physicsSystems);
     createBackground(createEntity("background"));
   }
 
