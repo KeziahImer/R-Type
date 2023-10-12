@@ -14,6 +14,9 @@
 #include <iomanip>
 #include <rngine/Registry.hpp>
 
+using namespace boost::asio;
+using ip::udp;
+
 enum Command {
     LOGIN,
     MOVE
@@ -41,15 +44,14 @@ namespace Rtype {
     class Network
     {
     public:
-        Network(boost::asio::io_context &ioContext, RNGine::Registry &registry);
+        Network(boost::asio::io_context &ioContext);
         ~Network() = default;
-
-    private:
         void receiveRequest();
-        void sendRequest(boost::asio::ip::udp::endpoint endpoint);
+        void sendRequest();
         void treatRequest();
 
-        RNGine::Registry &_registry;
+    private:
+
         boost::asio::ip::udp::socket _socket;
         boost::asio::ip::udp::endpoint _senderEndpoint;
         std::vector<Player> _players;

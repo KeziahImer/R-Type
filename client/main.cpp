@@ -8,12 +8,16 @@
 #include "Network.hpp"
 
 int main() {
-  RNGine::Core core;
+  boost::asio::io_context ioContext;
+  Rtype::Network network(ioContext);
+
+  RNGine::Core core(network);
   Rtype::MenuScene menu;
+  
+  network.sendRequest();
+
   menu.load();
   core.manager.addScene(menu);
-  boost::asio::io_context ioContext;
-  Rtype::Network network(ioContext, core.manager.getActualScene().getRegistry());
   ioContext.run();
   core.loop();
   return 0;
