@@ -16,12 +16,13 @@ RNGine::Registry::System CheckClickSystems = [](RNGine::Registry &registry) {
   for (size_t i = 0; i < Clickables.size(); i++) {
     if (!Clickables[i].has_value() || !Positions[i].has_value())
       continue;
+    std::cout << "check : " << Clickables[i]->buttonText << std::endl;
     for (auto &Click : *mouse) {
       if (Click.first >= Positions[i]->x &&
           Click.first <= Positions[i]->x + Clickables[i]->x &&
           Click.second >= Positions[i]->y &&
           Click.second <= Positions[i]->y + Clickables[i]->y) {
-        std::cout << "check found: " << i << std::endl;
+        std::cout << "check found: " << Clickables[i]->buttonText << std::endl;
         Clickables[i]->function();
       }
     }

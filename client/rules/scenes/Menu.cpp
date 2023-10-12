@@ -1,4 +1,5 @@
 #include "rules/scenes/Menu.hpp"
+#include "rules/scenes/Game.hpp"
 
 Rtype::MenuScene::MenuScene(RNGine::Core &core) {
   setId("menu");
@@ -8,7 +9,9 @@ Rtype::MenuScene::MenuScene(RNGine::Core &core) {
       createEntity("button"), "SOLO",
       [&] {
         std::cout << "load new scene !" << std::endl;
-        core.manager.load(0);
+        Rtype::GameScene game;
+        core.manager.addScene(game);
+        core.manager.load(core.manager.addScene(game));
       },
       810, 400, 300, 50);
   createButton(
