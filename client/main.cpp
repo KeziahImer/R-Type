@@ -1,8 +1,9 @@
-
+#include "rngine/Entity.hpp"
 #include "rngine/SparseArray.hpp"
 #include <iostream>
 
 int main() {
+  RNGine::Entity entity = 0;
   RNGine::SparseArray<int> arr;
   arr.insert_at(0, 1);
   arr.insert_at(56, 43);
