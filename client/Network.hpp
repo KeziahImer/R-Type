@@ -13,9 +13,8 @@
 #include <iostream>
 #include <iomanip>
 #include <rngine/Registry.hpp>
-
-using namespace boost::asio;
-using ip::udp;
+#include <exception>
+#include "rngine/Core.hpp"
 
 enum Command {
     LOGIN,
@@ -24,38 +23,33 @@ enum Command {
 
 enum Code {
     SUCCESS,
-    ERROR
+    ERROR,
+    NONE
 };
 
 typedef struct Data_t {
     enum Command command;
-    std::string data;
+    std::string content;
     enum Code code;
 } Data;
-
-typedef struct Player_t {
-    boost::asio::ip::udp::endpoint endpoint;
-    std::string address;
-    int port;
-    std::string id;
-} Player;
 
 namespace Rtype {
     class Network
     {
     public:
-        Network(boost::asio::io_context &ioContext);
+        Network(boost::asio::io_context &ioContext, RNGine::Core &core);
         ~Network() = default;
         void receiveRequest();
-        void sendRequest();
+        void sendRequest(enum Command command, enum Code code, std::string content);
         void treatRequest();
 
     private:
-
         boost::asio::ip::udp::socket _socket;
-        boost::asio::ip::udp::endpoint _senderEndpoint;
-        std::vector<Player> _players;
+        boost::asio::ip::udp::endpoint _endpoint;
+        boost::asio::io_context &_ioContext;
+        bool _isConnected = false;
         Data _data;
+        RNGine::Core &_core;
     };
 }
 

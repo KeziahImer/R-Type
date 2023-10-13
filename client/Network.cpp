@@ -7,16 +7,15 @@
 
 #include "Network.hpp"
 
-Rtype::Network::Network(boost::asio::io_context &ioContext)
-    : _socket(ioContext, boost::asio::ip::udp::endpoint(boost::asio::ip::udp::v4(), 13))
+Rtype::Network::Network(boost::asio::io_context &ioContext, RNGine::Core &core)
+    : _socket(ioContext, boost::asio::ip::udp::endpoint(boost::asio::ip::udp::v4(), 80)), _ioContext(ioContext), _endpoint(boost::asio::ip::address::from_string("10.15.190.100"), 8080), _core(core)
 {
     receiveRequest();
-    ioContext.run();
 }
 
 void Rtype::Network::receiveRequest()
 {
-    _socket.async_receive_from(boost::asio::buffer(&_data, sizeof(Data)), _senderEndpoint,
+    _socket.async_receive_from(boost::asio::buffer(&_data, sizeof(Data)), _endpoint,
                                [&](const boost::system::error_code &error, std::size_t bytes_received)
                                {
                                    if (!error)
@@ -26,35 +25,27 @@ void Rtype::Network::receiveRequest()
                                });
 }
 
-void Rtype::Network::sendRequest()
+void Rtype::Network::sendRequest(enum Command command, enum Code code, std::string content)
 {
-    // _socket.async_send_to(boost::asio::buffer(&_buffer, _maxLength), endpoint,
-    //                       [&](const boost::system::error_code &error, std::size_t bytes_sent)
-    //                       {
-    //                           if (!error)
-    //                               std::cout << "Sent: " << _buffer << std::endl;
-    //                       });
-
-    try
-    {
-        io_service io_service;
-
-        udp::socket socket(io_service, udp::endpoint(udp::v4(), 0));
-        udp::endpoint server_endpoint(ip::address::from_string("172.22.178.144"), 13);
-        std::string message = "login";
-        socket.send_to(boost::asio::buffer(message), server_endpoint);
-        char buffer[128];
-        udp::endpoint sender_endpoint;
-        size_t bytes_received = socket.receive_from(boost::asio::buffer(buffer, sizeof(buffer)), sender_endpoint);
-    }
-    catch (std::exception &e)
-    {
-        std::cerr << "Erreur : " << e.what() << std::endl;
-    }
-
+    _data.command = command;
+    _data.code = code;
+    _data.content = content;
+    _socket.send_to(boost::asio::buffer(&_data, sizeof(Data)), _endpoint);
 }
 
 void Rtype::Network::treatRequest()
 {
-    
+    if (_data.command == LOGIN) {
+        if (_data.code == ERROR)
+            throw(std::exception("Already four players connected"));
+        if (!_isConnected) {
+            _core.manager.getActualScene().setIDPlayer(std::to_integer(_data.content));
+            _core.manager.getActualScene().setNumberPlayers(std::to_integer(_data.content));
+            _isConnected = true;
+        } else {
+            _core.manager.getActualScene().setNumberPlayers(std::to_integer(_data.content));
+        }
+    } else if (_data.command == MOVE) {
+        
+    }
 }

@@ -8,7 +8,7 @@
 #include "Network.hpp"
 
 Network::Network(boost::asio::io_context &io_context)
-    : _socket(io_context, boost::asio::ip::udp::endpoint(boost::asio::ip::udp::v4(), 13))
+    : _socket(io_context, boost::asio::ip::udp::endpoint(boost::asio::ip::udp::v4(), 8080))
 {
     receiveRequest();
 }
@@ -50,10 +50,12 @@ void Network::checkEndpoint()
             sendRequest(_senderEndpoint);
             return;
         }
+        _data.code = SUCCESS;
         Player_t newPlayer;
         newPlayer.address = _senderEndpoint.address().to_string();
         newPlayer.port = _senderEndpoint.port();
         newPlayer.id = std::to_string(_players.size() + 1);
+        _data.content = newPlayer.id;
         _players.push_back(newPlayer);
         std::cout << "New Player created: " << newPlayer.address << ":" << newPlayer.port << std::endl;
         sendRequest(_senderEndpoint);

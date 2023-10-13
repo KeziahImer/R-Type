@@ -16,7 +16,7 @@
 namespace RNGine {
 class Core {
   public:
-    Core(const Rtype::Network &network): _network(network) {};
+    Core(){};
     ~Core() = default;
 
     void loop() {
@@ -25,7 +25,6 @@ class Core {
       }
     }
 
-    const Rtype::Network &_network;
     SceneManager manager = SceneManager();
     bool _running = true;
 };
