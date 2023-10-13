@@ -18,18 +18,27 @@ Rtype::MenuScene::MenuScene(RNGine::Core &core) {
         Rtype::LobbyScene lobby(core);
         core.manager.load(core.manager.addScene(lobby));
       },
-      810, 500, 300, 50);
+      810, 475, 300, 50);
   createButton(
       createEntity("buttonExit"), "EXIT", [&] { core.setRunning(false); }, 810,
-      600, 300, 50);
+      550, 300, 50);
+  createLogo(createEntity("logo"));
 }
 
 void Rtype::MenuScene::createBackground(RNGine::Entity e) {
   addComponent(e,
                RNGine::components::Sprite::createSprite(
+
                    "./assets/backgroundSpace.jpg", false, 514, 360, 0, 0, 0));
   addComponent(e, RNGine::components::Position::createPosition(0, 0));
   addComponent(e, RNGine::components::Size::createSize(3.73, 3));
+}
+
+void Rtype::MenuScene::createLogo(RNGine::Entity e) {
+  addComponent(e, RNGine::components::Sprite::createSprite(
+                      "./assets/RTypeLogo.png", false, 500, 146, 0, 0, 1));
+  addComponent(e, RNGine::components::Position::createPosition(710, 250));
+  addComponent(e, RNGine::components::Size::createSize(1, 1));
 }
 
 void Rtype::MenuScene::createButton(RNGine::Entity e, std::string text,

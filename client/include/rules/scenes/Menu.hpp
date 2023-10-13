@@ -27,6 +27,7 @@ public:
   MenuScene(RNGine::Core &core);
 
   void createBackground(RNGine::Entity e);
+  void createLogo(RNGine::Entity e);
   void createButton(RNGine::Entity e, std::string text,
                     std::function<void(void)> function, float posX, float posY,
                     float sizeX, float sizeY);
