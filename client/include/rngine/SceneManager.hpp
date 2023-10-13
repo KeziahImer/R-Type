@@ -10,6 +10,7 @@
 
 #include <functional>
 #include <iostream>
+#include <iterator>
 #include <memory>
 #include <vector>
 
@@ -27,10 +28,14 @@ public:
   size_t addScene(const RNGine::Scene &scene) {
     size_t index = _scenes.size();
     _scenes.push_back(scene);
+    std::cout << "add scene: " << index << std::endl;
     return index;
   }
 
-  void load(size_t index) { _nextScene = index; }
+  void load(size_t index) {
+    _nextScene = index;
+    std::cout << "try to load: " << index << std::endl;
+  }
 
   void removeScene(size_t index) { _scenes.erase(_scenes.begin() + index); }
 
@@ -62,11 +67,10 @@ public:
 
   bool update() {
     if (_scenes.size() > 0) {
-      setInputs();
-      _renderer.render(_scenes[_loadedScene].update(_keybinds, _mouseBinds));
-
       if (_nextScene != -1)
         _load(_nextScene);
+      setInputs();
+      _renderer.render(_scenes[_loadedScene].update(_keybinds, _mouseBinds));
     }
     return _running;
   }
@@ -75,10 +79,13 @@ public:
 
 private:
   void _load(size_t index) {
+    std::cout << "unload check:" << _loadedScene << std::endl;
     if (index == _loadedScene) {
       return;
     }
+    std::cout << "unload:" << _loadedScene << std::endl;
     _scenes[_loadedScene].unload();
+    std::cout << "load:" << index << std::endl;
     _scenes[index].load();
     _loadedScene = index;
     std::cout << _loadedScene << std::endl;

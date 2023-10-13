@@ -8,6 +8,7 @@
 #ifndef _RTYPE_GAMEMULTI_SCENE_HPP_
 #define _RTYPE_GAMEMULTI_SCENE_HPP_
 
+#include "../../../Network.hpp"
 #include "SFML/Graphics/Color.hpp"
 #include "rngine/Keys.hpp"
 #include "rngine/Scene.hpp"
@@ -35,7 +36,9 @@
 namespace Rtype {
 class GameMultiScene : public RNGine::Scene {
 public:
-  GameMultiScene(int id, int playerNumber);
+  GameMultiScene(int id, int playerNumber, Rtype::Network *network,
+                 boost::asio::io_context *ioContext,
+                 std::thread *networkThread);
 
   void createBackground(RNGine::Entity e);
   void createPlayer(RNGine::Entity e, int id);
@@ -47,6 +50,9 @@ public:
 private:
   int _playersNbr = 0;
   int _ID = 0;
+  Rtype::Network *_network;
+  boost::asio::io_context *_ioContext;
+  std::thread *_networkThread;
 };
 }; // namespace Rtype
 

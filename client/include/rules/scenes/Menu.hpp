@@ -31,6 +31,12 @@ public:
   void createButton(RNGine::Entity e, std::string text,
                     std::function<void(void)> function, float posX, float posY,
                     float sizeX, float sizeY);
+
+private:
+  RNGine::Core &_core;
+  Rtype::Network *_network;
+  boost::asio::io_context *_ioContext;
+  std::thread *_networkThread;
 };
 }; // namespace Rtype
 

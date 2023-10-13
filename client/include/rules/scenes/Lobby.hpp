@@ -8,6 +8,7 @@
 #ifndef _RTYPE_MENU_LOBBY_HPP_
 #define _RTYPE_MENU_LOBBY_HPP_
 
+#include "../../../Network.hpp"
 #include "Game.hpp"
 #include "SFML/Graphics/Color.hpp"
 #include "rngine/Core.hpp"
@@ -24,7 +25,8 @@
 namespace Rtype {
 class LobbyScene : public RNGine::Scene {
 public:
-  LobbyScene(RNGine::Core &core);
+  LobbyScene(RNGine::Core &core, Rtype::Network *network,
+             boost::asio::io_context *ioContext);
 
   void createBackground(RNGine::Entity e);
   void createButton(RNGine::Entity e, std::string text,
@@ -37,6 +39,10 @@ public:
 private:
   int _playersNbr = 0;
   int _ID = 0;
+  RNGine::Core &_core;
+  Rtype::Network *_network;
+  boost::asio::io_context *_ioContext;
+  std::thread *_networkThread;
 };
 }; // namespace Rtype
 

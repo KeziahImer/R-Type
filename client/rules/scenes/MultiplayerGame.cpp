@@ -1,9 +1,12 @@
 #include "rules/scenes/MultiplayerGame.hpp"
 #include "rngine/components/PlayerId.hpp"
 
-Rtype::GameMultiScene::GameMultiScene(int id, int playerNumber) {
-  _id = id;
-  _playersNbr = playerNumber;
+Rtype::GameMultiScene::GameMultiScene(int id, int playerNumber,
+                                      Rtype::Network *network,
+                                      boost::asio::io_context *ioContext,
+                                      std::thread *networkThread)
+    : _ID(id), _playersNbr(playerNumber), _network(network),
+      _ioContext(ioContext), _networkThread(networkThread) {
   setId("gameMulti");
   addBundle(Rtype::physicsSystems);
   addBundle(Rtype::shootsSystems);

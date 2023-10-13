@@ -1,18 +1,37 @@
 #include "rules/scenes/Lobby.hpp"
+#include "rngine/Registry.hpp"
+#include "rngine/components/text.hpp"
 #include "rules/scenes/MultiplayerGame.hpp"
+#include <string>
+#include <thread>
 
-Rtype::LobbyScene::LobbyScene(RNGine::Core &core) {
+Rtype::LobbyScene::LobbyScene(RNGine::Core &core, Rtype::Network *network,
+                              boost::asio::io_context *ioContext)
+    : _core(core), _network(network), _ioContext(ioContext) {
   setId("lobby");
+  std::cout << "before request" << std::endl;
+  _network->sendRequest(LOGIN, NONE, "");
+  std::cout << "after request" << std::endl;
   addBundle(Rtype::clickSystems);
   createBackground(createEntity("background"));
   createButton(
       createEntity("button"), "START GAME",
       [&] {
-        Rtype::GameMultiScene gameMulti(_ID, _playersNbr);
+        Rtype::GameMultiScene gameMulti(_ID, _playersNbr, _network, _ioContext,
+                                        _networkThread);
         core.manager.load(core.manager.addScene(gameMulti));
       },
       810, 400, 300, 50);
   createTexte(createEntity("players"), "Players: ", 25);
+  std::cout << "before thread" << std::endl;
+  _networkThread = new std::thread([&]() {
+    std::cout << "run" << std::endl;
+    while (true) {
+      _ioContext->run();
+    }
+    std::cout << "after run" << std::endl;
+  });
+  std::cout << "after thread" << std::endl;
 }
 
 void Rtype::LobbyScene::createBackground(RNGine::Entity e) {
@@ -43,6 +62,14 @@ void Rtype::LobbyScene::createTexte(RNGine::Entity e, std::string text,
 
 void Rtype::LobbyScene::setNumberPlayers(int nbrPLayers) {
   _playersNbr = nbrPLayers;
+  auto &Texts = _core.manager.getActualScene()
+                    .getRegistry()
+                    .getComponents<RNGine::components::Text>();
+  for (int i = 0; i < Texts.size(); i++) {
+    if (!Texts[i].has_value())
+      continue;
+    Texts[i]->text2 = std::to_string(nbrPLayers);
+  }
 }
 
 void Rtype::LobbyScene::setIDPlayer(int id) { _ID = id; }
