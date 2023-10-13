@@ -1,7 +1,9 @@
 #include "rules/scenes/Menu.hpp"
 #include "rules/scenes/Lobby.hpp"
 
-Rtype::MenuScene::MenuScene(RNGine::Core &core) : _core(core) {
+Rtype::MenuScene::MenuScene(RNGine::Core &core, Rtype::Network &network,
+                            boost::asio::io_context &ioContext)
+    : _core(core), _network(network), _ioContext(ioContext) {
   setId("menu");
   addBundle(Rtype::clickSystems);
   createBackground(createEntity("background"));
@@ -15,15 +17,8 @@ Rtype::MenuScene::MenuScene(RNGine::Core &core) : _core(core) {
   createButton(
       createEntity("buttonMulti"), "MULTIPLAYER",
       [&] {
-        std::cout << "create lobby" << std::endl;
-        boost::asio::io_context ioContext;
-        Rtype::Network network(ioContext, core);
-        Rtype::LobbyScene lobby(core, &network, &ioContext);
-        _ioContext = &ioContext;
-        _network = &network;
-        std::cout << "created lobby" << std::endl;
+        Rtype::LobbyScene lobby(core, _network, _ioContext);
         core.manager.load(core.manager.addScene(lobby));
-        std::cout << "loaded lobby" << std::endl;
       },
       810, 475, 300, 50);
   createButton(

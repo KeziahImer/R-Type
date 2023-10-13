@@ -24,7 +24,8 @@
 namespace Rtype {
 class MenuScene : public RNGine::Scene {
 public:
-  MenuScene(RNGine::Core &core);
+  MenuScene(RNGine::Core &core, Rtype::Network &network,
+            boost::asio::io_context &ioContext);
 
   void createBackground(RNGine::Entity e);
   void createLogo(RNGine::Entity e);
@@ -34,8 +35,8 @@ public:
 
 private:
   RNGine::Core &_core;
-  Rtype::Network *_network;
-  boost::asio::io_context *_ioContext;
+  Rtype::Network &_network;
+  boost::asio::io_context &_ioContext;
   std::thread *_networkThread;
 };
 }; // namespace Rtype

@@ -11,10 +11,19 @@
 int main() {
   try {
     RNGine::Core core;
-    Rtype::MenuScene menu(core);
+    boost::asio::io_context ioContext;
+    Rtype::Network network(ioContext, core);
+    Rtype::MenuScene menu(core, network, ioContext);
     menu.load();
     core.manager.addScene(menu);
     core.loop();
+
+    std::thread networkThread([&]() {
+      while (core._running) {
+        std::cout << "run " << std::endl;
+        ioContext.run();
+      }
+    });
   } catch (std::exception &e) {
     std::cerr << e.what() << std::endl;
   }

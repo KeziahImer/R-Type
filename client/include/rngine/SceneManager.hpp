@@ -69,7 +69,6 @@ public:
     if (_scenes.size() > 0) {
       if (_nextScene != -1)
         _load(_nextScene);
-      std::cout << "actualscene: " << _loadedScene << std::endl;
       setInputs();
       _renderer.render(_scenes[_loadedScene].update(_keybinds, _mouseBinds));
     }

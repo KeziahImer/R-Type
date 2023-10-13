@@ -36,9 +36,8 @@
 namespace Rtype {
 class GameMultiScene : public RNGine::Scene {
 public:
-  GameMultiScene(int id, int playerNumber, Rtype::Network *network,
-                 boost::asio::io_context *ioContext,
-                 std::thread *networkThread);
+  GameMultiScene(int id, int playerNumber, Rtype::Network &network,
+                 boost::asio::io_context &ioContext);
 
   void createBackground(RNGine::Entity e);
   void createPlayer(RNGine::Entity e, int id);
@@ -50,9 +49,8 @@ public:
 private:
   int _playersNbr = 0;
   int _ID = 0;
-  Rtype::Network *_network;
-  boost::asio::io_context *_ioContext;
-  std::thread *_networkThread;
+  Rtype::Network &_network;
+  boost::asio::io_context &_ioContext;
 };
 }; // namespace Rtype
 
