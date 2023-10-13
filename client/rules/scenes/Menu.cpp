@@ -28,7 +28,6 @@ Rtype::MenuScene::MenuScene(RNGine::Core &core) {
 void Rtype::MenuScene::createBackground(RNGine::Entity e) {
   addComponent(e,
                RNGine::components::Sprite::createSprite(
-
                    "./assets/backgroundSpace.jpg", false, 514, 360, 0, 0, 0));
   addComponent(e, RNGine::components::Position::createPosition(0, 0));
   addComponent(e, RNGine::components::Size::createSize(3.73, 3));

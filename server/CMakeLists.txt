@@ -12,12 +12,17 @@ set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
 set(BOOST_INCLUDE_LIBRARIES asio)
 set(BOOST_ENABLE_CMAKE ON)
 
+include_directories(
+    ${CMAKE_SOURCE_DIR}/Network
+    ${CMAKE_SOURCE_DIR}/Paquet
+)
+
 include(FetchContent)
 
 FetchContent_Declare(
   Boost
   GIT_REPOSITORY https://github.com/boostorg/boost.git
-  GIT_TAG boost-1.80.0
+  GIT_TAG boost-1.83.0
 )
 FetchContent_MakeAvailable(Boost)
 

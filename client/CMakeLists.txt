@@ -9,6 +9,10 @@ project(
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
 
+include_directories(
+    ${CMAKE_SOURCE_DIR}/
+)
+
 include(FetchContent)
 
 set(SFML_BUILD_SHARED_LIBS TRUE)
@@ -42,7 +46,7 @@ file(GLOB_RECURSE SOURCE_FILES *.cpp)
 
 add_executable(r-type_client ${SOURCE_FILES})
 
-target_link_libraries(r-type_client PRIVATE sfml-graphics sfml-window sfml-system nlohmann_json::nlohmann_json)
+target_link_libraries(r-type_client PRIVATE sfml-graphics sfml-window sfml-system nlohmann_json::nlohmann_json Boost::asio)
 
 if(WIN32)
   add_custom_command(
