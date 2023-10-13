@@ -46,7 +46,7 @@ void Network::checkEndpoint()
         if (_players.size() == 4)
         {
             _data.code = ERROR;
-            _data.content = "Server is full";
+            strcpy(_data.content, "Server is full");
             sendRequest(_senderEndpoint);
             return;
         }
@@ -55,7 +55,8 @@ void Network::checkEndpoint()
         newPlayer.address = _senderEndpoint.address().to_string();
         newPlayer.port = _senderEndpoint.port();
         newPlayer.id = std::to_string(_players.size() + 1);
-        _data.content = newPlayer.id;
+        std::cout << _data.content << std::endl;
+        strcpy(_data.content, std::to_string(_players.size() + 1).c_str());
         _players.push_back(newPlayer);
         std::cout << "New Player created: " << newPlayer.address << ":" << newPlayer.port << std::endl;
         sendRequest(_senderEndpoint);

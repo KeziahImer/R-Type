@@ -10,11 +10,13 @@
 
 #include <vector>
 #include <boost/asio.hpp>
+#include <cstring>
 #include <iostream>
 #include <iomanip>
 
 enum Command {
     LOGIN,
+    START,
     MOVE
 };
 
@@ -25,7 +27,7 @@ enum Code {
 
 typedef struct Data_t {
     enum Command command;
-    std::string content;
+    char content[1024];
     enum Code code;
 } Data;
 
@@ -51,6 +53,7 @@ private:
     boost::asio::ip::udp::endpoint _senderEndpoint;
     std::vector<Player> _players;
     Data _data;
+    std::string _content;
 };
 
 #endif /* !NETWORK_HPP_ */

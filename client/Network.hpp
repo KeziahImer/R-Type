@@ -18,6 +18,7 @@
 
 enum Command {
     LOGIN,
+    START,
     MOVE
 };
 
@@ -29,7 +30,7 @@ enum Code {
 
 typedef struct Data_t {
     enum Command command;
-    std::string content;
+    char content[1024];
     enum Code code;
 } Data;
 
@@ -40,7 +41,7 @@ namespace Rtype {
         Network(boost::asio::io_context &ioContext, RNGine::Core &core);
         ~Network() = default;
         void receiveRequest();
-        void sendRequest(enum Command command, enum Code code, std::string content);
+        void sendRequest(enum Command command, enum Code code, const char content[]);
         void treatRequest();
 
     private:
