@@ -1,4 +1,5 @@
 #include "rules/scenes/Lobby.hpp"
+#include "rules/scenes/MultiplayerGame.hpp"
 
 Rtype::LobbyScene::LobbyScene(RNGine::Core &core) {
   setId("lobby");
@@ -7,8 +8,8 @@ Rtype::LobbyScene::LobbyScene(RNGine::Core &core) {
   createButton(
       createEntity("button"), "START GAME",
       [&] {
-        Rtype::GameScene game;
-        core.manager.load(core.manager.addScene(game));
+        Rtype::GameMultiScene gameMulti(_ID, _playersNbr);
+        core.manager.load(core.manager.addScene(gameMulti));
       },
       810, 400, 300, 50);
   createTexte(createEntity("players"), "Players: ", 25);
@@ -39,3 +40,9 @@ void Rtype::LobbyScene::createTexte(RNGine::Entity e, std::string text,
                       text, "1", "./assets/FontGame.TTF",
                       sf::Color(90, 168, 246), CharacterSize));
 }
+
+void Rtype::LobbyScene::setNumberPlayers(int nbrPLayers) {
+  _playersNbr = nbrPLayers;
+}
+
+void Rtype::LobbyScene::setIDPlayer(int id) { _ID = id; }

@@ -31,6 +31,12 @@ public:
                     std::function<void(void)> function, float posX, float posY,
                     float sizeX, float sizeY);
   void createTexte(RNGine::Entity e, std::string text, int CharacterSize);
+  void setNumberPlayers(int nbrPLayers);
+  void setIDPlayer(int id);
+
+private:
+  int _playersNbr = 0;
+  int _ID = 0;
 };
 }; // namespace Rtype
 
