@@ -69,6 +69,7 @@ public:
     if (_scenes.size() > 0) {
       if (_nextScene != -1)
         _load(_nextScene);
+      std::cout << "actualscene: " << _loadedScene << std::endl;
       setInputs();
       _renderer.render(_scenes[_loadedScene].update(_keybinds, _mouseBinds));
     }
@@ -88,7 +89,7 @@ private:
     std::cout << "load:" << index << std::endl;
     _scenes[index].load();
     _loadedScene = index;
-    std::cout << _loadedScene << std::endl;
+    std::cout << "just load: " << _loadedScene << std::endl;
     _nextScene = -1;
   }
 

@@ -13,11 +13,9 @@ Rtype::Network::Network(boost::asio::io_context &ioContext, RNGine::Core &core)
     : _socket(ioContext,
               boost::asio::ip::udp::endpoint(boost::asio::ip::udp::v4(), 80)),
       _ioContext(ioContext),
-      _endpoint(boost::asio::ip::address::from_string("10.15.190.100"), 8080),
+      _endpoint(boost::asio::ip::address::from_string("10.15.179.155"), 8080),
       _core(core) {
-  std::cout << "before create request" << std::endl;
   receiveRequest();
-  std::cout << "after create request" << std::endl;
 }
 
 void Rtype::Network::receiveRequest() {
@@ -42,12 +40,16 @@ void Rtype::Network::sendRequest(enum Command command, enum Code code,
 void Rtype::Network::treatRequest() {
   Rtype::LobbyScene &lobby =
       static_cast<Rtype::LobbyScene &>(_core.manager.getActualScene());
+  if (lobby.getId() != "lobby") {
+    std::cout << " exit because: " << lobby.getId() << std::endl;
+    return;
+  }
   if (_data.command == LOGIN) {
     if (_data.code == ERROR)
       std::cout << "error login" << std::endl;
     //  throw(std::exception("Already four players connected"));
     if (!_isConnected) {
-      std::cout << "test" << std::endl;
+      std::cout << "test" << std::stoi((_data.content)) << std::endl;
       lobby.setIDPlayer(std::stoi((_data.content)));
       std::cout << "after set" << std::endl;
       std::cout << "set id:" << std::stoi((_data.content)) << std::endl;

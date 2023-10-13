@@ -1,7 +1,7 @@
 #!/bin/bash
 
 cd "$(dirname "$0")"
-
+./genunix.gcc.sh
 echo "Extracting server..."
 mkdir -p tmpserver
 

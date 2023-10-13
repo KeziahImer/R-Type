@@ -10,7 +10,7 @@ Rtype::LobbyScene::LobbyScene(RNGine::Core &core, Rtype::Network *network,
     : _core(core), _network(network), _ioContext(ioContext) {
   setId("lobby");
   std::cout << "before request" << std::endl;
-  _network->sendRequest(LOGIN, NONE, "");
+  _network->sendRequest(LOGIN, NONE, "mabite");
   std::cout << "after request" << std::endl;
   addBundle(Rtype::clickSystems);
   createBackground(createEntity("background"));
