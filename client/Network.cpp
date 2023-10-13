@@ -13,7 +13,7 @@ Rtype::Network::Network(boost::asio::io_context &ioContext, RNGine::Core &core)
     : _socket(ioContext,
               boost::asio::ip::udp::endpoint(boost::asio::ip::udp::v4(), 80)),
       _ioContext(ioContext),
-      _endpoint(boost::asio::ip::address::from_string("10.15.179.155"), 8080),
+      _endpoint(boost::asio::ip::address::from_string("127.0.0.1"), 8080),
       _core(core) {
   receiveRequest();
 }
@@ -30,10 +30,10 @@ void Rtype::Network::receiveRequest() {
 }
 
 void Rtype::Network::sendRequest(enum Command command, enum Code code,
-                                 std::string content) {
+                                 const char content[]) {
   _data.command = command;
   _data.code = code;
-  _data.content = content;
+  strcpy(_data.content, content);
   _socket.send_to(boost::asio::buffer(&_data, sizeof(Data)), _endpoint);
 }
 
@@ -58,6 +58,7 @@ void Rtype::Network::treatRequest() {
     } else {
       lobby.setNumberPlayers(std::stoi(_data.content));
     }
+  } else if (_data.command == START) {
   } else if (_data.command == MOVE) {
   }
 }
