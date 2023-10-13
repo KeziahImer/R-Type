@@ -24,27 +24,15 @@ namespace RNGine {
  */
 class SceneManager {
 public:
-  size_t addScene(RNGine::Scene const &scene) {
+  size_t addScene(const RNGine::Scene &scene) {
     size_t index = _scenes.size();
     _scenes.push_back(scene);
     return index;
   }
 
-  void removeScene(size_t index) { _scenes.erase(_scenes.begin() + index); }
+  void load(size_t index) { _nextScene = index; }
 
-  void load(size_t index) {
-    if (index == _loadedScene) {
-      std::cout << "deja load: " << index << std::endl;
-      return;
-    }
-    std::cout << "unload" << std::endl;
-    _scenes[_loadedScene].unload();
-    std::cout << "before load" << std::endl;
-    _scenes[index].load();
-    std::cout << "after load " << index << std::endl;
-    _loadedScene = index;
-    std::cout << _loadedScene << std::endl;
-  }
+  void removeScene(size_t index) { _scenes.erase(_scenes.begin() + index); }
 
   void setInputs() {
     sf::Event event;
@@ -79,6 +67,9 @@ public:
       setInputs();
       std::cout << "after setInputs" << std::endl;
       _renderer.render(_scenes[_loadedScene].update(_keybinds, _mouseBinds));
+
+      if (_nextScene != -1)
+        _load(_nextScene);
     }
     return _running;
   }
@@ -86,7 +77,23 @@ public:
   RNGine::Scene &getActualScene() { return _scenes[_loadedScene]; }
 
 private:
+  void _load(size_t index) {
+    if (index == _loadedScene) {
+      std::cout << "deja load: " << index << std::endl;
+      return;
+    }
+    std::cout << "unload" << std::endl;
+    _scenes[_loadedScene].unload();
+    std::cout << "before load" << std::endl;
+    _scenes[index].load();
+    std::cout << "after load " << index << std::endl;
+    _loadedScene = index;
+    std::cout << _loadedScene << std::endl;
+    _nextScene = -1;
+  }
+
   bool _running = true;
+  int _nextScene = -1;
   size_t _loadedScene = 0;
   std::vector<RNGine::Scene> _scenes;
   RNGine::Renderer _renderer = RNGine::Renderer(1920, 1080, "R-type");

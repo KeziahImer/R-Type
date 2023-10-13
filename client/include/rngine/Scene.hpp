@@ -112,6 +112,7 @@ public:
     if (!_registry.clock.checkFrame())
       return _registry;
     _registry.run();
+    std::cout << "After registry run in Scene" << std::endl;
     return _registry;
   }
 
