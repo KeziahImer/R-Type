@@ -10,7 +10,7 @@ Rtype::LobbyScene::LobbyScene(RNGine::Core &core, Rtype::Network &network,
                               boost::asio::io_context &ioContext)
     : _core(core), _network(network), _ioContext(ioContext) {
   std::cout << "JE TEST SCENE DE NOUVEAU" << std::endl;
-  _core.manager.addScene2();
+  core.manager.addScene2();
   setId("lobby");
   addBundle(Rtype::clickSystems);
   createBackground(createEntity("background"));
@@ -19,7 +19,7 @@ Rtype::LobbyScene::LobbyScene(RNGine::Core &core, Rtype::Network &network,
       [&] {
         std::cout << "JE TEST SCENE DE NOUVEAU AGAAAIIN" << std::endl;
         Rtype::GameMultiScene gameMulti(_ID, _playersNbr, _network, _ioContext);
-        _core.manager.load(_core.manager.addScene(gameMulti));
+        core.manager.load(core.manager.addScene(gameMulti));
         network.sendRequest(START, NONE, "");
         std::cout << "request sent" << std::endl;
       },

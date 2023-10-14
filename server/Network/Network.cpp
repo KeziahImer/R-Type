@@ -50,18 +50,17 @@ void Network::checkEndpoint() {
     newPlayer.address = _senderEndpoint.address().to_string();
     newPlayer.port = _senderEndpoint.port();
     newPlayer.id = std::to_string(_players.size() + 1);
+    newPlayer.endpoint = _senderEndpoint;
     strcpy(_data.content, std::to_string(_players.size() + 1).c_str());
     _players.push_back(newPlayer);
     std::cout << "New Player created: " << newPlayer.address << ":"
               << newPlayer.port << std::endl;
     sendRequest(_senderEndpoint);
   } else {
-    std::cout << "entry verif" << std::endl;
     for (auto player : _players) {
-      // if (player.address != _senderEndpoint.address().to_string() &&
-      // player.port != _senderEndpoint.port())
-      std::cout << "jzehfcgbjhc" << std::endl;
-      std::cout << "send: " << _data.command << _data.content << std::endl;
+      // if (player.address == _senderEndpoint.address().to_string() &&
+      // player.port == _senderEndpoint.port())
+      //   continue;
       sendRequest(player.endpoint);
     }
   }
