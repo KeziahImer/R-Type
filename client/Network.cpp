@@ -39,8 +39,12 @@ void Rtype::Network::sendRequest(enum Command command, enum Code code,
 }
 
 void Rtype::Network::treatRequest() {
+  std::cout << "je rentre ici pour traiter" << std::endl;
   Rtype::LobbyScene &lobby =
       static_cast<Rtype::LobbyScene &>(_core.manager.getScene("lobby"));
+  std::cout << "to close" << std::endl;
+  _core.manager.addScene2();
+  std::cout << _core.manager.addScene2() << std::endl;
   if (_data.command == LOGIN) {
     if (_data.code == ERROR)
       std::cout << "error login" << std::endl;
@@ -57,6 +61,8 @@ void Rtype::Network::treatRequest() {
       std::cout << "set id:" << std::stoi((_data.content)) << std::endl;
       lobby.setNumberPlayers(std::stoi(_data.content));
       _isConnected = true;
+      std::cout << "nope" << std::endl;
+      _core.manager.addScene2();
     } else {
       lobby.setNumberPlayers(std::stoi(_data.content));
     }

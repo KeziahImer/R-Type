@@ -25,9 +25,21 @@ namespace RNGine {
  */
 class SceneManager {
 public:
+
+  size_t addScene2() {
+    std::cout << "la taille svp: " << _scenes.size() << std::endl;
+    return 0;
+  }
+
   size_t addScene(const RNGine::Scene &scene) {
+    std::cout << "hihi" << std::endl;
+    std::cout << _scenes.size() << std::endl;
+    std::cout << "naaaa" << std::endl;
     size_t index = _scenes.size();
+    std::cout << "pourquoi" << std::endl;
     _scenes.push_back(scene);
+    std::cout << "push" << std::endl;
+    std::cout << _scenes.size() << std::endl;
     std::cout << "add scene: " << index << std::endl;
     return index;
   }
@@ -67,6 +79,7 @@ public:
 
   bool update() {
     if (_scenes.size() > 0) {
+      // std::cout << _scenes.size() << std::endl;
       if (_nextScene != -1)
         _load(_nextScene);
       setInputs();
@@ -78,10 +91,14 @@ public:
   RNGine::Scene &getActualScene() { return _scenes[_loadedScene]; }
   RNGine::Scene &getScene(const std::string &id) {
     int i = 0;
+    std::cout << "taille des scenes : " << _scenes.size() << std::endl;
     for (int i; i < _scenes.size(); i++) {
-      if (_scenes[i].getId() == id)
+      if (_scenes[i].getId() == id) {
+         std::cout << "la scene est celle là : " << i << std::endl;
         return _scenes[i];
+      }
     }
+    std::cout << "pas trouvé" << std::endl;
     return _scenes[0];
   }
 
@@ -98,6 +115,8 @@ private:
     _loadedScene = index;
     std::cout << "just load: " << _loadedScene << std::endl;
     _nextScene = -1;
+    std::cout << "BALLA" << std::endl;
+    std::cout << _scenes.size() << std::endl;
   }
 
   bool _running = true;

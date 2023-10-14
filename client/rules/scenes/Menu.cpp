@@ -17,6 +17,9 @@ Rtype::MenuScene::MenuScene(RNGine::Core &core, Rtype::Network &network,
   createButton(
       createEntity("buttonMulti"), "MULTIPLAYER",
       [&] {
+        std::cout << "JE TEST SCENE" << std::endl;
+        _core.manager.addScene2();
+        std::cout << "JE FINIS TEST SCENE" << std::endl;
         Rtype::LobbyScene lobby(_core, _network, _ioContext);
         _core.manager.load(_core.manager.addScene(lobby));
         lobby.initNetwork();

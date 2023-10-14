@@ -9,18 +9,18 @@
 Rtype::LobbyScene::LobbyScene(RNGine::Core &core, Rtype::Network &network,
                               boost::asio::io_context &ioContext)
     : _core(core), _network(network), _ioContext(ioContext) {
+  std::cout << "JE TEST SCENE DE NOUVEAU" << std::endl;
+  _core.manager.addScene2();
   setId("lobby");
   addBundle(Rtype::clickSystems);
   createBackground(createEntity("background"));
   createButton(
       createEntity("button"), "START GAME",
       [&] {
+        std::cout << "JE TEST SCENE DE NOUVEAU AGAAAIIN" << std::endl;
         Rtype::GameMultiScene gameMulti(_ID, _playersNbr, _network, _ioContext);
-        std::cout << "BEFORE INDEX" << std::endl;
-        size_t index = _core.manager.addScene(gameMulti);
-        std::cout << "AFTER INDEX" << std::endl;
-        std::cout << "INDEX: " << index << std::endl;
-        _network.sendRequest(START, NONE, "");
+        _core.manager.load(_core.manager.addScene(gameMulti));
+        network.sendRequest(START, NONE, "");
         std::cout << "request sent" << std::endl;
       },
       810, 400, 300, 50);
@@ -76,4 +76,5 @@ void Rtype::LobbyScene::initNetwork() {
   std::cout << "before request" << std::endl;
   _network.sendRequest(LOGIN, NONE, "");
   std::cout << "after request" << std::endl;
+  _core.manager.addScene2();
 }
