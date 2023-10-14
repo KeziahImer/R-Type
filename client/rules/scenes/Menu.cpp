@@ -11,18 +11,19 @@ Rtype::MenuScene::MenuScene(RNGine::Core &core, Rtype::Network &network,
       createEntity("button"), "SOLO",
       [&] {
         Rtype::GameScene game;
-        core.manager.load(core.manager.addScene(game));
+        _core.manager.load(_core.manager.addScene(game));
       },
       810, 400, 300, 50);
   createButton(
       createEntity("buttonMulti"), "MULTIPLAYER",
       [&] {
-        Rtype::LobbyScene lobby(core, _network, _ioContext);
-        core.manager.load(core.manager.addScene(lobby));
+        Rtype::LobbyScene lobby(_core, _network, _ioContext);
+        _core.manager.load(_core.manager.addScene(lobby));
+        lobby.initNetwork();
       },
       810, 475, 300, 50);
   createButton(
-      createEntity("buttonExit"), "EXIT", [&] { core.setRunning(false); }, 810,
+      createEntity("buttonExit"), "EXIT", [&] { _core.setRunning(false); }, 810,
       550, 300, 50);
   createLogo(createEntity("logo"));
 }

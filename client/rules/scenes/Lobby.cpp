@@ -10,20 +10,17 @@ Rtype::LobbyScene::LobbyScene(RNGine::Core &core, Rtype::Network &network,
                               boost::asio::io_context &ioContext)
     : _core(core), _network(network), _ioContext(ioContext) {
   setId("lobby");
-  std::cout << "before request" << std::endl;
-  _network.sendRequest(LOGIN, NONE, "");
-  std::cout << "after request" << std::endl;
   addBundle(Rtype::clickSystems);
   createBackground(createEntity("background"));
   createButton(
       createEntity("button"), "START GAME",
       [&] {
         Rtype::GameMultiScene gameMulti(_ID, _playersNbr, _network, _ioContext);
-        size_t index = core.manager.addScene(gameMulti);
-        std::string indexStr =
-            std::to_string(index); // Conversion en std::string
-        const char *content = indexStr.c_str();
-        _network.sendRequest(START, NONE, content);
+        std::cout << "BEFORE INDEX" << std::endl;
+        size_t index = _core.manager.addScene(gameMulti);
+        std::cout << "AFTER INDEX" << std::endl;
+        std::cout << "INDEX: " << index << std::endl;
+        _network.sendRequest(START, NONE, "");
         std::cout << "request sent" << std::endl;
       },
       810, 400, 300, 50);
@@ -52,14 +49,13 @@ void Rtype::LobbyScene::createTexte(RNGine::Entity e, std::string text,
                                     int CharacterSize) {
   addComponent(e, RNGine::components::Position::createPosition(10, 10));
   addComponent(e, RNGine::components::Text::createText(
-                      text, "1", "./assets/FontGame.TTF",
+                      text, "0", "./assets/FontGame.TTF",
                       sf::Color(90, 168, 246), CharacterSize));
 }
 
 void Rtype::LobbyScene::setNumberPlayers(int nbrPLayers) {
   _playersNbr = nbrPLayers;
-  auto &Texts = _core.manager.getActualScene()
-                    .getRegistry()
+  auto &Texts = getRegistry()
                     .getComponents<RNGine::components::Text>();
   for (int i = 0; i < Texts.size(); i++) {
     if (!Texts[i].has_value())
@@ -73,4 +69,11 @@ void Rtype::LobbyScene::setIDPlayer(int id) { _ID = id; }
 void Rtype::LobbyScene::startGame(size_t index) {
   std::cout << "start !_ " << std::endl;
   _core.manager.load(index);
+  std::cout << "start ?" << std::endl;
+}
+
+void Rtype::LobbyScene::initNetwork() {
+  std::cout << "before request" << std::endl;
+  _network.sendRequest(LOGIN, NONE, "");
+  std::cout << "after request" << std::endl;
 }

@@ -13,9 +13,9 @@
 #include <iostream>
 #include <vector>
 
-enum Command { LOGIN, START, MOVE };
+enum Command { LOGIN, START, MOVE, NOTHING };
 
-enum Code { SUCCESS, ERROR };
+enum Code { SUCCESS, ERROR, NONE };
 
 typedef struct Data_t {
   enum Command command;

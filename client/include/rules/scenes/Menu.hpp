@@ -37,7 +37,6 @@ private:
   RNGine::Core &_core;
   Rtype::Network &_network;
   boost::asio::io_context &_ioContext;
-  std::thread *_networkThread;
 };
 }; // namespace Rtype
 

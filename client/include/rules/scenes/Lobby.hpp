@@ -36,6 +36,7 @@ public:
   void setNumberPlayers(int nbrPLayers);
   void setIDPlayer(int id);
   void startGame(size_t index);
+  void initNetwork();
 
 private:
   int _playersNbr = 0;

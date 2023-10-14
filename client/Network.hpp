@@ -19,7 +19,8 @@
 enum Command {
     LOGIN,
     START,
-    MOVE
+    MOVE,
+    NOTHING
 };
 
 enum Code {
@@ -29,9 +30,9 @@ enum Code {
 };
 
 typedef struct Data_t {
-    enum Command command;
-    char content[1024];
-    enum Code code;
+    enum Command command = Command::NOTHING;
+    char content[1024] = {0};
+    enum Code code = Code::NONE;
 } Data;
 
 namespace Rtype {

@@ -14,7 +14,7 @@ Rtype::Network::Network(boost::asio::io_context &ioContext, RNGine::Core &core)
     : _socket(ioContext,
               boost::asio::ip::udp::endpoint(boost::asio::ip::udp::v4(), 80)),
       _ioContext(ioContext),
-      _endpoint(boost::asio::ip::address::from_string("192.168.1.93"), 8080),
+      _endpoint(boost::asio::ip::address::from_string("127.0.0.1"), 8080),
       _core(core) {
   receiveRequest();
 }
@@ -25,13 +25,14 @@ void Rtype::Network::receiveRequest() {
       [&](const boost::system::error_code &error, std::size_t bytes_received) {
         if (!error)
           treatRequest();
-        memset(&_data, 0, sizeof(Data));
+          memset(&_data, 0, sizeof(Data));
         receiveRequest();
       });
 }
 
 void Rtype::Network::sendRequest(enum Command command, enum Code code,
                                  const char content[]) {
+  strcpy(_data.content, content); 
   _data.command = command;
   _data.code = code;
   _socket.send_to(boost::asio::buffer(&_data, sizeof(Data)), _endpoint);
@@ -39,12 +40,12 @@ void Rtype::Network::sendRequest(enum Command command, enum Code code,
 
 void Rtype::Network::treatRequest() {
   Rtype::LobbyScene &lobby =
-      static_cast<Rtype::LobbyScene &>(_core.manager.getActualScene());
+      static_cast<Rtype::LobbyScene &>(_core.manager.getScene("lobby"));
   if (_data.command == LOGIN) {
     if (_data.code == ERROR)
       std::cout << "error login" << std::endl;
     //  throw(std::exception("Already four players connected"));
-    if (lobby.getId() == "menu") {
+    if (lobby.getId() != "lobby") {
       std::cout << " exit because: " << lobby.getId() << std::endl;
       return;
     }

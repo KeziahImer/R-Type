@@ -76,6 +76,14 @@ public:
   }
 
   RNGine::Scene &getActualScene() { return _scenes[_loadedScene]; }
+  RNGine::Scene &getScene(const std::string &id) {
+    int i = 0;
+    for (int i; i < _scenes.size(); i++) {
+      if (_scenes[i].getId() == id)
+        return _scenes[i];
+    }
+    return _scenes[0];
+  }
 
 private:
   void _load(size_t index) {

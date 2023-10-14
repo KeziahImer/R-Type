@@ -16,14 +16,10 @@ int main() {
     Rtype::MenuScene menu(core, network, ioContext);
     menu.load();
     core.manager.addScene(menu);
-    core.loop();
-
     std::thread networkThread([&]() {
-      while (core._running) {
-        std::cout << "run " << std::endl;
-        ioContext.run();
-      }
+      ioContext.run();
     });
+    core.loop();
   } catch (std::exception &e) {
     std::cerr << e.what() << std::endl;
   }
