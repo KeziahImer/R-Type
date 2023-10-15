@@ -29,7 +29,6 @@ RNGine::Registry::System CheckHealth = [](RNGine::Registry &registry) {
       continue;
     if (Attackables[i]->health <= 0) {
       registry._gameScore = registry._gameScore + Attackables[i]->points;
-      registry.removeEntity(i);
       for (size_t x = 0; x < healthBars.size(); x++) {
         if (!healthBars[x].has_value())
           continue;
@@ -37,6 +36,7 @@ RNGine::Registry::System CheckHealth = [](RNGine::Registry &registry) {
           std::cout << "REMOVE HEALTHBAR: " << x << std::endl;
         registry.removeEntity(x);
       }
+      registry.removeEntity(i);
     }
   }
 };
