@@ -1,7 +1,10 @@
 #include "rules/systems/Physics.hpp"
 #include "rngine/Registry.hpp"
 #include "rngine/components/InfiniteScroll.hpp"
+#include "rngine/components/Networked.hpp"
+#include "rngine/components/PlayerId.hpp"
 #include "rngine/components/Position.hpp"
+#include <string>
 
 RNGine::Registry::System velocitySystem = [](RNGine::Registry &registry) {
   RNGine::SparseArray<RNGine::components::Velocity> &Velocities =
@@ -23,6 +26,10 @@ RNGine::Registry::System MovableSystem = [](RNGine::Registry &registry) {
       registry.getComponents<RNGine::components::Movable>();
   RNGine::SparseArray<RNGine::components::Velocity> &Velocities =
       registry.getComponents<RNGine::components::Velocity>();
+  RNGine::SparseArray<RNGine::components::Networked> &Networkeds =
+      registry.getComponents<RNGine::components::Networked>();
+  RNGine::SparseArray<RNGine::components::PlayerId> &PlayerIds =
+      registry.getComponents<RNGine::components::PlayerId>();
   std::map<enum RNGine::Key, bool> inputs = registry.inputs;
   for (size_t i = 0; i < Movables.size(); i++) {
     if (!Movables[i].has_value() || !Velocities[i].has_value())
@@ -34,6 +41,16 @@ RNGine::Registry::System MovableSystem = [](RNGine::Registry &registry) {
         if ((inputPress.first == inputRequire.first) && inputPress.second) {
           Velocities[i]->x += inputRequire.second.first;
           Velocities[i]->y += inputRequire.second.second;
+          if (Networkeds[i].has_value() && PlayerIds[i].has_value()) {
+            std::string commandContent = std::to_string(Velocities[i]->x) +
+                                         "," +
+                                         std::to_string(Velocities[i]->y) +
+                                         "," + std::to_string(PlayerIds[i]->id);
+            std::cout << "try to send: " << std::endl;
+            std::cout << commandContent << std::endl;
+            Networkeds[i]->network->sendRequest(Command::MOVE, Code::NONE,
+                                                commandContent.c_str());
+          }
         }
       }
     }

@@ -1,5 +1,7 @@
 #include "rules/scenes/MultiplayerGame.hpp"
+#include "rngine/components/Networked.hpp"
 #include "rngine/components/PlayerId.hpp"
+#include "rngine/components/Velocity.hpp"
 
 Rtype::GameMultiScene::GameMultiScene(int id, int playerNumber,
                                       Rtype::Network &network,
@@ -13,7 +15,7 @@ Rtype::GameMultiScene::GameMultiScene(int id, int playerNumber,
   addBundle(Rtype::engineSystems);
   for (int i = 0; i < 4; i++) {
     if (i + 1 == id) {
-      createPlayer(createEntity("player"), i + 1);
+      createPlayer(createEntity("player"), i + 1, &network);
     } else {
       createAlly(createEntity("Ally"), i + 1);
     }
@@ -66,7 +68,8 @@ void Rtype::GameMultiScene::createHealthBar(RNGine::Entity e,
              hp, hp, entity, "./assets/FontGame.TTF", sf::Color::Green, 11));
 }
 
-void Rtype::GameMultiScene::createPlayer(RNGine::Entity e, int id) {
+void Rtype::GameMultiScene::createPlayer(RNGine::Entity e, int id,
+                                         Rtype::Network *network) {
   int spriteY = id - 1;
   if (spriteY > 2)
     spriteY++;
@@ -92,6 +95,7 @@ void Rtype::GameMultiScene::createPlayer(RNGine::Entity e, int id) {
       e, RNGine::components::Attackable::createAttackable(500, 0, true, true));
   createHealthBar(createEntity("healthBar"), e, 500);
   addComponent(e, RNGine::components::PlayerId::createPlayerId(id));
+  addComponent(e, RNGine::components::Networked::createNetworked(network));
 }
 
 void Rtype::GameMultiScene::createAlly(RNGine::Entity e, int id) {
@@ -128,4 +132,37 @@ void Rtype::GameMultiScene::createEnemy(RNGine::Entity e, float posX,
                           std::chrono::system_clock::now().time_since_epoch())
                           .count(),
                       25, false));
+}
+
+void Rtype::GameMultiScene::setVelocity(std::string contentVelocity) {
+  auto &PlayerIds = getRegistry().getComponents<RNGine::components::PlayerId>();
+  auto &Velocitys = getRegistry().getComponents<RNGine::components::Velocity>();
+  int id = 0;
+  float velocityX = 0.0;
+  float velocityY = 0.0;
+
+  std::istringstream iss(contentVelocity);
+  char delimiter = ',';
+
+  // Utilisez getline avec le délimiteur pour extraire chaque valeur
+  std::string token;
+  int tokenIndex = 0;
+
+  while (std::getline(iss, token, delimiter)) {
+    if (tokenIndex == 0) {
+      id = std::stoi(token); // Convertit la première valeur en int
+    } else if (tokenIndex == 1) {
+      velocityX = std::stof(token); // Convertit la deuxième valeur en float
+    } else if (tokenIndex == 2) {
+      velocityY = std::stof(token); // Convertit la troisième valeur en float
+    }
+    tokenIndex++;
+  }
+
+  for (int i = 0; i < PlayerIds.size(); i++) {
+    if (!PlayerIds[i].has_value() || !Velocitys[i].has_value())
+      continue;
+    Velocitys[i]->x = velocityX;
+    Velocitys[i]->y = velocityY;
+  }
 }

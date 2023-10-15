@@ -41,11 +41,12 @@ public:
                  boost::asio::io_context &ioContext);
 
   void createBackground(RNGine::Entity e, float x, float y);
-  void createPlayer(RNGine::Entity e, int id);
+  void createPlayer(RNGine::Entity e, int id, Rtype::Network *network);
   void createAlly(RNGine::Entity e, int id);
   void createEnemy(RNGine::Entity e, float posX, float posY);
   void createScore(RNGine::Entity e);
   void createHealthBar(RNGine::Entity e, RNGine::Entity entity, float hp);
+  void setVelocity(std::string contentVelocity);
 
 private:
   int _playersNbr = 0;

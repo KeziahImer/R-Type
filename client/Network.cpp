@@ -7,7 +7,9 @@
 
 #include "Network.hpp"
 #include "rules/scenes/Lobby.hpp"
+#include "rules/scenes/MultiplayerGame.hpp"
 #include <cstring>
+#include <linux/joystick.h>
 #include <string>
 
 Rtype::Network::Network(boost::asio::io_context &ioContext, RNGine::Core *core)
@@ -32,10 +34,15 @@ void Rtype::Network::receiveRequest() {
 
 void Rtype::Network::sendRequest(enum Command command, enum Code code,
                                  const char content[]) {
+  std::cout << "befor ecopy: " << strlen(content) << std::endl;
   strcpy(_data.content, content);
+  std::cout << "after ecopy" << std::endl;
   _data.command = command;
   _data.code = code;
+  std::cout << "befor send: " << _data.content << ", " << _data.command << ", "
+            << _data.code << std::endl;
   _socket.send_to(boost::asio::buffer(&_data, sizeof(Data)), _endpoint);
+  std::cout << "after send" << std::endl;
 }
 
 void Rtype::Network::treatRequest() {
@@ -60,5 +67,9 @@ void Rtype::Network::treatRequest() {
   } else if (_data.command == START) {
     lobby.startGame(2, _core);
   } else if (_data.command == MOVE) {
+    Rtype::GameMultiScene &multi = static_cast<Rtype::GameMultiScene &>(
+        _core->manager.getScene("gameMulti"));
+    std::cout << "SWITCH VELOCITY :::: " << _data.content << std::endl;
+    multi.setVelocity(_data.content);
   }
 }
