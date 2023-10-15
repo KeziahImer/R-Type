@@ -50,6 +50,7 @@ public:
   void makeShoot(std::string contentShoot, int ID);
   void takeDamage(std::string contentShoot, int ID);
   void createWave(int waveSize, int waveStart);
+  void deadEntity(std::string contentShoot);
 
 private:
   int _playersNbr = 0;

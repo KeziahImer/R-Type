@@ -263,3 +263,14 @@ void Rtype::GameMultiScene::takeDamage(std::string contentShoot, int ID) {
     Attackables[i]->health = health;
   }
 }
+
+void Rtype::GameMultiScene::deadEntity(std::string contentShoot) {
+  auto &Attackables =
+      getRegistry().getComponents<RNGine::components::Attackable>();
+  int id = std::stoi(contentShoot);
+  for (int i = 0; i < Attackables.size(); i++) {
+    if (!Attackables[i].has_value())
+      continue;
+    removeEntity(i);
+  }
+}

@@ -110,7 +110,6 @@ RNGine::Registry::System ShootSystem = [](RNGine::Registry &registry) {
         if (time - Shoots[i]->lastShoot > Shoots[i]->timeMillisecond) {
           if (Networkeds[i].has_value() && PlayerIds[i].has_value()) {
             std::string commandContent = std::to_string(PlayerIds[i]->id);
-            std::cout << "SHOOT ID: " << commandContent << std::endl;
             Networkeds[i]->network->sendRequest(SHOOT, NONE,
                                                 commandContent.c_str());
           }
