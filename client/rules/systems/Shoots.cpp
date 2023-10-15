@@ -59,13 +59,6 @@ RNGine::Registry::System ShootCollisionSystem = [](RNGine::Registry &registry) {
             Networkeds[i].has_value()) {
           continue;
         }
-        if (Movables[i].has_value() && Networkeds[i].has_value() &&
-            PlayerIds[i].has_value()) {
-          std::string commandContent = std::to_string(MakeDamages[x]->Damage) +
-                                       "," + std::to_string(PlayerIds[i]->id);
-          Networkeds[i]->network->sendRequest(DAMAGE, NONE,
-                                              commandContent.c_str());
-        }
         Attackables[i]->health =
             Attackables[i]->health - MakeDamages[x]->Damage;
         Attackables[i]->_Attackable = false;
@@ -73,6 +66,13 @@ RNGine::Registry::System ShootCollisionSystem = [](RNGine::Registry &registry) {
             std::chrono::duration_cast<std::chrono::milliseconds>(
                 std::chrono::system_clock::now().time_since_epoch())
                 .count();
+        if (Movables[i].has_value() && Networkeds[i].has_value() &&
+            PlayerIds[i].has_value()) {
+          std::string commandContent = std::to_string(Attackables[i]->health) +
+                                       "," + std::to_string(PlayerIds[i]->id);
+          Networkeds[i]->network->sendRequest(DAMAGE, NONE,
+                                              commandContent.c_str());
+        }
       }
     }
   }

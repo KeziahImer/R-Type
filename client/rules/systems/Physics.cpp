@@ -47,10 +47,12 @@ RNGine::Registry::System MovableSystem = [](RNGine::Registry &registry) {
           Velocities[i]->x += inputRequire.second.first;
           Velocities[i]->y += inputRequire.second.second;
           if (Networkeds[i].has_value() && PlayerIds[i].has_value()) {
-            std::string commandContent = std::to_string(Velocities[i]->x) +
-                                         "," +
-                                         std::to_string(Velocities[i]->y) +
-                                         "," + std::to_string(PlayerIds[i]->id);
+            std::string commandContent =
+                std::to_string(Velocities[i]->x) + "," +
+                std::to_string(Velocities[i]->y) + ", " +
+                std::to_string(Positions[i]->x) + "," +
+                std::to_string(Positions[i]->y) + "," + "," +
+                std::to_string(PlayerIds[i]->id);
             Networkeds[i]->network->sendRequest(Command::MOVE, Code::NONE,
                                                 commandContent.c_str());
           }

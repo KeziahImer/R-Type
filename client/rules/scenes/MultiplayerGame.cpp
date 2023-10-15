@@ -238,7 +238,7 @@ void Rtype::GameMultiScene::takeDamage(std::string contentShoot) {
   auto &Attackables =
       getRegistry().getComponents<RNGine::components::Attackable>();
   int id = 0;
-  int damages = 0;
+  int health = -1;
   std::istringstream iss(contentShoot);
   char delimiter = ',';
 
@@ -246,10 +246,8 @@ void Rtype::GameMultiScene::takeDamage(std::string contentShoot) {
   int tokenIndex = 0;
 
   while (std::getline(iss, token, delimiter)) {
-    if (tokenIndex == 4) {
-      id = std::stoi(token);
-    } else if (tokenIndex == 0) {
-      damages = std::stof(token);
+    if (tokenIndex == 0) {
+      health = std::stof(token);
     } else if (tokenIndex == 1) {
       id = std::stoi(token);
     }
@@ -257,8 +255,8 @@ void Rtype::GameMultiScene::takeDamage(std::string contentShoot) {
   }
   for (int i = 0; i < PlayerIds.size(); i++) {
     if (!PlayerIds[i].has_value() || PlayerIds[i]->id != id ||
-        !Attackables[i].has_value() || _ID == id)
+        !Attackables[i].has_value() || _ID == id || health == -1)
       continue;
-    Attackables[i]->health = Attackables[i]->health - damages;
+    Attackables[i]->health = health;
   }
 }
