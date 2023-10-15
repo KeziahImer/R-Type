@@ -11,11 +11,11 @@ Rtype::GameMultiScene::GameMultiScene(int id, int playerNumber,
   addBundle(Rtype::shootsSystems);
   addBundle(Rtype::clickSystems);
   addBundle(Rtype::engineSystems);
-  for (int i = 0; i < playerNumber; i++) {
+  for (int i = 0; i < 4; i++) {
     if (i + 1 == id) {
-      createPlayer(createEntity("player"), i);
+      createPlayer(createEntity("player"), i + 1);
     } else {
-      createAlly(createEntity("Ally"), i);
+      createAlly(createEntity("Ally"), i + 1);
     }
   }
   createBackground(createEntity("background"));
@@ -49,9 +49,12 @@ void Rtype::GameMultiScene::createHealthBar(RNGine::Entity e,
 }
 
 void Rtype::GameMultiScene::createPlayer(RNGine::Entity e, int id) {
+  int spriteY = id - 1;
+  if (spriteY > 2)
+    spriteY++;
   addComponent(e, RNGine::components::Sprite::createSprite(
-                      "./assets/Player.gif", false, 33, 17, 2, 2, 1));
-  addComponent(e, RNGine::components::Position::createPosition(25, 250 * id));
+                      "./assets/Player.gif", false, 33, 17, 2, spriteY, 1));
+  addComponent(e, RNGine::components::Position::createPosition(25, 200 * id));
   addComponent(e, RNGine::components::Size::createSize(3, 3));
   addComponent(e, RNGine::components::Velocity::createVelocity(0, 0));
   addComponent(e, RNGine::components::Collider::createCollider(33 * 3, 17 * 3));
@@ -74,9 +77,12 @@ void Rtype::GameMultiScene::createPlayer(RNGine::Entity e, int id) {
 }
 
 void Rtype::GameMultiScene::createAlly(RNGine::Entity e, int id) {
+  int spriteY = id - 1;
+  if (spriteY > 2)
+    spriteY++;
   addComponent(e, RNGine::components::Sprite::createSprite(
-                      "./assets/Player.gif", false, 33, 17, 2, 2, 1));
-  addComponent(e, RNGine::components::Position::createPosition(25, 500));
+                      "./assets/Player.gif", false, 33, 17, 2, spriteY, 1));
+  addComponent(e, RNGine::components::Position::createPosition(25, 200 * id));
   addComponent(e, RNGine::components::Size::createSize(3, 3));
   addComponent(e, RNGine::components::Velocity::createVelocity(0, 0));
   addComponent(e, RNGine::components::Collider::createCollider(33 * 3, 17 * 3));

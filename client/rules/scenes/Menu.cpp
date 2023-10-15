@@ -18,15 +18,14 @@ Rtype::MenuScene::MenuScene(RNGine::Core *core, Rtype::Network &network,
   createButton(
       createEntity("buttonMulti"), "MULTIPLAYER",
       [core, &network, &ioContext, this] {
-        std::cout << _core << ", " << core << std::endl;
         Rtype::LobbyScene lobby(core, network, ioContext);
         core->manager.load(core->manager.addScene(lobby));
         lobby.initNetwork();
       },
       810, 475, 300, 50);
   createButton(
-      createEntity("buttonExit"), "EXIT", [&] { core->setRunning(false); }, 810,
-      550, 300, 50);
+      createEntity("buttonExit"), "EXIT", [core] { core->setRunning(false); },
+      810, 550, 300, 50);
   createLogo(createEntity("logo"));
 }
 
