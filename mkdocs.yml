@@ -30,14 +30,8 @@ nav:
           - "Entity": "library/entity.md"
           - "Component": "library/component.md"
           - "System": "library/system.md"
-          - "Addon": "library/addon.md"
-          - "Game Loop": "library/game_loop.md"
           - "Scenes": "library/scenes.md"
-      - "Addons":
-          - "Audio": "library/audio.md"
-          - "Graphics": "library/graphics.md"
-          - "Input": "library/input.md"
-          - "Physics": "library/physics.md"
+          - "Game Loop": "library/game_loop.md"
   - "About":
       - "Release Notes": "about/index.md"
       - "License": "about/license.md"

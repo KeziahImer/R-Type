@@ -1,23 +1,23 @@
-# Gestion des Entités (Entities)
+# Entity Management (Entities)
 
-Dans notre jeu R-Type, les entités jouent un rôle central. Les entités représentent les objets du monde du jeu, tels que les vaisseaux spatiaux, les ennemis, les projectiles et divers autres éléments interactifs. Comprendre comment les entités sont gérées est essentiel pour tout développeur travaillant sur notre jeu.
+In our R-Type game, entities play a central role. Entities represent objects in the game world, such as spaceships, enemies, projectiles, and various other interactive elements. Understanding how entities are managed is essential for any developer working on our game.
 
-## Création des Entités
+## Creating Entities
 
-Les entités sont créées de manière dynamique pendant le jeu. Chaque entité est associée à un identifiant unique et est composée de plusieurs composants qui définissent ses caractéristiques.
+Entities are created dynamically during the game. Each entity is associated with a unique identifier and is composed of multiple components that define its characteristics.
 
-### Exemple de Création d'une Entité :
+### Example of Creating an Entity:
 
 ```cpp
 createPlayer(createEntity("player")); 
 addComponent(e, RNGine::components::Position::createPosition(x, y));
 addComponent(e, RNGine::components::Size::createSize(scaleWidth, scaleHeight));
 ```
-## Utilisation des Entités
+## Using Entities
 
-Les entités sont mises à jour et gérées par les systèmes de l'architecture ECS. Les systèmes agissent sur les entités en fonction des composants associés.
+Entities are updated and managed by the systems of the ECS architecture. Systems act on entities based on the associated components.
 
-### Exemple d'Utilisation des Entités :
+### Example of Using Entities:
 
 ```cpp
 RNGine::Entity Registry::getEntity(std::string const &name) {
@@ -29,11 +29,11 @@ RNGine::Entity Registry::getEntity(std::string const &name) {
 }
 ```
 
-## Destruction des Entités
+## Destroying Entities
 
-Les entités peuvent être détruites lorsqu'elles ne sont plus nécessaires. Les composants associés sont retirés, libérant ainsi des ressources.
+Entities can be destroyed when they are no longer needed. Associated components are removed, freeing up resources.
 
-### Exemple de Destruction d'une Entité :
+### Example of Destroying an Entity:
 
 ```cpp
 void Registry::removeEntity(RNGine::Entity entity) {
@@ -43,10 +43,10 @@ void Registry::removeEntity(RNGine::Entity entity) {
 }
 ```
 
-## Interaction entre Entités
+## Interaction Between Entities
 
-Les entités peuvent interagir les unes avec les autres, par exemple, les projectiles peuvent infliger des dégâts à d'autres entités. Cette interaction est gérée par les systèmes et les événements au sein du jeu.
+Entities can interact with each other, for example, projectiles may inflict damage on other entities. This interaction is managed by the systems and events within the game.
 
-## Résumé
-La gestion 
-des entités est un élément clé de l'architecture ECS de notre jeu R-Type. Les entités sont créées dynamiquement, mises à jour par les systèmes et potentiellement détruites au cours du jeu. Elles constituent la base de l'expérience de jeu et sont essentielles pour créer un monde interactif et dynamique.
+## Summary
+
+The management of entities is a key element of the ECS architecture of our R-Type game. Entities are created dynamically, updated by systems, and potentially destroyed during the game. They form the foundation of the gaming experience and are essential for creating an interactive and dynamic world.
