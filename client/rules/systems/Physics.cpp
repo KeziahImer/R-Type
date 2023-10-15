@@ -51,7 +51,7 @@ RNGine::Registry::System MovableSystem = [](RNGine::Registry &registry) {
                 std::to_string(Velocities[i]->x) + "," +
                 std::to_string(Velocities[i]->y) + ", " +
                 std::to_string(Positions[i]->x) + "," +
-                std::to_string(Positions[i]->y) + "," + "," +
+                std::to_string(Positions[i]->y) + "," +
                 std::to_string(PlayerIds[i]->id);
             Networkeds[i]->network->sendRequest(Command::MOVE, Code::NONE,
                                                 commandContent.c_str());

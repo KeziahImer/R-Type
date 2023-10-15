@@ -247,7 +247,7 @@ void Rtype::GameMultiScene::takeDamage(std::string contentShoot) {
 
   while (std::getline(iss, token, delimiter)) {
     if (tokenIndex == 0) {
-      health = std::stof(token);
+      health = std::stoi(token);
     } else if (tokenIndex == 1) {
       id = std::stoi(token);
     }
