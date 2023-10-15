@@ -24,20 +24,12 @@ RNGine::Registry::System CheckHealth = [](RNGine::Registry &registry) {
       registry.getComponents<RNGine::components::Attackable>();
   RNGine::SparseArray<RNGine::components::healthBar> &healthBars =
       registry.getComponents<RNGine::components::healthBar>();
-  RNGine::SparseArray<RNGine::components::Networked> &Networkeds =
-      registry.getComponents<RNGine::components::Networked>();
   for (size_t i = 0; i < Attackables.size(); i++) {
     if (!Attackables[i].has_value())
       continue;
     if (Attackables[i]->health <= 0) {
       registry._gameScore = registry._gameScore + Attackables[i]->points;
       registry.removeEntity(i);
-      for (int x = 0; x < Networkeds.size(); x++) {
-        if (!Networkeds[x].has_value())
-          continue;
-        Networkeds[x]->network->sendRequest(DEAD, NONE,
-                                            std::to_string(i).c_str());
-      }
       for (size_t x = 0; x < healthBars.size(); x++) {
         if (!healthBars[x].has_value())
           continue;
