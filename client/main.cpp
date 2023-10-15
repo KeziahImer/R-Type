@@ -11,15 +11,15 @@
 int main() {
   try {
     RNGine::Core core;
-    std::mutex coreMutex;
     boost::asio::io_context ioContext;
-    Rtype::Network network(ioContext, &core, coreMutex);
-    std::cout << "MAIN memCore: " << &core << std::endl;
-    Rtype::MenuScene menu(&core, network, ioContext, coreMutex);
+    Rtype::Network network(ioContext, &core);
+    Rtype::MenuScene menu(&core, network, ioContext);
     menu.load();
     core.manager.addScene(menu);
-    std::thread networkThread([&]() { ioContext.run(); });
+    std::thread networkThread([&ioContext]() { ioContext.run(); });
     core.loop();
+    ioContext.stop();
+    networkThread.join();
   } catch (std::exception &e) {
     std::cerr << e.what() << std::endl;
   }

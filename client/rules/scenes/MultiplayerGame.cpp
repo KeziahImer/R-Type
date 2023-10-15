@@ -7,14 +7,11 @@ Rtype::GameMultiScene::GameMultiScene(int id, int playerNumber,
     : _ID(id), _playersNbr(playerNumber), _network(network),
       _ioContext(ioContext) {
   setId("gameMulti");
-  std::cout << "create game multi" << std::endl;
   addBundle(Rtype::physicsSystems);
   addBundle(Rtype::shootsSystems);
   addBundle(Rtype::clickSystems);
   addBundle(Rtype::engineSystems);
-  std::cout << "bef players: " << playerNumber << std::endl;
   for (int i = 0; i < playerNumber; i++) {
-    std::cout << "in players: " << playerNumber << std::endl;
     if (i + 1 == id) {
       createPlayer(createEntity("player"), i);
     } else {
@@ -26,7 +23,6 @@ Rtype::GameMultiScene::GameMultiScene(int id, int playerNumber,
     createEnemy(createEntity("enemy"), 1920 + (1000 * i), rand() % 1000 + 1);
   }
   createScore(createEntity("score"));
-  std::cout << "exit !!!!!!" << std::endl;
 }
 
 void Rtype::GameMultiScene::createBackground(RNGine::Entity e) {

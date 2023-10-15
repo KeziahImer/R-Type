@@ -26,7 +26,7 @@ namespace Rtype {
 class LobbyScene : public RNGine::Scene {
 public:
   LobbyScene(RNGine::Core *core, Rtype::Network &network,
-             boost::asio::io_context &ioContext, std::mutex &coreMutex);
+             boost::asio::io_context &ioContext);
 
   void createBackground(RNGine::Entity e);
   void createButton(RNGine::Entity e, std::string text,
@@ -35,7 +35,7 @@ public:
   void createTexte(RNGine::Entity e, std::string text, int CharacterSize);
   void setNumberPlayers(int nbrPLayers);
   void setIDPlayer(int id);
-  void startGame(size_t index, RNGine::Core *core, std::mutex &coreMutex);
+  void startGame(size_t index, RNGine::Core *core);
   void initNetwork();
 
 private:
@@ -44,7 +44,6 @@ private:
   RNGine::Core *_core;
   Rtype::Network &_network;
   boost::asio::io_context &_ioContext;
-  std::mutex &_coreMutex;
 };
 }; // namespace Rtype
 

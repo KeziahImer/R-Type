@@ -8,22 +8,16 @@
 #include <thread>
 
 Rtype::LobbyScene::LobbyScene(RNGine::Core *core, Rtype::Network &network,
-                              boost::asio::io_context &ioContext,
-                              std::mutex &coreMutex)
-    : _core(core), _network(network), _ioContext(ioContext),
-      _coreMutex(coreMutex) {
+                              boost::asio::io_context &ioContext)
+    : _core(core), _network(network), _ioContext(ioContext) {
   setId("lobby");
-  std::cout << "LOBBY memCore: " << _core << " VS :" << core << std::endl;
   addBundle(Rtype::clickSystems);
   createBackground(createEntity("background"));
   createButton(
       createEntity("button"), "START GAME",
-      [core, &coreMutex, &network, this] {
-        network.sendRequest(START, NONE, "");
-      },
-      810, 400, 300, 50);
+      [core, &network, this] { network.sendRequest(START, NONE, ""); }, 810,
+      400, 300, 50);
   createTexte(createEntity("players"), "Players: ", 25);
-  std::cout << "LOBBY memCore: " << _core << " VS :" << core << std::endl;
 }
 
 void Rtype::LobbyScene::createBackground(RNGine::Entity e) {
@@ -63,13 +57,9 @@ void Rtype::LobbyScene::setNumberPlayers(int nbrPLayers) {
   }
 }
 
-void Rtype::LobbyScene::setIDPlayer(int id) {
-  std::cout << "myn ID:" << id << std::endl;
-  _ID = id;
-}
+void Rtype::LobbyScene::setIDPlayer(int id) { _ID = id; }
 
-void Rtype::LobbyScene::startGame(size_t index, RNGine::Core *core,
-                                  std::mutex &coreMutex) {
+void Rtype::LobbyScene::startGame(size_t index, RNGine::Core *core) {
   Rtype::GameMultiScene gameMulti(_ID, _playersNbr, _network, _ioContext);
   core->manager.load(core->manager.addScene(gameMulti));
 }

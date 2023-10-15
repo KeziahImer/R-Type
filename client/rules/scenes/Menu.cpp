@@ -2,26 +2,24 @@
 #include "rules/scenes/Lobby.hpp"
 
 Rtype::MenuScene::MenuScene(RNGine::Core *core, Rtype::Network &network,
-                            boost::asio::io_context &ioContext,
-                            std::mutex &coreMutex)
-    : _network(network), _ioContext(ioContext), _coreMutex(coreMutex) {
+                            boost::asio::io_context &ioContext)
+    : _network(network), _ioContext(ioContext) {
   setId("menu");
-  std::cout << "MENU memCore: " << core << std::endl;
   _core = core;
   addBundle(Rtype::clickSystems);
   createBackground(createEntity("background"));
   createButton(
       createEntity("button"), "SOLO",
-      [&] {
+      [core] {
         Rtype::GameScene game;
         core->manager.load(core->manager.addScene(game));
       },
       810, 400, 300, 50);
   createButton(
       createEntity("buttonMulti"), "MULTIPLAYER",
-      [core, &coreMutex, &network, &ioContext, this] {
+      [core, &network, &ioContext, this] {
         std::cout << _core << ", " << core << std::endl;
-        Rtype::LobbyScene lobby(core, network, ioContext, coreMutex);
+        Rtype::LobbyScene lobby(core, network, ioContext);
         core->manager.load(core->manager.addScene(lobby));
         lobby.initNetwork();
       },

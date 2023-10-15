@@ -29,8 +29,7 @@ typedef struct Data_t {
 namespace Rtype {
 class Network {
 public:
-  Network(boost::asio::io_context &ioContext, RNGine::Core *core,
-          std::mutex &coreMutex);
+  Network(boost::asio::io_context &ioContext, RNGine::Core *core);
   ~Network() = default;
   void receiveRequest();
   void sendRequest(enum Command command, enum Code code, const char content[]);
@@ -43,7 +42,6 @@ private:
   bool _isConnected = false;
   Data _data;
   RNGine::Core *_core;
-  std::mutex &_coreMutex;
 };
 } // namespace Rtype
 
