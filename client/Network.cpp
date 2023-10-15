@@ -17,7 +17,7 @@ Rtype::Network::Network(boost::asio::io_context &ioContext, RNGine::Core *core,
     : _socket(ioContext,
               boost::asio::ip::udp::endpoint(boost::asio::ip::udp::v4(), 12)),
       _ioContext(ioContext),
-      _endpoint(boost::asio::ip::address::from_string("127.0.0.1"), 8080),
+      _endpoint(boost::asio::ip::address::from_string("192.168.1.93"), 8080),
       _core(core), _mutex(mutex) {
   receiveRequest();
 }
