@@ -14,6 +14,7 @@
 #include <vector>
 
 #include "./Registry.hpp"
+#include "rngine/components/text.hpp"
 
 namespace RNGine {
 /**
@@ -88,7 +89,9 @@ public:
 
   Scene &load() {
     if (!_loaded) {
+      auto texts = _initial.getComponents<RNGine::components::Text>();
       _registry = _initial;
+      auto textsReg = _registry.getComponents<RNGine::components::Text>();
       _loaded = true;
     }
     return *this;
@@ -104,8 +107,9 @@ public:
 
   int i = 0;
 
-  Registry &update(const std::map<enum RNGine::Key, bool> &_keybinds) {
-    _registry.inputs = _keybinds;
+  Registry &update(const std::map<enum RNGine::Key, bool> &_keybinds,
+                   std::vector<std::pair<int, int>> &_mouseBinds) {
+    _registry.setInputs(_keybinds, _mouseBinds);
     if (!_loaded)
       throw std::runtime_error("Scene not loaded.");
     if (!_registry.clock.checkFrame())
@@ -113,6 +117,9 @@ public:
     _registry.run();
     return _registry;
   }
+
+  Registry &getRegistry() { return _registry; }
+  Registry &getInitial() { return _initial; }
 
   std::string getId() const { return _id; }
 

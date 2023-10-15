@@ -12,8 +12,15 @@
 #include "./components/Size.hpp"
 #include "./components/Sprite.hpp"
 #include "./components/text.hpp"
+#include "SFML/Graphics/Color.hpp"
+#include "SFML/Graphics/Font.hpp"
+#include "SFML/Graphics/RectangleShape.hpp"
+#include "rngine/components/Clickable.hpp"
+#include "rngine/components/healthBar.hpp"
+#include "rngine/components/text.hpp"
 #include <SFML/Graphics.hpp>
 #include <SFML/Graphics/Font.hpp>
+#include <cstring>
 
 namespace RNGine {
 class Renderer {
@@ -27,6 +34,8 @@ public:
     auto &Positions = registry.getComponents<RNGine::components::Position>();
     auto &Sizes = registry.getComponents<RNGine::components::Size>();
     auto &Texts = registry.getComponents<RNGine::components::Text>();
+    auto &healthBars = registry.getComponents<RNGine::components::healthBar>();
+    auto &Buttons = registry.getComponents<RNGine::components::Button>();
     auto entities = Sprites.size();
     _window.clear();
     for (int layer = 0; layer < 5; layer++) {
@@ -48,6 +57,20 @@ public:
     for (size_t i = 0; i < Texts.size(); i++) {
       if (Texts[i].has_value() && Positions[i].has_value()) {
         renderTexte(*Texts[i], *Positions[i]);
+      }
+    }
+    for (size_t i = 0; i < healthBars.size(); i++) {
+      if (healthBars[i].has_value() && Positions[i].has_value() &&
+          Sprites[healthBars[i]->entity].has_value() &&
+          Sizes[healthBars[i]->entity].has_value()) {
+        renderHealth(*healthBars[i], *Positions[i],
+                     *Sprites[healthBars[i]->entity],
+                     *Sizes[healthBars[i]->entity]);
+      }
+    }
+    for (size_t i = 0; i < Buttons.size(); i++) {
+      if (Buttons[i].has_value() && Positions[i].has_value()) {
+        renderButton(*Buttons[i], *Positions[i]);
       }
     }
     _window.display();
@@ -93,6 +116,51 @@ public:
     Text.setCharacterSize(text.CharacterSize);
     Text.setPosition(position.x, position.y);
     Text.setFont(font);
+    _window.draw(Text);
+  }
+
+  void renderHealth(RNGine::components::healthBar text,
+                    RNGine::components::Position position,
+                    RNGine::components::Sprite sprite,
+                    RNGine::components::Size size) {
+    std::cout << "Health Square: " << sprite.sizeTileX << ", " << size.scaleX
+              << std::endl;
+    sf::RectangleShape HealthSquare(
+        sf::Vector2f(sprite.sizeTileX * size.scaleX, 15));
+    sf::RectangleShape Health(sf::Vector2f(
+        (text.hp / text.maxHp) * sprite.sizeTileX * size.scaleX - 5, 10));
+    HealthSquare.setFillColor(sf::Color::White);
+    HealthSquare.setPosition(position.x, position.y);
+    Health.setFillColor(text.color);
+    Health.setPosition(position.x + 2.5, position.y + 2.5);
+    _window.draw(HealthSquare);
+    _window.draw(Health);
+  }
+
+  void renderButton(RNGine::components::Button button,
+                    RNGine::components::Position position) {
+
+    sf::Font font;
+    if (_fonts.find(button.font) == _fonts.end()) {
+      if (!font.loadFromFile(button.font))
+        return;
+      _fonts[button.font] = font;
+    } else {
+      font = _fonts[button.font];
+    }
+    sf::RectangleShape ButtonSquare(sf::Vector2f(button.x, button.y));
+    ButtonSquare.setFillColor(sf::Color::Black);
+    ButtonSquare.setOutlineColor(button.color);
+    ButtonSquare.setOutlineThickness(5);
+    ButtonSquare.setPosition(position.x, position.y);
+    sf::Text Text;
+    Text.setString(button.buttonText);
+    Text.setFillColor(button.color);
+    Text.setCharacterSize(button.CharacterSize);
+    Text.setPosition(position.x + 15,
+                     position.y + (button.y - button.CharacterSize) / 2);
+    Text.setFont(font);
+    _window.draw(ButtonSquare);
     _window.draw(Text);
   }
 

@@ -6,44 +6,78 @@
 */
 
 #include "Network.hpp"
+#include "rules/scenes/Lobby.hpp"
+#include "rules/scenes/MultiplayerGame.hpp"
+#include <cstring>
+#include <linux/joystick.h>
+#include <string>
 
-Network::Network(boost::asio::io_context &io_context, const std::chrono::time_point<std::chrono::_V2::system_clock, std::chrono::_V2::system_clock::duration> &tStart)
-    : _socket(io_context, boost::asio::ip::udp::endpoint(boost::asio::ip::udp::v4(), 13)), _tStart(tStart)
-{
-    receiveRequest();
+Rtype::Network::Network(boost::asio::io_context &ioContext, RNGine::Core *core,
+                        std::mutex &mutex)
+    : _socket(ioContext,
+              boost::asio::ip::udp::endpoint(boost::asio::ip::udp::v4(), 12)),
+      _ioContext(ioContext),
+      _endpoint(boost::asio::ip::address::from_string("192.168.1.93"), 8080),
+      _core(core), _mutex(mutex) {
+  receiveRequest();
 }
 
-void Network::receiveRequest()
-{
-    _socket.async_receive_from(boost::asio::buffer(_buffer, _maxLength), _senderEndpoint,
-                               [&](const boost::system::error_code &error, std::size_t bytes_received)
-                               {
-                                   if (!error)
-                                   {
-                                       _recvBuffer = std::string(_buffer, bytes_received);
-                                       const auto tEnd = std::chrono::high_resolution_clock::now();
-                                       const auto time = std::chrono::duration<double, std::milli>(tEnd - _tStart).count();
-                                       std::cout << "Received: " << _recvBuffer << std::endl;
-                                       treatRequest();
-                                       sendRequest();
-                                   }
-                                   memset(_buffer, 0, _maxLength);
-                                   receiveRequest();
-                               });
+void Rtype::Network::receiveRequest() {
+  _socket.async_receive_from(
+      boost::asio::buffer(&_data, sizeof(Data)), _endpoint,
+      [&](const boost::system::error_code &error, std::size_t bytes_received) {
+        if (!error)
+          treatRequest();
+        memset(&_data, 0, sizeof(Data));
+        receiveRequest();
+      });
 }
 
-void Network::sendRequest()
-{
-    _socket.async_send_to(boost::asio::buffer(_sendBuffer.c_str(), _sendBuffer.length()), _senderEndpoint,
-                          [&](const boost::system::error_code &error, std::size_t bytes_sent)
-                          {
-                              if (!error)
-                                  std::cout << "Sent: " << _sendBuffer << std::endl;
-                              _recvBuffer = "";
-                              _sendBuffer = "";
-                          });
+void Rtype::Network::sendRequest(enum Command command, enum Code code,
+                                 const char content[]) {
+  strcpy(_data.content, content);
+  _data.command = command;
+  _data.code = code;
+  _socket.send_to(boost::asio::buffer(&_data, sizeof(Data)), _endpoint);
 }
 
-void Network::treatRequest()
-{
+void Rtype::Network::treatRequest() {
+  _mutex.lock();
+  Rtype::LobbyScene &lobby =
+      static_cast<Rtype::LobbyScene &>(_core->manager.getScene("lobby"));
+  if (_data.command == LOGIN) {
+    if (_data.code == ERROR)
+      std::cout << "error login" << std::endl;
+    //  throw(std::exception("Already four players connected"));
+    if (lobby.getId() != "lobby") {
+      return;
+    }
+    if (!_isConnected) {
+      lobby.setIDPlayer(std::stoi((_data.content)));
+      _ID = std::stoi(_data.content);
+      lobby.setNumberPlayers(std::stoi(_data.content));
+      _isConnected = true;
+    } else {
+      lobby.setNumberPlayers(std::stoi(_data.content));
+    }
+  } else if (_data.command == START) {
+    lobby.startGame(2, _core, this);
+  } else if (_data.command == MOVE) {
+    Rtype::GameMultiScene &multi = static_cast<Rtype::GameMultiScene &>(
+        _core->manager.getScene("gameMulti"));
+    multi.setVelocity(_data.content, _ID);
+  } else if (_data.command == SHOOT) {
+    Rtype::GameMultiScene &multi = static_cast<Rtype::GameMultiScene &>(
+        _core->manager.getScene("gameMulti"));
+    multi.makeShoot(_data.content, _ID);
+  } else if (_data.command == DAMAGE) {
+    Rtype::GameMultiScene &multi = static_cast<Rtype::GameMultiScene &>(
+        _core->manager.getScene("gameMulti"));
+    multi.makeShoot(_data.content, _ID);
+  } else if (_data.command == DAMAGE) {
+    Rtype::GameMultiScene &multi = static_cast<Rtype::GameMultiScene &>(
+        _core->manager.getScene("gameMulti"));
+    multi.makeShoot(_data.content, _ID);
+  }
+  _mutex.unlock();
 }

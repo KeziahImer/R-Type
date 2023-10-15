@@ -1,5 +1,9 @@
 #include "rules/systems/Shoots.hpp"
+#include "rngine/components/Movable.hpp"
+#include "rngine/components/Networked.hpp"
+#include "rngine/components/PlayerId.hpp"
 #include "rngine/components/text.hpp"
+#include "server/Network/Network.hpp"
 #include <string>
 
 bool checkCollision(std::optional<RNGine::components::Collider> collisionA,
@@ -32,6 +36,12 @@ RNGine::Registry::System ShootCollisionSystem = [](RNGine::Registry &registry) {
   auto &MakeDamages = registry.getComponents<RNGine::components::MakeDamage>();
   RNGine::SparseArray<RNGine::components::Position> &Positions =
       registry.getComponents<RNGine::components::Position>();
+  RNGine::SparseArray<RNGine::components::Movable> &Movables =
+      registry.getComponents<RNGine::components::Movable>();
+  RNGine::SparseArray<RNGine::components::Networked> &Networkeds =
+      registry.getComponents<RNGine::components::Networked>();
+  RNGine::SparseArray<RNGine::components::PlayerId> &PlayerIds =
+      registry.getComponents<RNGine::components::PlayerId>();
   auto &Attackables = registry.getComponents<RNGine::components::Attackable>();
 
   for (size_t i = 0; i < Colliders.size(); i++) {
@@ -43,8 +53,26 @@ RNGine::Registry::System ShootCollisionSystem = [](RNGine::Registry &registry) {
                          Positions[x])) {
         if (Attackables[i]->ally == MakeDamages[x]->ally)
           continue;
+        if (!Attackables[i]->_Attackable)
+          continue;
+        if (!Movables[i].has_value() && Attackables[i]->ally &&
+            Networkeds[i].has_value()) {
+          continue;
+        }
         Attackables[i]->health =
             Attackables[i]->health - MakeDamages[x]->Damage;
+        Attackables[i]->_Attackable = false;
+        Attackables[i]->lastShoot =
+            std::chrono::duration_cast<std::chrono::milliseconds>(
+                std::chrono::system_clock::now().time_since_epoch())
+                .count();
+        if (Movables[i].has_value() && Networkeds[i].has_value() &&
+            PlayerIds[i].has_value()) {
+          std::string commandContent = std::to_string(Attackables[i]->health) +
+                                       "," + std::to_string(PlayerIds[i]->id);
+          Networkeds[i]->network->sendRequest(DAMAGE, NONE,
+                                              commandContent.c_str());
+        }
       }
     }
   }
@@ -61,6 +89,10 @@ RNGine::Registry::System ShootSystem = [](RNGine::Registry &registry) {
       registry.getComponents<RNGine::components::Size>();
   RNGine::SparseArray<RNGine::components::Velocity> &Velocities =
       registry.getComponents<RNGine::components::Velocity>();
+  RNGine::SparseArray<RNGine::components::Networked> &Networkeds =
+      registry.getComponents<RNGine::components::Networked>();
+  RNGine::SparseArray<RNGine::components::PlayerId> &PlayerIds =
+      registry.getComponents<RNGine::components::PlayerId>();
   std::map<enum RNGine::Key, bool> inputs = registry.inputs;
 
   for (size_t i = 0; i < Shoots.size(); i++) {
@@ -69,11 +101,18 @@ RNGine::Registry::System ShootSystem = [](RNGine::Registry &registry) {
         !Velocities[i].has_value())
       continue;
     for (auto inputPress : inputs) {
+      if (Shoots[i]->Input == RNGine::Delete)
+        continue;
       if ((inputPress.first == Shoots[i]->Input) && inputPress.second) {
         auto time = std::chrono::duration_cast<std::chrono::milliseconds>(
                         std::chrono::system_clock::now().time_since_epoch())
                         .count();
         if (time - Shoots[i]->lastShoot > Shoots[i]->timeMillisecond) {
+          if (Networkeds[i].has_value() && PlayerIds[i].has_value()) {
+            std::string commandContent = std::to_string(PlayerIds[i]->id);
+            Networkeds[i]->network->sendRequest(SHOOT, NONE,
+                                                commandContent.c_str());
+          }
           Shoots[i]->lastShoot = time;
           RNGine::Entity shoot = registry.createEntity("shoot");
           registry.addComponent<RNGine::components::Position>(
@@ -89,7 +128,7 @@ RNGine::Registry::System ShootSystem = [](RNGine::Registry &registry) {
           registry.addComponent<RNGine::components::Sprite>(
               shoot,
               RNGine::components::Sprite::createSprite(
-                  "./assets/ShootsAndPlayer.gif", false, 33, 22, 6, 1, 2));
+                  "./assets/ShootsAndPlayer.gif", false, 33, 22, 6, 1, 3));
           registry.addComponent<RNGine::components::Size>(
               shoot, RNGine::components::Size::createSize(1, 1));
           registry.addComponent(
@@ -141,7 +180,7 @@ RNGine::Registry::System EnemyShoot = [](RNGine::Registry &registry) {
                      EnemyShoots[i]->speedY + Velocities[i]->y / 2));
       registry.addComponent<RNGine::components::Sprite>(
           shoot, RNGine::components::Sprite::createSprite(
-                     "./assets/ShootsAndPlayer.gif", true, 33, 22, 6, 1, 2));
+                     "./assets/ShootsAndPlayer.gif", true, 33, 22, 6, 1, 3));
       registry.addComponent<RNGine::components::Size>(
           shoot, RNGine::components::Size::createSize(1, 1));
       registry.addComponent(
@@ -156,7 +195,32 @@ RNGine::Registry::System EnemyShoot = [](RNGine::Registry &registry) {
   }
 };
 
+RNGine::Registry::System CheckInvisibility = [](RNGine::Registry &registry) {
+  // Obtenez toutes les entités avec le composant de collision
+  auto &Colliders = registry.getComponents<RNGine::components::Collider>();
+  auto &MakeDamages = registry.getComponents<RNGine::components::MakeDamage>();
+  RNGine::SparseArray<RNGine::components::Position> &Positions =
+      registry.getComponents<RNGine::components::Position>();
+  auto &Attackables = registry.getComponents<RNGine::components::Attackable>();
+
+  for (size_t i = 0; i < Attackables.size(); i++) {
+    if (!Attackables[i].has_value())
+      continue;
+    if (std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::system_clock::now().time_since_epoch())
+                .count() -
+            Attackables[i]->lastShoot >
+        Attackables[i]->invinsibilityTime) {
+      Attackables[i]->_Attackable = true;
+      Attackables[i]->lastShoot =
+          std::chrono::duration_cast<std::chrono::milliseconds>(
+              std::chrono::system_clock::now().time_since_epoch())
+              .count();
+    }
+  }
+};
+
 namespace Rtype {
-RNGine::Registry::SystemBundle shootsSystems = {ShootCollisionSystem,
-                                                ShootSystem, EnemyShoot};
+RNGine::Registry::SystemBundle shootsSystems = {
+    ShootCollisionSystem, ShootSystem, EnemyShoot, CheckInvisibility};
 }
