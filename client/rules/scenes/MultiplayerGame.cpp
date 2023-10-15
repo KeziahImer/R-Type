@@ -211,7 +211,8 @@ void Rtype::GameMultiScene::makeShoot(std::string contentShoot) {
         !Sprites[i].has_value() || !Sizes[i].has_value() ||
         !Velocities[i].has_value() || _ID == id)
       continue;
-    std::cout << "ACTIVATE SHOOT: " << id << std::endl;
+    std::cout << "ACTIVATE SHOOT: " << id << " PERSONNAL ID: " << _ID
+              << std::endl;
     auto shoot = createEntity("shoot");
     addComponent<RNGine::components::Position>(
         shoot,
