@@ -121,7 +121,8 @@ public:
                     RNGine::components::Position position,
                     RNGine::components::Sprite sprite,
                     RNGine::components::Size size) {
-
+    std::cout << "Health Square: " << sprite.sizeTileX << ", " << size.scaleX
+              << std::endl;
     sf::RectangleShape HealthSquare(
         sf::Vector2f(sprite.sizeTileX * size.scaleX, 15));
     sf::RectangleShape Health(sf::Vector2f(
