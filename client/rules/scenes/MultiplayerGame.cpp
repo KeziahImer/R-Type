@@ -12,7 +12,7 @@
 Rtype::GameMultiScene::GameMultiScene(int id, int playerNumber,
                                       Rtype::Network *network,
                                       boost::asio::io_context &ioContext)
-    : _ID(id + 1), _playersNbr(playerNumber), _network(network),
+    : _ID(id), _playersNbr(playerNumber), _network(network),
       _ioContext(ioContext) {
   setId("gameMulti");
   addBundle(Rtype::physicsSystems);
@@ -152,7 +152,7 @@ void Rtype::GameMultiScene::createWave(int waveSize, int waveStart) {
   }
 }
 
-void Rtype::GameMultiScene::setVelocity(std::string contentVelocity) {
+void Rtype::GameMultiScene::setVelocity(std::string contentVelocity, int ID) {
   auto &PlayerIds = getRegistry().getComponents<RNGine::components::PlayerId>();
   auto &Velocitys = getRegistry().getComponents<RNGine::components::Velocity>();
   auto &Positions = getRegistry().getComponents<RNGine::components::Position>();
@@ -185,7 +185,7 @@ void Rtype::GameMultiScene::setVelocity(std::string contentVelocity) {
 
   for (int i = 0; i < PlayerIds.size(); i++) {
     if (!PlayerIds[i].has_value() || !Velocitys[i].has_value() ||
-        !Positions[i].has_value() || PlayerIds[i]->id != id || _ID == id)
+        !Positions[i].has_value() || PlayerIds[i]->id != id || ID == id)
       continue;
     Velocitys[i]->x = velocityX;
     Velocitys[i]->y = velocityY;
@@ -194,7 +194,7 @@ void Rtype::GameMultiScene::setVelocity(std::string contentVelocity) {
   }
 }
 
-void Rtype::GameMultiScene::makeShoot(std::string contentShoot) {
+void Rtype::GameMultiScene::makeShoot(std::string contentShoot, int ID) {
   auto &PlayerIds = getRegistry().getComponents<RNGine::components::PlayerId>();
   auto &Positions = getRegistry().getComponents<RNGine::components::Position>();
   auto &Sprites = getRegistry().getComponents<RNGine::components::Sprite>();
@@ -209,9 +209,9 @@ void Rtype::GameMultiScene::makeShoot(std::string contentShoot) {
     if (!PlayerIds[i].has_value() || PlayerIds[i]->id != id ||
         !Shoots[i].has_value() || !Positions[i].has_value() ||
         !Sprites[i].has_value() || !Sizes[i].has_value() ||
-        !Velocities[i].has_value() || _ID == id)
+        !Velocities[i].has_value() || ID == id)
       continue;
-    std::cout << "ACTIVATE SHOOT: " << id << " PERSONNAL ID: " << _ID
+    std::cout << "ACTIVATE SHOOT: " << id << " PERSONNAL ID: " << ID
               << std::endl;
     auto shoot = createEntity("shoot");
     addComponent<RNGine::components::Position>(
@@ -236,7 +236,7 @@ void Rtype::GameMultiScene::makeShoot(std::string contentShoot) {
   }
 }
 
-void Rtype::GameMultiScene::takeDamage(std::string contentShoot) {
+void Rtype::GameMultiScene::takeDamage(std::string contentShoot, int ID) {
   auto &PlayerIds = getRegistry().getComponents<RNGine::components::PlayerId>();
   auto &Attackables =
       getRegistry().getComponents<RNGine::components::Attackable>();
@@ -258,7 +258,7 @@ void Rtype::GameMultiScene::takeDamage(std::string contentShoot) {
   }
   for (int i = 0; i < PlayerIds.size(); i++) {
     if (!PlayerIds[i].has_value() || PlayerIds[i]->id != id ||
-        !Attackables[i].has_value() || _ID == id || health == -1)
+        !Attackables[i].has_value() || ID == id || health == -1)
       continue;
     Attackables[i]->health = health;
   }

@@ -65,15 +65,15 @@ void Rtype::Network::treatRequest() {
   } else if (_data.command == MOVE) {
     Rtype::GameMultiScene &multi = static_cast<Rtype::GameMultiScene &>(
         _core->manager.getScene("gameMulti"));
-    multi.setVelocity(_data.content);
+    multi.setVelocity(_data.content, _ID);
   } else if (_data.command == SHOOT) {
     Rtype::GameMultiScene &multi = static_cast<Rtype::GameMultiScene &>(
         _core->manager.getScene("gameMulti"));
-    multi.makeShoot(_data.content);
+    multi.makeShoot(_data.content, _ID);
   } else if (_data.command == DAMAGE) {
     Rtype::GameMultiScene &multi = static_cast<Rtype::GameMultiScene &>(
         _core->manager.getScene("gameMulti"));
-    multi.makeShoot(_data.content);
+    multi.makeShoot(_data.content, _ID);
   }
   _mutex.unlock();
 }

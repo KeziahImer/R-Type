@@ -46,9 +46,9 @@ public:
   void createEnemy(RNGine::Entity e, float posX, float posY);
   void createScore(RNGine::Entity e);
   void createHealthBar(RNGine::Entity e, RNGine::Entity entity, float hp);
-  void setVelocity(std::string contentVelocity);
-  void makeShoot(std::string contentShoot);
-  void takeDamage(std::string contentShoot);
+  void setVelocity(std::string contentVelocity, int ID);
+  void makeShoot(std::string contentShoot, int ID);
+  void takeDamage(std::string contentShoot, int ID);
   void createWave(int waveSize, int waveStart);
 
 private:
