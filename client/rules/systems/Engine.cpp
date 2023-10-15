@@ -32,9 +32,10 @@ RNGine::Registry::System CheckHealth = [](RNGine::Registry &registry) {
       for (size_t x = 0; x < healthBars.size(); x++) {
         if (!healthBars[x].has_value())
           continue;
-        if (healthBars[x]->entity == i)
+        if (healthBars[x]->entity == i) {
           std::cout << "REMOVE HEALTHBAR: " << x << std::endl;
-        registry.removeEntity(x);
+          registry.removeEntity(x);
+        }
       }
       registry.removeEntity(i);
     }
