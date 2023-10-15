@@ -264,10 +264,12 @@ void Rtype::GameMultiScene::takeDamage(std::string contentShoot, int ID) {
   }
 }
 
-void Rtype::GameMultiScene::deadEntity(std::string contentShoot) {
+void Rtype::GameMultiScene::deadEntity(std::string contentShoot, int ID) {
   auto &Attackables =
       getRegistry().getComponents<RNGine::components::Attackable>();
   int id = std::stoi(contentShoot);
+  if (id == ID)
+    return;
   for (int i = 0; i < Attackables.size(); i++) {
     if (!Attackables[i].has_value())
       continue;

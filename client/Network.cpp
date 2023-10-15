@@ -78,6 +78,10 @@ void Rtype::Network::treatRequest() {
     Rtype::GameMultiScene &multi = static_cast<Rtype::GameMultiScene &>(
         _core->manager.getScene("gameMulti"));
     multi.makeShoot(_data.content, _ID);
+  } else if (_data.command == DEAD) {
+    Rtype::GameMultiScene &multi = static_cast<Rtype::GameMultiScene &>(
+        _core->manager.getScene("gameMulti"));
+    multi.deadEntity(_data.content, _ID);
   }
   _mutex.unlock();
 }

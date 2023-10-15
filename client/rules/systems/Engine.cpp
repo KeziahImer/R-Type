@@ -1,6 +1,7 @@
 #include "rules/systems/Engine.hpp"
 #include "client/Network.hpp"
 #include "rngine/components/Networked.hpp"
+#include "rngine/components/PlayerId.hpp"
 #include "rngine/components/Position.hpp"
 #include "rngine/components/Size.hpp"
 #include "rngine/components/Sprite.hpp"
@@ -25,19 +26,18 @@ RNGine::Registry::System CheckHealth = [](RNGine::Registry &registry) {
       registry.getComponents<RNGine::components::healthBar>();
   RNGine::SparseArray<RNGine::components::Networked> &Networkeds =
       registry.getComponents<RNGine::components::Networked>();
-  Rtype::Network *network;
-  for (int i = 0; i < Networkeds.size(); i++) {
-    if (!Networkeds[i].has_value())
-      continue;
-    network = Networkeds[i]->network;
-  }
   for (size_t i = 0; i < Attackables.size(); i++) {
     if (!Attackables[i].has_value())
       continue;
     if (Attackables[i]->health <= 0) {
       registry._gameScore = registry._gameScore + Attackables[i]->points;
       registry.removeEntity(i);
-      network->sendRequest(DEAD, NONE, std::to_string(i).c_str());
+      for (int x = 0; x < Networkeds.size(); x++) {
+        if (!Networkeds[x].has_value())
+          continue;
+        Networkeds[x]->network->sendRequest(DEAD, NONE,
+                                            std::to_string(i).c_str());
+      }
       for (size_t x = 0; x < healthBars.size(); x++) {
         if (!healthBars[x].has_value())
           continue;
