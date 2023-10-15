@@ -28,6 +28,7 @@ public:
   }
 
   void render(RNGine::Registry registry) {
+    std::cout << "entry renderer ||||||||||||||||" << std::endl;
     auto &Sprites = registry.getComponents<RNGine::components::Sprite>();
     auto &Positions = registry.getComponents<RNGine::components::Position>();
     auto &Sizes = registry.getComponents<RNGine::components::Size>();
@@ -72,6 +73,7 @@ public:
       }
     }
     _window.display();
+    std::cout << "exit renderer ||||||||||||||||" << std::endl;
   }
 
   void renderSprite(RNGine::components::Sprite sprite,

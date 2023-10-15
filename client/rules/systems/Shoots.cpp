@@ -29,6 +29,7 @@ bool checkCollision(std::optional<RNGine::components::Collider> collisionA,
 }
 
 RNGine::Registry::System ShootCollisionSystem = [](RNGine::Registry &registry) {
+  std::cout << "entry shootCol " << std::endl;
   // Obtenez toutes les entités avec le composant de collision
   auto &Colliders = registry.getComponents<RNGine::components::Collider>();
   auto &MakeDamages = registry.getComponents<RNGine::components::MakeDamage>();
@@ -60,6 +61,7 @@ RNGine::Registry::System ShootCollisionSystem = [](RNGine::Registry &registry) {
 };
 
 RNGine::Registry::System ShootSystem = [](RNGine::Registry &registry) {
+  std::cout << "entry shootsys " << std::endl;
   RNGine::SparseArray<RNGine::components::Shoot> &Shoots =
       registry.getComponents<RNGine::components::Shoot>();
   RNGine::SparseArray<RNGine::components::Position> &Positions =
@@ -92,6 +94,7 @@ RNGine::Registry::System ShootSystem = [](RNGine::Registry &registry) {
           if (Networkeds[i].has_value() && PlayerIds[i].has_value()) {
             Shoots[i]->lastShoot = time;
             std::string commandContent = std::to_string(PlayerIds[i]->id);
+            std::cout << "send shoot" << std::endl;
             Networkeds[i]->network->sendRequest(Command::SHOOT, Code::NONE,
                                                 commandContent.c_str());
             return;
@@ -129,6 +132,7 @@ RNGine::Registry::System ShootSystem = [](RNGine::Registry &registry) {
 };
 
 RNGine::Registry::System EnemyShoot = [](RNGine::Registry &registry) {
+  std::cout << "entry shoot ene " << std::endl;
   RNGine::SparseArray<RNGine::components::Position> &Positions =
       registry.getComponents<RNGine::components::Position>();
   RNGine::SparseArray<RNGine::components::Sprite> &Sprites =
@@ -179,6 +183,7 @@ RNGine::Registry::System EnemyShoot = [](RNGine::Registry &registry) {
 };
 
 RNGine::Registry::System CheckInvisibility = [](RNGine::Registry &registry) {
+  std::cout << "entry checkincvi " << std::endl;
   // Obtenez toutes les entités avec le composant de collision
   auto &Colliders = registry.getComponents<RNGine::components::Collider>();
   auto &MakeDamages = registry.getComponents<RNGine::components::MakeDamage>();

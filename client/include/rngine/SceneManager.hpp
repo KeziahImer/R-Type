@@ -64,10 +64,12 @@ public:
 
   bool update() {
     if (_scenes.size() > 0) {
+      std::cout << "entry loop" << std::endl;
       setInputs();
       _renderer.render(_scenes[_loadedScene].update(_keybinds, _mouseBinds));
       if (_nextScene != -1)
         _load(_nextScene);
+      std::cout << "exit loop" << std::endl;
     }
     return _running;
   }

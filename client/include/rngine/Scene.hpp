@@ -114,7 +114,10 @@ public:
       throw std::runtime_error("Scene not loaded.");
     if (!_registry.clock.checkFrame())
       return _registry;
+    std::cout << "registry run {{{{{{{{{{{{{{{}}}}}}}}}}}}}}}" << std::endl;
     _registry.run();
+    std::cout << " exit registry run {{{{{{{{{{{{{{{}}}}}}}}}}}}}}}"
+              << std::endl;
     return _registry;
   }
 

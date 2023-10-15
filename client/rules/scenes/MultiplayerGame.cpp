@@ -152,6 +152,7 @@ void Rtype::GameMultiScene::createWave(int waveSize, int waveStart) {
 }
 
 void Rtype::GameMultiScene::setVelocity(std::string contentVelocity) {
+  std::cout << "start pose " << std::endl;
   auto &PlayerIds = getRegistry().getComponents<RNGine::components::PlayerId>();
   auto &Velocitys = getRegistry().getComponents<RNGine::components::Velocity>();
   auto &Positions = getRegistry().getComponents<RNGine::components::Position>();
@@ -186,6 +187,7 @@ void Rtype::GameMultiScene::setVelocity(std::string contentVelocity) {
     if (!PlayerIds[i].has_value() || !Velocitys[i].has_value() ||
         !Positions[i].has_value() || PlayerIds[i]->id != id)
       continue;
+    std::cout << "make pose " << std::endl;
     Velocitys[i]->x = velocityX;
     Velocitys[i]->y = velocityY;
     Positions[i]->x = posX;
@@ -194,6 +196,7 @@ void Rtype::GameMultiScene::setVelocity(std::string contentVelocity) {
 }
 
 void Rtype::GameMultiScene::makeShoot(std::string contentShoot) {
+  std::cout << "start make shoot " << std::endl;
   auto &PlayerIds = getRegistry().getComponents<RNGine::components::PlayerId>();
   auto &Positions = getRegistry().getComponents<RNGine::components::Position>();
   auto &Sprites = getRegistry().getComponents<RNGine::components::Sprite>();
@@ -209,6 +212,7 @@ void Rtype::GameMultiScene::makeShoot(std::string contentShoot) {
         !Sprites[i].has_value() || !Sizes[i].has_value() ||
         !Velocities[i].has_value())
       continue;
+    std::cout << "make shoot " << std::endl;
     auto shoot = createEntity("shoot");
     addComponent<RNGine::components::Position>(
         shoot,
@@ -230,4 +234,5 @@ void Rtype::GameMultiScene::makeShoot(std::string contentShoot) {
     addComponent(shoot, RNGine::components::Selfdestroy::createSelfDestroy(
                             1920, 1080 + 150, -150, -150));
   }
+  std::cout << "end make shoot " << std::endl;
 }
