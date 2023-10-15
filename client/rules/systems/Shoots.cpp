@@ -96,7 +96,7 @@ RNGine::Registry::System ShootSystem = [](RNGine::Registry &registry) {
           registry.addComponent<RNGine::components::Sprite>(
               shoot,
               RNGine::components::Sprite::createSprite(
-                  "./assets/ShootsAndPlayer.gif", false, 33, 22, 6, 1, 2));
+                  "./assets/ShootsAndPlayer.gif", false, 33, 22, 6, 1, 3));
           registry.addComponent<RNGine::components::Size>(
               shoot, RNGine::components::Size::createSize(1, 1));
           registry.addComponent(
@@ -148,7 +148,7 @@ RNGine::Registry::System EnemyShoot = [](RNGine::Registry &registry) {
                      EnemyShoots[i]->speedY + Velocities[i]->y / 2));
       registry.addComponent<RNGine::components::Sprite>(
           shoot, RNGine::components::Sprite::createSprite(
-                     "./assets/ShootsAndPlayer.gif", true, 33, 22, 6, 1, 2));
+                     "./assets/ShootsAndPlayer.gif", true, 33, 22, 6, 1, 3));
       registry.addComponent<RNGine::components::Size>(
           shoot, RNGine::components::Size::createSize(1, 1));
       registry.addComponent(

@@ -7,19 +7,36 @@ Rtype::GameScene::GameScene() {
   addBundle(Rtype::clickSystems);
   addBundle(Rtype::engineSystems);
   createPlayer(createEntity("player"));
-  createBackground(createEntity("background"));
+  createBackground(createEntity("background"), 0, 0);
+  createBackground(createEntity("background"), 1920, 0);
   for (int i = 0; i < 30; i++) {
     createEnemy(createEntity("enemy"), 1920 + (1000 * i), rand() % 1000 + 1);
   }
   createScore(createEntity("score"));
 }
 
-void Rtype::GameScene::createBackground(RNGine::Entity e) {
+void Rtype::GameScene::createBackground(RNGine::Entity e, float x, float y) {
   addComponent(e,
                RNGine::components::Sprite::createSprite(
-                   "./assets/backgroundSpace.jpg", false, 514, 360, 0, 0, 0));
-  addComponent(e, RNGine::components::Position::createPosition(0, 0));
-  addComponent(e, RNGine::components::Size::createSize(3.73, 3));
+                   "./assets/backgroundSpace.png", false, 512, 512, 0, 0, 0));
+  addComponent(e, RNGine::components::Position::createPosition(x, y));
+  addComponent(e, RNGine::components::Size::createSize((float)1920 / 512,
+                                                       (float)1080 / 512));
+  addComponent(
+      e, RNGine::components::InfiniteScroll::createInfiniteScroll(-1920, 1920));
+  addComponent(e, RNGine::components::Velocity::createVelocity(-0.05, 0));
+  RNGine::Entity background2 = createEntity("background2");
+  addComponent(background2,
+               RNGine::components::Sprite::createSprite(
+                   "./assets/Parallax60.png", false, 500, 500, 0, 0, 1));
+  addComponent(background2, RNGine::components::Position::createPosition(x, y));
+  addComponent(background2, RNGine::components::Size::createSize(
+                                (float)1920 / 500, (float)1080 / 500));
+  addComponent(
+      background2,
+      RNGine::components::InfiniteScroll::createInfiniteScroll(-1920, 1920));
+  addComponent(background2,
+               RNGine::components::Velocity::createVelocity(-0.1, 0));
 }
 
 void Rtype::GameScene::createScore(RNGine::Entity e) {
@@ -39,7 +56,7 @@ void Rtype::GameScene::createHealthBar(RNGine::Entity e, RNGine::Entity entity,
 
 void Rtype::GameScene::createPlayer(RNGine::Entity e) {
   addComponent(e, RNGine::components::Sprite::createSprite(
-                      "./assets/Player.gif", false, 33, 17, 2, 2, 1));
+                      "./assets/Player.gif", false, 33, 17, 2, 2, 2));
   addComponent(e, RNGine::components::Position::createPosition(25, 500));
   addComponent(e, RNGine::components::Size::createSize(3, 3));
   addComponent(e, RNGine::components::Velocity::createVelocity(0, 0));
@@ -63,7 +80,7 @@ void Rtype::GameScene::createPlayer(RNGine::Entity e) {
 
 void Rtype::GameScene::createEnemy(RNGine::Entity e, float posX, float posY) {
   addComponent(e, RNGine::components::Sprite::createSprite(
-                      "./assets/Player.gif", true, 33, 17, 2, 3, 1));
+                      "./assets/Player.gif", true, 33, 17, 2, 3, 2));
   addComponent(e, RNGine::components::Position::createPosition(posX, posY));
   addComponent(e, RNGine::components::Size::createSize(3, 3));
   addComponent(e, RNGine::components::Velocity::createVelocity(-0.5, 0));

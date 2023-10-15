@@ -3,6 +3,7 @@
 #include "rngine/Registry.hpp"
 #include "rngine/components/text.hpp"
 #include "rules/scenes/MultiplayerGame.hpp"
+#include "rules/systems/Physics.hpp"
 #include <mutex>
 #include <string>
 #include <thread>
@@ -12,7 +13,9 @@ Rtype::LobbyScene::LobbyScene(RNGine::Core *core, Rtype::Network &network,
     : _core(core), _network(network), _ioContext(ioContext) {
   setId("lobby");
   addBundle(Rtype::clickSystems);
-  createBackground(createEntity("background"));
+  addBundle(Rtype::physicsSystems);
+  createBackground(createEntity("background"), 0, 0);
+  createBackground(createEntity("background"), 1920, 0);
   createButton(
       createEntity("button"), "START GAME",
       [core, &network, this] { network.sendRequest(START, NONE, ""); }, 810,
@@ -20,12 +23,28 @@ Rtype::LobbyScene::LobbyScene(RNGine::Core *core, Rtype::Network &network,
   createTexte(createEntity("players"), "Players: ", 25);
 }
 
-void Rtype::LobbyScene::createBackground(RNGine::Entity e) {
+void Rtype::LobbyScene::createBackground(RNGine::Entity e, float x, float y) {
   addComponent(e,
                RNGine::components::Sprite::createSprite(
-                   "./assets/backgroundSpace.jpg", false, 514, 360, 0, 0, 0));
-  addComponent(e, RNGine::components::Position::createPosition(0, 0));
-  addComponent(e, RNGine::components::Size::createSize(3.73, 3));
+                   "./assets/backgroundSpace.png", false, 512, 512, 0, 0, 0));
+  addComponent(e, RNGine::components::Position::createPosition(x, y));
+  addComponent(e, RNGine::components::Size::createSize((float)1920 / 512,
+                                                       (float)1080 / 512));
+  addComponent(
+      e, RNGine::components::InfiniteScroll::createInfiniteScroll(-1920, 1920));
+  addComponent(e, RNGine::components::Velocity::createVelocity(-0.05, 0));
+  RNGine::Entity background2 = createEntity("background2");
+  addComponent(background2,
+               RNGine::components::Sprite::createSprite(
+                   "./assets/Parallax60.png", false, 500, 500, 0, 0, 1));
+  addComponent(background2, RNGine::components::Position::createPosition(x, y));
+  addComponent(background2, RNGine::components::Size::createSize(
+                                (float)1920 / 500, (float)1080 / 500));
+  addComponent(
+      background2,
+      RNGine::components::InfiniteScroll::createInfiniteScroll(-1920, 1920));
+  addComponent(background2,
+               RNGine::components::Velocity::createVelocity(-0.1, 0));
 }
 
 void Rtype::LobbyScene::createButton(RNGine::Entity e, std::string text,

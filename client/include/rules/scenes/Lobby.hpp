@@ -14,6 +14,7 @@
 #include "rngine/Core.hpp"
 #include "rngine/Scene.hpp"
 #include "rngine/components/Clickable.hpp"
+#include "rngine/components/InfiniteScroll.hpp"
 #include "rngine/components/Position.hpp"
 #include "rngine/components/Size.hpp"
 #include "rngine/components/Sprite.hpp"
@@ -28,7 +29,7 @@ public:
   LobbyScene(RNGine::Core *core, Rtype::Network &network,
              boost::asio::io_context &ioContext);
 
-  void createBackground(RNGine::Entity e);
+  void createBackground(RNGine::Entity e, float x, float y);
   void createButton(RNGine::Entity e, std::string text,
                     std::function<void(void)> function, float posX, float posY,
                     float sizeX, float sizeY);

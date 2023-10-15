@@ -1,5 +1,6 @@
 #include "rules/systems/Physics.hpp"
 #include "rngine/Registry.hpp"
+#include "rngine/components/InfiniteScroll.hpp"
 #include "rngine/components/Position.hpp"
 
 RNGine::Registry::System velocitySystem = [](RNGine::Registry &registry) {
@@ -57,7 +58,21 @@ RNGine::Registry::System SelfDestroy = [](RNGine::Registry &registry) {
   }
 };
 
+RNGine::Registry::System InfiniteScrollSystem = [](RNGine::Registry &registry) {
+  RNGine::SparseArray<RNGine::components::InfiniteScroll> &InfiniteScrolls =
+      registry.getComponents<RNGine::components::InfiniteScroll>();
+  RNGine::SparseArray<RNGine::components::Position> &Positions =
+      registry.getComponents<RNGine::components::Position>();
+  for (size_t i = 0; i < InfiniteScrolls.size(); i++) {
+    if (!InfiniteScrolls[i].has_value() || !Positions[i].has_value())
+      continue;
+    if (Positions[i]->x <= InfiniteScrolls[i]->switchValue) {
+      Positions[i]->x = InfiniteScrolls[i]->respawnValue;
+    }
+  }
+};
+
 namespace Rtype {
-RNGine::Registry::SystemBundle physicsSystems = {velocitySystem, MovableSystem,
-                                                 SelfDestroy};
+RNGine::Registry::SystemBundle physicsSystems = {
+    velocitySystem, MovableSystem, SelfDestroy, InfiniteScrollSystem};
 }

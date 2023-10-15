@@ -15,6 +15,7 @@
 #include "rngine/components/Clickable.hpp"
 #include "rngine/components/Collider.hpp"
 #include "rngine/components/EnemyShoot.hpp"
+#include "rngine/components/InfiniteScroll.hpp"
 #include "rngine/components/Movable.hpp"
 #include "rngine/components/Position.hpp"
 #include "rngine/components/SelfDestroy.hpp"
@@ -37,7 +38,7 @@ class GameScene : public RNGine::Scene {
 public:
   GameScene();
 
-  void createBackground(RNGine::Entity e);
+  void createBackground(RNGine::Entity e, float x, float y);
   void createPlayer(RNGine::Entity e);
   void createEnemy(RNGine::Entity e, float posX, float posY);
   void createScore(RNGine::Entity e);

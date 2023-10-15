@@ -16,6 +16,7 @@
 #include "rngine/components/Clickable.hpp"
 #include "rngine/components/Collider.hpp"
 #include "rngine/components/EnemyShoot.hpp"
+#include "rngine/components/InfiniteScroll.hpp"
 #include "rngine/components/Movable.hpp"
 #include "rngine/components/Position.hpp"
 #include "rngine/components/SelfDestroy.hpp"
@@ -39,7 +40,7 @@ public:
   GameMultiScene(int id, int playerNumber, Rtype::Network &network,
                  boost::asio::io_context &ioContext);
 
-  void createBackground(RNGine::Entity e);
+  void createBackground(RNGine::Entity e, float x, float y);
   void createPlayer(RNGine::Entity e, int id);
   void createAlly(RNGine::Entity e, int id);
   void createEnemy(RNGine::Entity e, float posX, float posY);
