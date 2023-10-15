@@ -32,11 +32,7 @@ public:
     return index;
   }
 
-  void load(size_t index) {
-    std::cout << "fill variable scene to load: " << index << std::endl;
-    this->_nextScene = (int)index;
-    std::cout << "filled variable scene to load: " << _nextScene << std::endl;
-  }
+  void load(size_t index) { this->_nextScene = (int)index; }
 
   void removeScene(size_t index) { _scenes.erase(_scenes.begin() + index); }
 
@@ -68,7 +64,6 @@ public:
 
   bool update() {
     if (_scenes.size() > 0) {
-      // std::cout << "start loop: " << _nextScene << std::endl;
       setInputs();
       _renderer.render(_scenes[_loadedScene].update(_keybinds, _mouseBinds));
       if (_nextScene != -1)
@@ -90,7 +85,6 @@ public:
 
 private:
   void _load(size_t index) {
-    std::cout << "access real load" << std::endl;
     if (index == _loadedScene) {
       return;
     }
@@ -98,7 +92,6 @@ private:
     _scenes[index].load();
     _loadedScene = index;
     _nextScene = -1;
-    std::cout << "end real load" << std::endl;
   }
 
   bool _running = true;
