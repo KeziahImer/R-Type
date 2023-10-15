@@ -7,7 +7,6 @@
 #include <string>
 
 RNGine::Registry::System velocitySystem = [](RNGine::Registry &registry) {
-  std::cout << "entry velocity " << std::endl;
   RNGine::SparseArray<RNGine::components::Velocity> &Velocities =
       registry.getComponents<RNGine::components::Velocity>();
   RNGine::SparseArray<RNGine::components::Position> &Positions =
@@ -23,7 +22,6 @@ RNGine::Registry::System velocitySystem = [](RNGine::Registry &registry) {
 };
 
 RNGine::Registry::System MovableSystem = [](RNGine::Registry &registry) {
-  std::cout << "entry movable " << std::endl;
   RNGine::SparseArray<RNGine::components::Movable> &Movables =
       registry.getComponents<RNGine::components::Movable>();
   RNGine::SparseArray<RNGine::components::Velocity> &Velocities =
@@ -67,7 +65,6 @@ RNGine::Registry::System MovableSystem = [](RNGine::Registry &registry) {
                                      std::to_string(Positions[i]->x) + "," +
                                      std::to_string(Positions[i]->y) + "," +
                                      std::to_string(PlayerIds[i]->id);
-        std::cout << "send move and pos" << std::endl;
         Networkeds[i]->network->sendRequest(Command::MOVE, Code::NONE,
                                             commandContent.c_str());
       }
@@ -77,7 +74,6 @@ RNGine::Registry::System MovableSystem = [](RNGine::Registry &registry) {
 };
 
 RNGine::Registry::System SelfDestroy = [](RNGine::Registry &registry) {
-  std::cout << "entry self destroy " << std::endl;
   RNGine::SparseArray<RNGine::components::Selfdestroy> &SelfDestroys =
       registry.getComponents<RNGine::components::Selfdestroy>();
   RNGine::SparseArray<RNGine::components::Position> &Positions =
@@ -90,14 +86,12 @@ RNGine::Registry::System SelfDestroy = [](RNGine::Registry &registry) {
         Positions[i]->y > SelfDestroys[i]->MaxY ||
         Positions[i]->x < SelfDestroys[i]->MinX ||
         Positions[i]->y < SelfDestroys[i]->MinY) {
-      std::cout << "remove entity: " << i << std::endl;
       registry.removeEntity(i);
     }
   }
 };
 
 RNGine::Registry::System InfiniteScrollSystem = [](RNGine::Registry &registry) {
-  std::cout << "entry infinite " << std::endl;
   RNGine::SparseArray<RNGine::components::InfiniteScroll> &InfiniteScrolls =
       registry.getComponents<RNGine::components::InfiniteScroll>();
   RNGine::SparseArray<RNGine::components::Position> &Positions =

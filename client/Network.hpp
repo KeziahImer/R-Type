@@ -16,7 +16,7 @@
 #include <rngine/Registry.hpp>
 #include <vector>
 
-enum Command { LOGIN, START, MOVE, SHOOT, NOTHING };
+enum Command { LOGIN, START, MOVE, SHOOT, DAMAGE, NOTHING };
 
 enum Code { SUCCESS, ERROR, NONE };
 
@@ -29,7 +29,8 @@ typedef struct Data_t {
 namespace Rtype {
 class Network {
 public:
-  Network(boost::asio::io_context &ioContext, RNGine::Core *core);
+  Network(boost::asio::io_context &ioContext, RNGine::Core *core,
+          std::mutex &mutex);
   ~Network() = default;
   void receiveRequest();
   void sendRequest(enum Command command, enum Code code, const char content[]);
@@ -42,6 +43,7 @@ private:
   bool _isConnected = false;
   Data _data;
   RNGine::Core *_core;
+  std::mutex &_mutex;
   int _ID = 0;
 };
 } // namespace Rtype

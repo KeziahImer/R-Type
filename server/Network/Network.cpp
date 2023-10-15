@@ -55,13 +55,12 @@ void Network::checkEndpoint() {
     _players.push_back(newPlayer);
     std::cout << "New Player created: " << newPlayer.address << ":"
               << newPlayer.port << std::endl;
-    sendRequest(_senderEndpoint);
-  } else {
-    for (auto player : _players) {
-      // if (player.address == _senderEndpoint.address().to_string() &&
-      // player.port == _senderEndpoint.port())
-      //   continue;
-      sendRequest(player.endpoint);
-    }
+    // sendRequest(_senderEndpoint);
+  }
+  for (auto player : _players) {
+    // if (player.address == _senderEndpoint.address().to_string() &&
+    // player.port == _senderEndpoint.port())
+    //   continue;
+    sendRequest(player.endpoint);
   }
 }

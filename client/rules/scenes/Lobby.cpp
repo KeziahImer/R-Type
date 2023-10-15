@@ -68,11 +68,20 @@ void Rtype::LobbyScene::createTexte(RNGine::Entity e, std::string text,
 
 void Rtype::LobbyScene::setNumberPlayers(int nbrPLayers) {
   _playersNbr = nbrPLayers;
-  auto &Texts = this->getInitial().getComponents<RNGine::components::Text>();
-  for (int i = 0; i < Texts.size(); i++) {
-    if (!Texts[i].has_value())
+  auto &Textsinit =
+      this->getInitial().getComponents<RNGine::components::Text>();
+  auto &TextsActual =
+      this->getRegistry().getComponents<RNGine::components::Text>();
+  for (int i = 0; i < Textsinit.size(); i++) {
+    if (!Textsinit[i].has_value())
       continue;
-    Texts[i]->text2 = std::to_string(nbrPLayers);
+    Textsinit[i]->text2 = std::to_string(nbrPLayers);
+  }
+  for (int i = 0; i < TextsActual.size(); i++) {
+    if (!TextsActual[i].has_value())
+      continue;
+    std::cout << "change actual: " << nbrPLayers << std::endl;
+    TextsActual[i]->text2 = std::to_string(nbrPLayers);
   }
 }
 

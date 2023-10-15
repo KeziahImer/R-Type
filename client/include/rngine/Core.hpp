@@ -16,9 +16,9 @@
 namespace RNGine {
 class Core {
 public:
-  void loop() {
+  void loop(std::mutex &mutex) {
     while (_running) {
-      if (!manager.update())
+      if (!manager.update(mutex))
         _running = false;
     }
   }

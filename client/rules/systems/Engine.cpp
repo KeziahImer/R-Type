@@ -17,7 +17,6 @@ RNGine::Registry::System UpdateScore = [](RNGine::Registry &registry) {
 };
 
 RNGine::Registry::System CheckHealth = [](RNGine::Registry &registry) {
-  std::cout << "entry cjheckhealth " << std::endl;
   RNGine::SparseArray<RNGine::components::Attackable> &Attackables =
       registry.getComponents<RNGine::components::Attackable>();
   RNGine::SparseArray<RNGine::components::healthBar> &healthBars =
@@ -28,9 +27,7 @@ RNGine::Registry::System CheckHealth = [](RNGine::Registry &registry) {
       continue;
     if (Attackables[i]->health <= 0) {
       registry._gameScore = registry._gameScore + Attackables[i]->points;
-      std::cout << "remove beacause dead: " << i << std::endl;
       registry.removeEntity(i);
-      std::cout << "end remove beacause dead: " << i << std::endl;
       for (size_t x = 0; x < healthBars.size(); x++) {
         if (!healthBars[x].has_value())
           continue;
@@ -42,7 +39,6 @@ RNGine::Registry::System CheckHealth = [](RNGine::Registry &registry) {
 };
 
 RNGine::Registry::System UpdateHealthBar = [](RNGine::Registry &registry) {
-  std::cout << "entry updatehealthbar " << std::endl;
   RNGine::SparseArray<RNGine::components::healthBar> &healthBars =
       registry.getComponents<RNGine::components::healthBar>();
   RNGine::SparseArray<RNGine::components::Position> &Positions =
@@ -71,7 +67,6 @@ RNGine::Registry::System UpdateHealthBar = [](RNGine::Registry &registry) {
                       Sprites[healthBars[i]->entity]->sizeTileY *
                           Sizes[healthBars[i]->entity]->scaleY;
   }
-  std::cout << "exit updatehealthbar " << std::endl;
 };
 
 namespace Rtype {

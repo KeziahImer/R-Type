@@ -12,12 +12,13 @@ int main() {
   try {
     RNGine::Core core;
     boost::asio::io_context ioContext;
-    Rtype::Network network(ioContext, &core);
+    std::mutex mutex;
+    Rtype::Network network(ioContext, &core, mutex);
     Rtype::MenuScene menu(&core, network, ioContext);
     menu.load();
     core.manager.addScene(menu);
     std::thread networkThread([&ioContext]() { ioContext.run(); });
-    core.loop();
+    core.loop(mutex);
     ioContext.stop();
     networkThread.join();
   } catch (std::exception &e) {

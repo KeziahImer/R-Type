@@ -62,14 +62,14 @@ public:
     }
   }
 
-  bool update() {
+  bool update(std::mutex &mutex) {
     if (_scenes.size() > 0) {
-      std::cout << "entry loop" << std::endl;
       setInputs();
+      mutex.lock();
       _renderer.render(_scenes[_loadedScene].update(_keybinds, _mouseBinds));
       if (_nextScene != -1)
         _load(_nextScene);
-      std::cout << "exit loop" << std::endl;
+      mutex.unlock();
     }
     return _running;
   }

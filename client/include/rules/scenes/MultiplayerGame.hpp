@@ -48,6 +48,7 @@ public:
   void createHealthBar(RNGine::Entity e, RNGine::Entity entity, float hp);
   void setVelocity(std::string contentVelocity);
   void makeShoot(std::string contentShoot);
+  void takeDamage(std::string contentShoot);
   void createWave(int waveSize, int waveStart);
 
 private:

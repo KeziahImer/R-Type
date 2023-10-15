@@ -13,7 +13,7 @@
 #include <iostream>
 #include <vector>
 
-enum Command { LOGIN, START, MOVE, SHOOT, NOTHING };
+enum Command { LOGIN, START, MOVE, SHOOT, DAMAGE, NOTHING };
 
 enum Code { SUCCESS, ERROR, NONE };
 

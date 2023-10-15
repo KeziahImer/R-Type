@@ -1,7 +1,9 @@
 #include "rules/systems/Shoots.hpp"
+#include "rngine/components/Movable.hpp"
 #include "rngine/components/Networked.hpp"
 #include "rngine/components/PlayerId.hpp"
 #include "rngine/components/text.hpp"
+#include "server/Network/Network.hpp"
 #include <string>
 
 bool checkCollision(std::optional<RNGine::components::Collider> collisionA,
@@ -29,12 +31,17 @@ bool checkCollision(std::optional<RNGine::components::Collider> collisionA,
 }
 
 RNGine::Registry::System ShootCollisionSystem = [](RNGine::Registry &registry) {
-  std::cout << "entry shootCol " << std::endl;
   // Obtenez toutes les entités avec le composant de collision
   auto &Colliders = registry.getComponents<RNGine::components::Collider>();
   auto &MakeDamages = registry.getComponents<RNGine::components::MakeDamage>();
   RNGine::SparseArray<RNGine::components::Position> &Positions =
       registry.getComponents<RNGine::components::Position>();
+  RNGine::SparseArray<RNGine::components::Movable> &Movables =
+      registry.getComponents<RNGine::components::Movable>();
+  RNGine::SparseArray<RNGine::components::Networked> &Networkeds =
+      registry.getComponents<RNGine::components::Networked>();
+  RNGine::SparseArray<RNGine::components::PlayerId> &PlayerIds =
+      registry.getComponents<RNGine::components::PlayerId>();
   auto &Attackables = registry.getComponents<RNGine::components::Attackable>();
 
   for (size_t i = 0; i < Colliders.size(); i++) {
@@ -48,6 +55,17 @@ RNGine::Registry::System ShootCollisionSystem = [](RNGine::Registry &registry) {
           continue;
         if (!Attackables[i]->_Attackable)
           continue;
+        if (!Movables[i].has_value() && Attackables[i]->ally &&
+            Networkeds[i].has_value()) {
+          continue;
+        }
+        if (Movables[i].has_value() && Networkeds[i].has_value() &&
+            PlayerIds[i].has_value()) {
+          std::string commandContent = std::to_string(MakeDamages[x]->Damage) +
+                                       "," + std::to_string(PlayerIds[i]->id);
+          Networkeds[i]->network->sendRequest(DAMAGE, NONE,
+                                              commandContent.c_str());
+        }
         Attackables[i]->health =
             Attackables[i]->health - MakeDamages[x]->Damage;
         Attackables[i]->_Attackable = false;
@@ -61,7 +79,6 @@ RNGine::Registry::System ShootCollisionSystem = [](RNGine::Registry &registry) {
 };
 
 RNGine::Registry::System ShootSystem = [](RNGine::Registry &registry) {
-  std::cout << "entry shootsys " << std::endl;
   RNGine::SparseArray<RNGine::components::Shoot> &Shoots =
       registry.getComponents<RNGine::components::Shoot>();
   RNGine::SparseArray<RNGine::components::Position> &Positions =
@@ -91,14 +108,6 @@ RNGine::Registry::System ShootSystem = [](RNGine::Registry &registry) {
                         std::chrono::system_clock::now().time_since_epoch())
                         .count();
         if (time - Shoots[i]->lastShoot > Shoots[i]->timeMillisecond) {
-          if (Networkeds[i].has_value() && PlayerIds[i].has_value()) {
-            Shoots[i]->lastShoot = time;
-            std::string commandContent = std::to_string(PlayerIds[i]->id);
-            std::cout << "send shoot" << std::endl;
-            Networkeds[i]->network->sendRequest(Command::SHOOT, Code::NONE,
-                                                commandContent.c_str());
-            return;
-          }
           Shoots[i]->lastShoot = time;
           RNGine::Entity shoot = registry.createEntity("shoot");
           registry.addComponent<RNGine::components::Position>(
@@ -132,7 +141,6 @@ RNGine::Registry::System ShootSystem = [](RNGine::Registry &registry) {
 };
 
 RNGine::Registry::System EnemyShoot = [](RNGine::Registry &registry) {
-  std::cout << "entry shoot ene " << std::endl;
   RNGine::SparseArray<RNGine::components::Position> &Positions =
       registry.getComponents<RNGine::components::Position>();
   RNGine::SparseArray<RNGine::components::Sprite> &Sprites =
@@ -183,7 +191,6 @@ RNGine::Registry::System EnemyShoot = [](RNGine::Registry &registry) {
 };
 
 RNGine::Registry::System CheckInvisibility = [](RNGine::Registry &registry) {
-  std::cout << "entry checkincvi " << std::endl;
   // Obtenez toutes les entités avec le composant de collision
   auto &Colliders = registry.getComponents<RNGine::components::Collider>();
   auto &MakeDamages = registry.getComponents<RNGine::components::MakeDamage>();
