@@ -12,7 +12,7 @@
 Rtype::GameMultiScene::GameMultiScene(int id, int playerNumber,
                                       Rtype::Network *network,
                                       boost::asio::io_context &ioContext)
-    : _ID(id), _playersNbr(playerNumber), _network(network),
+    : _ID(id + 1), _playersNbr(playerNumber), _network(network),
       _ioContext(ioContext) {
   setId("gameMulti");
   addBundle(Rtype::physicsSystems);
@@ -20,7 +20,7 @@ Rtype::GameMultiScene::GameMultiScene(int id, int playerNumber,
   addBundle(Rtype::clickSystems);
   addBundle(Rtype::engineSystems);
   for (int i = 0; i < playerNumber; i++) {
-    if (i + 1 == id) {
+    if (i == id) {
       createPlayer(createEntity("player"), i + 1, network);
     } else {
       createAlly(createEntity("Ally"), i + 1);
