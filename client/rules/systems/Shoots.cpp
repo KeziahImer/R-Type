@@ -103,17 +103,17 @@ RNGine::Registry::System ShootSystem = [](RNGine::Registry &registry) {
     for (auto inputPress : inputs) {
       if (Shoots[i]->Input == RNGine::Delete)
         continue;
-      if (Networkeds[i].has_value() && PlayerIds[i].has_value()) {
-        std::string commandContent = std::to_string(PlayerIds[i]->id);
-        std::cout << "SHOOT ID: " << commandContent << std::endl;
-        Networkeds[i]->network->sendRequest(SHOOT, NONE,
-                                            commandContent.c_str());
-      }
       if ((inputPress.first == Shoots[i]->Input) && inputPress.second) {
         auto time = std::chrono::duration_cast<std::chrono::milliseconds>(
                         std::chrono::system_clock::now().time_since_epoch())
                         .count();
         if (time - Shoots[i]->lastShoot > Shoots[i]->timeMillisecond) {
+          if (Networkeds[i].has_value() && PlayerIds[i].has_value()) {
+            std::string commandContent = std::to_string(PlayerIds[i]->id);
+            std::cout << "SHOOT ID: " << commandContent << std::endl;
+            Networkeds[i]->network->sendRequest(SHOOT, NONE,
+                                                commandContent.c_str());
+          }
           Shoots[i]->lastShoot = time;
           RNGine::Entity shoot = registry.createEntity("shoot");
           registry.addComponent<RNGine::components::Position>(

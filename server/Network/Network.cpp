@@ -61,6 +61,8 @@ void Network::checkEndpoint() {
     // if (player.address == _senderEndpoint.address().to_string() &&
     // player.port == _senderEndpoint.port())
     //   continue;
+    std::cout << "SEND REQUEST: " << _data.command << ", " << _data.content
+              << std::endl;
     sendRequest(player.endpoint);
   }
 }
