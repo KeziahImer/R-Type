@@ -20,7 +20,7 @@ Rtype::GameMultiScene::GameMultiScene(int id, int playerNumber,
   addBundle(Rtype::clickSystems);
   addBundle(Rtype::engineSystems);
   for (int i = 0; i < playerNumber; i++) {
-    if (i == id) {
+    if (i + 1 == id) {
       createPlayer(createEntity("player"), i + 1, network);
     } else {
       createAlly(createEntity("Ally"), i + 1);
