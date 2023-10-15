@@ -204,12 +204,14 @@ void Rtype::GameMultiScene::makeShoot(std::string contentShoot) {
       getRegistry().getComponents<RNGine::components::Velocity>();
   int id = std::stoi(contentShoot);
 
+  std::cout << "SHOOT ID IN REQUEST: " << id << std::endl;
   for (int i = 0; i < PlayerIds.size(); i++) {
     if (!PlayerIds[i].has_value() || PlayerIds[i]->id != id ||
         !Shoots[i].has_value() || !Positions[i].has_value() ||
         !Sprites[i].has_value() || !Sizes[i].has_value() ||
         !Velocities[i].has_value() || _ID == id)
       continue;
+    std::cout << "ACTIVATE SHOOT: " << id << std::endl;
     auto shoot = createEntity("shoot");
     addComponent<RNGine::components::Position>(
         shoot,
