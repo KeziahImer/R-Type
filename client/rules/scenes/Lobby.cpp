@@ -3,28 +3,27 @@
 #include "rngine/Registry.hpp"
 #include "rngine/components/text.hpp"
 #include "rules/scenes/MultiplayerGame.hpp"
+#include <mutex>
 #include <string>
 #include <thread>
 
-Rtype::LobbyScene::LobbyScene(RNGine::Core &core, Rtype::Network &network,
-                              boost::asio::io_context &ioContext)
-    : _core(core), _network(network), _ioContext(ioContext) {
-  std::cout << "JE TEST SCENE DE NOUVEAU" << std::endl;
-  core.manager.addScene2();
+Rtype::LobbyScene::LobbyScene(RNGine::Core *core, Rtype::Network &network,
+                              boost::asio::io_context &ioContext,
+                              std::mutex &coreMutex)
+    : _core(core), _network(network), _ioContext(ioContext),
+      _coreMutex(coreMutex) {
   setId("lobby");
+  std::cout << "LOBBY memCore: " << _core << " VS :" << core << std::endl;
   addBundle(Rtype::clickSystems);
   createBackground(createEntity("background"));
   createButton(
       createEntity("button"), "START GAME",
-      [&] {
-        std::cout << "JE TEST SCENE DE NOUVEAU AGAAAIIN" << std::endl;
-        Rtype::GameMultiScene gameMulti(_ID, _playersNbr, _network, _ioContext);
-        core.manager.load(core.manager.addScene(gameMulti));
+      [core, &coreMutex, &network, this] {
         network.sendRequest(START, NONE, "");
-        std::cout << "request sent" << std::endl;
       },
       810, 400, 300, 50);
   createTexte(createEntity("players"), "Players: ", 25);
+  std::cout << "LOBBY memCore: " << _core << " VS :" << core << std::endl;
 }
 
 void Rtype::LobbyScene::createBackground(RNGine::Entity e) {
@@ -48,15 +47,15 @@ void Rtype::LobbyScene::createButton(RNGine::Entity e, std::string text,
 void Rtype::LobbyScene::createTexte(RNGine::Entity e, std::string text,
                                     int CharacterSize) {
   addComponent(e, RNGine::components::Position::createPosition(10, 10));
-  addComponent(e, RNGine::components::Text::createText(
-                      text, "0", "./assets/FontGame.TTF",
-                      sf::Color(90, 168, 246), CharacterSize));
+  addComponent(e,
+               RNGine::components::Text::createText(
+                   text, std::to_string(_playersNbr), "./assets/FontGame.TTF",
+                   sf::Color(90, 168, 246), CharacterSize));
 }
 
 void Rtype::LobbyScene::setNumberPlayers(int nbrPLayers) {
   _playersNbr = nbrPLayers;
-  auto &Texts = getRegistry()
-                    .getComponents<RNGine::components::Text>();
+  auto &Texts = this->getInitial().getComponents<RNGine::components::Text>();
   for (int i = 0; i < Texts.size(); i++) {
     if (!Texts[i].has_value())
       continue;
@@ -64,17 +63,15 @@ void Rtype::LobbyScene::setNumberPlayers(int nbrPLayers) {
   }
 }
 
-void Rtype::LobbyScene::setIDPlayer(int id) { _ID = id; }
-
-void Rtype::LobbyScene::startGame(size_t index) {
-  std::cout << "start !_ " << std::endl;
-  _core.manager.load(index);
-  std::cout << "start ?" << std::endl;
+void Rtype::LobbyScene::setIDPlayer(int id) {
+  std::cout << "myn ID:" << id << std::endl;
+  _ID = id;
 }
 
-void Rtype::LobbyScene::initNetwork() {
-  std::cout << "before request" << std::endl;
-  _network.sendRequest(LOGIN, NONE, "");
-  std::cout << "after request" << std::endl;
-  _core.manager.addScene2();
+void Rtype::LobbyScene::startGame(size_t index, RNGine::Core *core,
+                                  std::mutex &coreMutex) {
+  Rtype::GameMultiScene gameMulti(_ID, _playersNbr, _network, _ioContext);
+  core->manager.load(core->manager.addScene(gameMulti));
 }
+
+void Rtype::LobbyScene::initNetwork() { _network.sendRequest(LOGIN, NONE, ""); }

@@ -14,6 +14,7 @@
 #include <vector>
 
 #include "./Registry.hpp"
+#include "rngine/components/text.hpp"
 
 namespace RNGine {
 /**
@@ -88,7 +89,9 @@ public:
 
   Scene &load() {
     if (!_loaded) {
+      auto texts = _initial.getComponents<RNGine::components::Text>();
       _registry = _initial;
+      auto textsReg = _registry.getComponents<RNGine::components::Text>();
       _loaded = true;
     }
     return *this;
@@ -116,6 +119,7 @@ public:
   }
 
   Registry &getRegistry() { return _registry; }
+  Registry &getInitial() { return _initial; }
 
   std::string getId() const { return _id; }
 

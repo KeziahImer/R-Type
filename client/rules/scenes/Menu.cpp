@@ -1,32 +1,33 @@
 #include "rules/scenes/Menu.hpp"
 #include "rules/scenes/Lobby.hpp"
 
-Rtype::MenuScene::MenuScene(RNGine::Core &core, Rtype::Network &network,
-                            boost::asio::io_context &ioContext)
-    : _core(core), _network(network), _ioContext(ioContext) {
+Rtype::MenuScene::MenuScene(RNGine::Core *core, Rtype::Network &network,
+                            boost::asio::io_context &ioContext,
+                            std::mutex &coreMutex)
+    : _network(network), _ioContext(ioContext), _coreMutex(coreMutex) {
   setId("menu");
+  std::cout << "MENU memCore: " << core << std::endl;
+  _core = core;
   addBundle(Rtype::clickSystems);
   createBackground(createEntity("background"));
   createButton(
       createEntity("button"), "SOLO",
       [&] {
         Rtype::GameScene game;
-        _core.manager.load(_core.manager.addScene(game));
+        core->manager.load(core->manager.addScene(game));
       },
       810, 400, 300, 50);
   createButton(
       createEntity("buttonMulti"), "MULTIPLAYER",
-      [&] {
-        std::cout << "JE TEST SCENE" << std::endl;
-        _core.manager.addScene2();
-        std::cout << "JE FINIS TEST SCENE" << std::endl;
-        Rtype::LobbyScene lobby(_core, _network, _ioContext);
-        _core.manager.load(_core.manager.addScene(lobby));
+      [core, &coreMutex, &network, &ioContext, this] {
+        std::cout << _core << ", " << core << std::endl;
+        Rtype::LobbyScene lobby(core, network, ioContext, coreMutex);
+        core->manager.load(core->manager.addScene(lobby));
         lobby.initNetwork();
       },
       810, 475, 300, 50);
   createButton(
-      createEntity("buttonExit"), "EXIT", [&] { _core.setRunning(false); }, 810,
+      createEntity("buttonExit"), "EXIT", [&] { core->setRunning(false); }, 810,
       550, 300, 50);
   createLogo(createEntity("logo"));
 }

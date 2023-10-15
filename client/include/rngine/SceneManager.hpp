@@ -25,28 +25,17 @@ namespace RNGine {
  */
 class SceneManager {
 public:
-
-  size_t addScene2() {
-    std::cout << "la taille svp: " << _scenes.size() << std::endl;
-    return 0;
-  }
-
   size_t addScene(const RNGine::Scene &scene) {
-    std::cout << "hihi" << std::endl;
     std::cout << _scenes.size() << std::endl;
-    std::cout << "naaaa" << std::endl;
     size_t index = _scenes.size();
-    std::cout << "pourquoi" << std::endl;
     _scenes.push_back(scene);
-    std::cout << "push" << std::endl;
-    std::cout << _scenes.size() << std::endl;
-    std::cout << "add scene: " << index << std::endl;
     return index;
   }
 
   void load(size_t index) {
-    _nextScene = index;
-    std::cout << "try to load: " << index << std::endl;
+    std::cout << "fill variable scene to load: " << index << std::endl;
+    this->_nextScene = (int)index;
+    std::cout << "filled variable scene to load: " << _nextScene << std::endl;
   }
 
   void removeScene(size_t index) { _scenes.erase(_scenes.begin() + index); }
@@ -79,11 +68,11 @@ public:
 
   bool update() {
     if (_scenes.size() > 0) {
-      // std::cout << _scenes.size() << std::endl;
-      if (_nextScene != -1)
-        _load(_nextScene);
+      // std::cout << "start loop: " << _nextScene << std::endl;
       setInputs();
       _renderer.render(_scenes[_loadedScene].update(_keybinds, _mouseBinds));
+      if (_nextScene != -1)
+        _load(_nextScene);
     }
     return _running;
   }
@@ -91,32 +80,25 @@ public:
   RNGine::Scene &getActualScene() { return _scenes[_loadedScene]; }
   RNGine::Scene &getScene(const std::string &id) {
     int i = 0;
-    std::cout << "taille des scenes : " << _scenes.size() << std::endl;
     for (int i; i < _scenes.size(); i++) {
       if (_scenes[i].getId() == id) {
-         std::cout << "la scene est celle là : " << i << std::endl;
         return _scenes[i];
       }
     }
-    std::cout << "pas trouvé" << std::endl;
     return _scenes[0];
   }
 
 private:
   void _load(size_t index) {
-    std::cout << "unload check:" << _loadedScene << std::endl;
+    std::cout << "access real load" << std::endl;
     if (index == _loadedScene) {
       return;
     }
-    std::cout << "unload:" << _loadedScene << std::endl;
     _scenes[_loadedScene].unload();
-    std::cout << "load:" << index << std::endl;
     _scenes[index].load();
     _loadedScene = index;
-    std::cout << "just load: " << _loadedScene << std::endl;
     _nextScene = -1;
-    std::cout << "BALLA" << std::endl;
-    std::cout << _scenes.size() << std::endl;
+    std::cout << "end real load" << std::endl;
   }
 
   bool _running = true;
