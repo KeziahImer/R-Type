@@ -43,6 +43,7 @@ public:
   void createEnemy(RNGine::Entity e, float posX, float posY);
   void createScore(RNGine::Entity e);
   void createHealthBar(RNGine::Entity e, RNGine::Entity entity, float hp);
+  void createWave(int waveSize, int waveStart);
 };
 }; // namespace Rtype
 

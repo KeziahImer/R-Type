@@ -17,7 +17,6 @@ void Network::receiveRequest() {
   _socket.async_receive_from(
       boost::asio::buffer(&_data, sizeof(Data)), _senderEndpoint,
       [&](const boost::system::error_code &error, std::size_t bytes_received) {
-        std::cout << "receive data" << std::endl;
         if (!error) {
           checkEndpoint();
         }

@@ -37,7 +37,7 @@
 namespace Rtype {
 class GameMultiScene : public RNGine::Scene {
 public:
-  GameMultiScene(int id, int playerNumber, Rtype::Network &network,
+  GameMultiScene(int id, int playerNumber, Rtype::Network *network,
                  boost::asio::io_context &ioContext);
 
   void createBackground(RNGine::Entity e, float x, float y);
@@ -47,11 +47,13 @@ public:
   void createScore(RNGine::Entity e);
   void createHealthBar(RNGine::Entity e, RNGine::Entity entity, float hp);
   void setVelocity(std::string contentVelocity);
+  void makeShoot(std::string contentShoot);
+  void createWave(int waveSize, int waveStart);
 
 private:
   int _playersNbr = 0;
   int _ID = 0;
-  Rtype::Network &_network;
+  Rtype::Network *_network;
   boost::asio::io_context &_ioContext;
 };
 }; // namespace Rtype

@@ -16,7 +16,7 @@
 #include <rngine/Registry.hpp>
 #include <vector>
 
-enum Command { LOGIN, START, MOVE, NOTHING };
+enum Command { LOGIN, START, MOVE, SHOOT, NOTHING };
 
 enum Code { SUCCESS, ERROR, NONE };
 
@@ -42,6 +42,7 @@ private:
   bool _isConnected = false;
   Data _data;
   RNGine::Core *_core;
+  int _ID = 0;
 };
 } // namespace Rtype
 

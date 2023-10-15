@@ -36,7 +36,7 @@ public:
   void createTexte(RNGine::Entity e, std::string text, int CharacterSize);
   void setNumberPlayers(int nbrPLayers);
   void setIDPlayer(int id);
-  void startGame(size_t index, RNGine::Core *core);
+  void startGame(size_t index, RNGine::Core *core, Rtype::Network *network);
   void initNetwork();
 
 private:

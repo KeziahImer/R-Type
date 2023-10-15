@@ -78,8 +78,9 @@ void Rtype::LobbyScene::setNumberPlayers(int nbrPLayers) {
 
 void Rtype::LobbyScene::setIDPlayer(int id) { _ID = id; }
 
-void Rtype::LobbyScene::startGame(size_t index, RNGine::Core *core) {
-  Rtype::GameMultiScene gameMulti(_ID, _playersNbr, _network, _ioContext);
+void Rtype::LobbyScene::startGame(size_t index, RNGine::Core *core,
+                                  Rtype::Network *network) {
+  Rtype::GameMultiScene gameMulti(_ID, _playersNbr, network, _ioContext);
   core->manager.load(core->manager.addScene(gameMulti));
 }
 

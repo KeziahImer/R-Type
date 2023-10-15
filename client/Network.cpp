@@ -34,15 +34,10 @@ void Rtype::Network::receiveRequest() {
 
 void Rtype::Network::sendRequest(enum Command command, enum Code code,
                                  const char content[]) {
-  std::cout << "befor ecopy: " << strlen(content) << std::endl;
   strcpy(_data.content, content);
-  std::cout << "after ecopy" << std::endl;
   _data.command = command;
   _data.code = code;
-  std::cout << "befor send: " << _data.content << ", " << _data.command << ", "
-            << _data.code << std::endl;
   _socket.send_to(boost::asio::buffer(&_data, sizeof(Data)), _endpoint);
-  std::cout << "after send" << std::endl;
 }
 
 void Rtype::Network::treatRequest() {
@@ -59,17 +54,21 @@ void Rtype::Network::treatRequest() {
     std::cout << "login !!!!!!" << std::endl;
     if (!_isConnected) {
       lobby.setIDPlayer(std::stoi((_data.content)));
+      _ID = std::stoi(_data.content);
       lobby.setNumberPlayers(std::stoi(_data.content));
       _isConnected = true;
     } else {
       lobby.setNumberPlayers(std::stoi(_data.content));
     }
   } else if (_data.command == START) {
-    lobby.startGame(2, _core);
+    lobby.startGame(2, _core, this);
   } else if (_data.command == MOVE) {
     Rtype::GameMultiScene &multi = static_cast<Rtype::GameMultiScene &>(
         _core->manager.getScene("gameMulti"));
-    std::cout << "SWITCH VELOCITY :::: " << _data.content << std::endl;
     multi.setVelocity(_data.content);
+  } else if (_data.command == SHOOT) {
+    Rtype::GameMultiScene &multi = static_cast<Rtype::GameMultiScene &>(
+        _core->manager.getScene("gameMulti"));
+    multi.makeShoot(_data.content);
   }
 }

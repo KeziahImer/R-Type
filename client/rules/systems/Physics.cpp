@@ -30,10 +30,15 @@ RNGine::Registry::System MovableSystem = [](RNGine::Registry &registry) {
       registry.getComponents<RNGine::components::Networked>();
   RNGine::SparseArray<RNGine::components::PlayerId> &PlayerIds =
       registry.getComponents<RNGine::components::PlayerId>();
+  RNGine::SparseArray<RNGine::components::Position> &Positions =
+      registry.getComponents<RNGine::components::Position>();
+  bool moving = false;
   std::map<enum RNGine::Key, bool> inputs = registry.inputs;
   for (size_t i = 0; i < Movables.size(); i++) {
     if (!Movables[i].has_value() || !Velocities[i].has_value())
       continue;
+    if (Velocities[i]->x != 0 || Velocities[i]->y != 0)
+      moving = true;
     Velocities[i]->x = 0;
     Velocities[i]->y = 0;
     for (auto inputPress : inputs) {
@@ -46,14 +51,25 @@ RNGine::Registry::System MovableSystem = [](RNGine::Registry &registry) {
                                          "," +
                                          std::to_string(Velocities[i]->y) +
                                          "," + std::to_string(PlayerIds[i]->id);
-            std::cout << "try to send: " << std::endl;
-            std::cout << commandContent << std::endl;
             Networkeds[i]->network->sendRequest(Command::MOVE, Code::NONE,
                                                 commandContent.c_str());
           }
         }
       }
     }
+    if (Velocities[i]->x == 0 && Velocities[i]->y == 0 && moving) {
+      if (Networkeds[i].has_value() && Positions[i].has_value() &&
+          PlayerIds[i].has_value()) {
+        std::string commandContent = std::to_string(Velocities[i]->x) + "," +
+                                     std::to_string(Velocities[i]->y) + "," +
+                                     std::to_string(Positions[i]->x) + "," +
+                                     std::to_string(Positions[i]->y) + "," +
+                                     std::to_string(PlayerIds[i]->id);
+        Networkeds[i]->network->sendRequest(Command::MOVE, Code::NONE,
+                                            commandContent.c_str());
+      }
+    }
+    moving = false;
   }
 };
 

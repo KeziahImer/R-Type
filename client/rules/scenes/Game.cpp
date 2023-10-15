@@ -9,10 +9,10 @@ Rtype::GameScene::GameScene() {
   createPlayer(createEntity("player"));
   createBackground(createEntity("background"), 0, 0);
   createBackground(createEntity("background"), 1920, 0);
-  for (int i = 0; i < 30; i++) {
-    createEnemy(createEntity("enemy"), 1920 + (1000 * i), rand() % 1000 + 1);
-  }
   createScore(createEntity("score"));
+  createWave(30, 1920);
+  createWave(30, 20000);
+  createWave(30, 40000);
 }
 
 void Rtype::GameScene::createBackground(RNGine::Entity e, float x, float y) {
@@ -37,6 +37,13 @@ void Rtype::GameScene::createBackground(RNGine::Entity e, float x, float y) {
       RNGine::components::InfiniteScroll::createInfiniteScroll(-1920, 1920));
   addComponent(background2,
                RNGine::components::Velocity::createVelocity(-0.1, 0));
+}
+
+void Rtype::GameScene::createWave(int waveSize, int waveStart) {
+  for (int i = 0; i < waveSize; i++) {
+    createEnemy(createEntity("enemy"), waveStart + ((rand() % 1000 + 1) * i),
+                rand() % 1000 + 1);
+  }
 }
 
 void Rtype::GameScene::createScore(RNGine::Entity e) {

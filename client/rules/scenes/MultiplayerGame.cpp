@@ -1,10 +1,15 @@
 #include "rules/scenes/MultiplayerGame.hpp"
+#include "rngine/Keys.hpp"
 #include "rngine/components/Networked.hpp"
 #include "rngine/components/PlayerId.hpp"
+#include "rngine/components/Position.hpp"
+#include "rngine/components/Shoot.hpp"
+#include "rngine/components/Size.hpp"
+#include "rngine/components/Sprite.hpp"
 #include "rngine/components/Velocity.hpp"
 
 Rtype::GameMultiScene::GameMultiScene(int id, int playerNumber,
-                                      Rtype::Network &network,
+                                      Rtype::Network *network,
                                       boost::asio::io_context &ioContext)
     : _ID(id), _playersNbr(playerNumber), _network(network),
       _ioContext(ioContext) {
@@ -15,17 +20,17 @@ Rtype::GameMultiScene::GameMultiScene(int id, int playerNumber,
   addBundle(Rtype::engineSystems);
   for (int i = 0; i < 4; i++) {
     if (i + 1 == id) {
-      createPlayer(createEntity("player"), i + 1, &network);
+      createPlayer(createEntity("player"), i + 1, network);
     } else {
       createAlly(createEntity("Ally"), i + 1);
     }
   }
   createBackground(createEntity("background"), 0, 0);
   createBackground(createEntity("background"), 1920, 0);
-  for (int i = 0; i < 30; i++) {
-    createEnemy(createEntity("enemy"), 1920 + (1000 * i), rand() % 1000 + 1);
-  }
   createScore(createEntity("score"));
+  createWave(30, 1920);
+  createWave(30, 20000);
+  createWave(30, 40000);
 }
 
 void Rtype::GameMultiScene::createBackground(RNGine::Entity e, float x,
@@ -112,6 +117,12 @@ void Rtype::GameMultiScene::createAlly(RNGine::Entity e, int id) {
       e, RNGine::components::Attackable::createAttackable(500, 0, true, true));
   createHealthBar(createEntity("healthBar"), e, 500);
   addComponent(e, RNGine::components::PlayerId::createPlayerId(id));
+  addComponent(e, RNGine::components::Shoot::createShoot(
+                      RNGine::Delete, 2, 0, 125,
+                      std::chrono::duration_cast<std::chrono::milliseconds>(
+                          std::chrono::system_clock::now().time_since_epoch())
+                          .count(),
+                      25, true));
 }
 
 void Rtype::GameMultiScene::createEnemy(RNGine::Entity e, float posX,
@@ -133,36 +144,90 @@ void Rtype::GameMultiScene::createEnemy(RNGine::Entity e, float posX,
                           .count(),
                       25, false));
 }
+void Rtype::GameMultiScene::createWave(int waveSize, int waveStart) {
+  for (int i = 0; i < waveSize; i++) {
+    createEnemy(createEntity("enemy"), waveStart + ((rand() % 1000 + 1) * i),
+                rand() % 1000 + 1);
+  }
+}
 
 void Rtype::GameMultiScene::setVelocity(std::string contentVelocity) {
   auto &PlayerIds = getRegistry().getComponents<RNGine::components::PlayerId>();
   auto &Velocitys = getRegistry().getComponents<RNGine::components::Velocity>();
+  auto &Positions = getRegistry().getComponents<RNGine::components::Position>();
   int id = 0;
   float velocityX = 0.0;
   float velocityY = 0.0;
+  float posX = 0.0;
+  float posY = 0.0;
 
   std::istringstream iss(contentVelocity);
   char delimiter = ',';
 
-  // Utilisez getline avec le délimiteur pour extraire chaque valeur
   std::string token;
   int tokenIndex = 0;
 
   while (std::getline(iss, token, delimiter)) {
-    if (tokenIndex == 0) {
-      id = std::stoi(token); // Convertit la première valeur en int
+    if (tokenIndex == 4) {
+      id = std::stoi(token);
+    } else if (tokenIndex == 0) {
+      velocityX = std::stof(token);
     } else if (tokenIndex == 1) {
-      velocityX = std::stof(token); // Convertit la deuxième valeur en float
+      velocityY = std::stof(token);
     } else if (tokenIndex == 2) {
-      velocityY = std::stof(token); // Convertit la troisième valeur en float
+      posX = std::stof(token);
+    } else if (tokenIndex == 3) {
+      posY = std::stof(token);
     }
     tokenIndex++;
   }
 
   for (int i = 0; i < PlayerIds.size(); i++) {
-    if (!PlayerIds[i].has_value() || !Velocitys[i].has_value())
+    if (!PlayerIds[i].has_value() || !Velocitys[i].has_value() ||
+        !Positions[i].has_value() || PlayerIds[i]->id != id)
       continue;
     Velocitys[i]->x = velocityX;
     Velocitys[i]->y = velocityY;
+    Positions[i]->x = posX;
+    Positions[i]->y = posY;
+  }
+}
+
+void Rtype::GameMultiScene::makeShoot(std::string contentShoot) {
+  auto &PlayerIds = getRegistry().getComponents<RNGine::components::PlayerId>();
+  auto &Positions = getRegistry().getComponents<RNGine::components::Position>();
+  auto &Sprites = getRegistry().getComponents<RNGine::components::Sprite>();
+  auto &Sizes = getRegistry().getComponents<RNGine::components::Size>();
+  auto &Shoots = getRegistry().getComponents<RNGine::components::Shoot>();
+  auto &Velocities =
+      getRegistry().getComponents<RNGine::components::Velocity>();
+  int id = std::stoi(contentShoot);
+
+  for (int i = 0; i < PlayerIds.size(); i++) {
+    if (!PlayerIds[i].has_value() || PlayerIds[i]->id != id ||
+        !Shoots[i].has_value() || !Positions[i].has_value() ||
+        !Sprites[i].has_value() || !Sizes[i].has_value() ||
+        !Velocities[i].has_value())
+      continue;
+    auto shoot = createEntity("shoot");
+    addComponent<RNGine::components::Position>(
+        shoot,
+        RNGine::components::Position::createPosition(
+            Positions[i]->x + (Sprites[i]->sizeTileX * Sizes[i]->scaleX),
+            Positions[i]->y + (Sprites[i]->sizeTileY * Sizes[i]->scaleY) / 2));
+    addComponent<RNGine::components::Velocity>(
+        shoot,
+        RNGine::components::Velocity::createVelocity(
+            Shoots[i]->speedX, Shoots[i]->speedY + Velocities[i]->y / 2));
+    addComponent<RNGine::components::Sprite>(
+        shoot, RNGine::components::Sprite::createSprite(
+                   "./assets/ShootsAndPlayer.gif", false, 33, 22, 6, 1, 3));
+    addComponent<RNGine::components::Size>(
+        shoot, RNGine::components::Size::createSize(1, 1));
+    addComponent(shoot, RNGine::components::Collider::createCollider(33, 22));
+    addComponent(shoot, RNGine::components::MakeDamage::createMakeDamage(
+                            Shoots[i]->power, true));
+    addComponent(shoot, RNGine::components::Selfdestroy::createSelfDestroy(
+                            1920, 1080 + 150, -150, -150));
   }
 }

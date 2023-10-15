@@ -1,4 +1,6 @@
 #include "rules/systems/Shoots.hpp"
+#include "rngine/components/Networked.hpp"
+#include "rngine/components/PlayerId.hpp"
 #include "rngine/components/text.hpp"
 #include <string>
 
@@ -68,6 +70,10 @@ RNGine::Registry::System ShootSystem = [](RNGine::Registry &registry) {
       registry.getComponents<RNGine::components::Size>();
   RNGine::SparseArray<RNGine::components::Velocity> &Velocities =
       registry.getComponents<RNGine::components::Velocity>();
+  RNGine::SparseArray<RNGine::components::Networked> &Networkeds =
+      registry.getComponents<RNGine::components::Networked>();
+  RNGine::SparseArray<RNGine::components::PlayerId> &PlayerIds =
+      registry.getComponents<RNGine::components::PlayerId>();
   std::map<enum RNGine::Key, bool> inputs = registry.inputs;
 
   for (size_t i = 0; i < Shoots.size(); i++) {
@@ -76,12 +82,20 @@ RNGine::Registry::System ShootSystem = [](RNGine::Registry &registry) {
         !Velocities[i].has_value())
       continue;
     for (auto inputPress : inputs) {
+      if (Shoots[i]->Input == RNGine::Delete)
+        continue;
       if ((inputPress.first == Shoots[i]->Input) && inputPress.second) {
         auto time = std::chrono::duration_cast<std::chrono::milliseconds>(
                         std::chrono::system_clock::now().time_since_epoch())
                         .count();
         if (time - Shoots[i]->lastShoot > Shoots[i]->timeMillisecond) {
-          Shoots[i]->lastShoot = time;
+          if (Networkeds[i].has_value() && PlayerIds[i].has_value()) {
+            Shoots[i]->lastShoot = time;
+            std::string commandContent = std::to_string(PlayerIds[i]->id);
+            Networkeds[i]->network->sendRequest(Command::SHOOT, Code::NONE,
+                                                commandContent.c_str());
+            return;
+          }
           RNGine::Entity shoot = registry.createEntity("shoot");
           registry.addComponent<RNGine::components::Position>(
               shoot,
