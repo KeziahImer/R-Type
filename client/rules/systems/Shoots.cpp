@@ -96,6 +96,7 @@ RNGine::Registry::System ShootSystem = [](RNGine::Registry &registry) {
                                                 commandContent.c_str());
             return;
           }
+          Shoots[i]->lastShoot = time;
           RNGine::Entity shoot = registry.createEntity("shoot");
           registry.addComponent<RNGine::components::Position>(
               shoot,
