@@ -7,78 +7,79 @@
 #include "rngine/components/EnemyShoot.hpp"
 #include "rngine/components/Movable.hpp"
 #include "rngine/components/Shoot.hpp"
+#include "rngine/components/Velocity.hpp"
 #include "rngine/components/text.hpp"
+#include "rules/scenes/Lobby.hpp"
 #include "rules/systems/Engine.hpp"
 #include "rules/systems/Physics.hpp"
-#include "rules/systems/Shoots.hpp"
-#include <utility>
 
-Rtype::MenuScene::MenuScene() {
+Rtype::MenuScene::MenuScene(RNGine::Core *core, Rtype::Network &network,
+                            boost::asio::io_context &ioContext)
+    : _network(network), _ioContext(ioContext) {
   setId("menu");
+  _core = core;
+  addBundle(Rtype::clickSystems);
   addBundle(Rtype::physicsSystems);
-  addBundle(Rtype::shootsSystems);
-  addBundle(Rtype::engineSystems);
-  createPlayer(createEntity("player"));
-  createBackground(createEntity("background"));
-  for (int i = 0; i < 30; i++) {
-    createEnemy(createEntity("enemy"), 1920 + (1000 * i), rand() % 1000 + 1);
-  }
-  createScore(createEntity("score"));
+  createBackground(createEntity("background"), 0, 0);
+  createBackground(createEntity("background1"), 1920, 0);
+  createButton(
+      createEntity("button"), "SOLO",
+      [core] {
+        Rtype::GameScene game;
+        core->manager.load(core->manager.addScene(game));
+      },
+      810, 400, 300, 50);
+  createButton(
+      createEntity("buttonMulti"), "MULTIPLAYER",
+      [core, &network, &ioContext, this] {
+        Rtype::LobbyScene lobby(core, network, ioContext);
+        core->manager.load(core->manager.addScene(lobby));
+        lobby.initNetwork();
+      },
+      810, 475, 300, 50);
+  createButton(
+      createEntity("buttonExit"), "EXIT", [core] { core->setRunning(false); },
+      810, 550, 300, 50);
+  createLogo(createEntity("logo"));
 }
 
-void Rtype::MenuScene::createBackground(RNGine::Entity e) {
+void Rtype::MenuScene::createBackground(RNGine::Entity e, float x, float y) {
   addComponent(e,
                RNGine::components::Sprite::createSprite(
-                   "./assets/backgroundSpace.jpg", false, 514, 360, 0, 0, 0));
-  addComponent(e, RNGine::components::Position::createPosition(0, 0));
-  addComponent(e, RNGine::components::Size::createSize(3.73, 3));
+                   "./assets/backgroundSpace.png", false, 512, 512, 0, 0, 0));
+  addComponent(e, RNGine::components::Position::createPosition(x, y));
+  addComponent(e, RNGine::components::Size::createSize((float)1920 / 512,
+                                                       (float)1080 / 512));
+  addComponent(
+      e, RNGine::components::InfiniteScroll::createInfiniteScroll(-1920, 1920));
+  addComponent(e, RNGine::components::Velocity::createVelocity(-0.05, 0));
+  RNGine::Entity background2 = createEntity("background2");
+  addComponent(background2,
+               RNGine::components::Sprite::createSprite(
+                   "./assets/Parallax60.png", false, 500, 500, 0, 0, 1));
+  addComponent(background2, RNGine::components::Position::createPosition(x, y));
+  addComponent(background2, RNGine::components::Size::createSize(
+                                (float)1920 / 500, (float)1080 / 500));
+  addComponent(
+      background2,
+      RNGine::components::InfiniteScroll::createInfiniteScroll(-1920, 1920));
+  addComponent(background2,
+               RNGine::components::Velocity::createVelocity(-0.1, 0));
 }
 
-void Rtype::MenuScene::createScore(RNGine::Entity e) {
-  addComponent(e, RNGine::components::Position::createPosition(10, 10));
-  addComponent(e, RNGine::components::Text::createText("SCORE: ", "0",
-                                                       "./assets/FontGame.TTF",
-                                                       sf::Color::White, 50));
-}
-
-void Rtype::MenuScene::createPlayer(RNGine::Entity e) {
+void Rtype::MenuScene::createLogo(RNGine::Entity e) {
   addComponent(e, RNGine::components::Sprite::createSprite(
-                      "./assets/Player.gif", false, 33, 17, 2, 2, 1));
-  addComponent(e, RNGine::components::Position::createPosition(25, 500));
-  addComponent(e, RNGine::components::Size::createSize(3, 3));
-  addComponent(e, RNGine::components::Velocity::createVelocity(0, 0));
-  addComponent(e, RNGine::components::Collider::createCollider(33 * 3, 17 * 3));
-  std::map<enum RNGine::Key, std::pair<float, float>> keybinds = {
-      {RNGine::Down, std::make_pair(0, 0.75)},
-      {RNGine::Left, std::make_pair(-0.75, 0)},
-      {RNGine::Right, std::make_pair(0.75, 0)},
-      {RNGine::Up, std::make_pair(0, -0.75)}};
-  addComponent(e, RNGine::components::Movable::createmovable(keybinds));
-  addComponent(e, RNGine::components::Shoot::createShoot(
-                      RNGine::Space, 2, 0, 125,
-                      std::chrono::duration_cast<std::chrono::milliseconds>(
-                          std::chrono::system_clock::now().time_since_epoch())
-                          .count(),
-                      25, true));
-  addComponent(e,
-               RNGine::components::Attackable::createAttackable(500, 0, true));
+                      "./assets/RTypeLogo.png", false, 500, 146, 0, 0, 2));
+  addComponent(e, RNGine::components::Position::createPosition(710, 250));
+  addComponent(e, RNGine::components::Size::createSize(1, 1));
 }
 
-void Rtype::MenuScene::createEnemy(RNGine::Entity e, float posX, float posY) {
-  addComponent(e, RNGine::components::Sprite::createSprite(
-                      "./assets/Player.gif", true, 33, 17, 2, 3, 1));
+void Rtype::MenuScene::createButton(RNGine::Entity e, std::string text,
+                                    std::function<void(void)> function,
+                                    float posX, float posY, float sizeX,
+                                    float sizeY) {
   addComponent(e, RNGine::components::Position::createPosition(posX, posY));
-  addComponent(e, RNGine::components::Size::createSize(3, 3));
-  addComponent(e, RNGine::components::Velocity::createVelocity(-0.5, 0));
-  addComponent(e,
-               RNGine::components::Attackable::createAttackable(75, 25, false));
-  addComponent(e, RNGine::components::Collider::createCollider(33 * 3, 17 * 3));
-  addComponent(e, RNGine::components::Selfdestroy::createSelfDestroy(
-                      posX + 150, 1080 + 150, -150, -150));
-  addComponent(e, RNGine::components::EnemyShoot::createEnemyShoot(
-                      -2, 0, 1000,
-                      std::chrono::duration_cast<std::chrono::milliseconds>(
-                          std::chrono::system_clock::now().time_since_epoch())
-                          .count(),
-                      25, false));
+  addComponent(e, RNGine::components::Button::createClickable(
+                      sizeX, sizeY, function, text, sf::Color(90, 168, 246),
+                      "./assets/FontGame.TTF", sizeY / 2));
 }

@@ -8,57 +8,61 @@
 #include "Network.hpp"
 
 Network::Network(boost::asio::io_context &io_context)
-    : _socket(io_context, boost::asio::ip::udp::endpoint(boost::asio::ip::udp::v4(), 13))
-{
-    receiveRequest();
+    : _socket(io_context, boost::asio::ip::udp::endpoint(
+                              boost::asio::ip::udp::v4(), 8080)) {
+  receiveRequest();
 }
 
-void Network::receiveRequest()
-{
-    _socket.async_receive_from(boost::asio::buffer(_buffer, _maxLength), _senderEndpoint,
-                               [&](const boost::system::error_code &error, std::size_t bytes_received)
-                               {
-                                   if (!error)
-                                       checkEndpoint();
-                                   memset(_buffer, 0, _maxLength);
-                                   receiveRequest();
-                               });
-}
-
-void Network::sendRequest(boost::asio::ip::udp::endpoint endpoint)
-{
-    _socket.async_send_to(boost::asio::buffer(_buffer, _maxLength), endpoint,
-                          [&](const boost::system::error_code &error, std::size_t bytes_sent)
-                          {
-                              if (!error)
-                                  std::cout << "Sent: " << _buffer << std::endl;
-                          });
-}
-
-void Network::checkEndpoint()
-{
-    int verif = 0;
-    for (auto player : _players)
-    {
-        if (player.address == _senderEndpoint.address().to_string() && player.port == _senderEndpoint.port())
-        {
-            verif = 1;
-            break;
+void Network::receiveRequest() {
+  _socket.async_receive_from(
+      boost::asio::buffer(&_data, sizeof(Data)), _senderEndpoint,
+      [&](const boost::system::error_code &error, std::size_t bytes_received) {
+        if (!error) {
+          checkEndpoint();
         }
+        memset(&_data, 0, sizeof(Data));
+        receiveRequest();
+      });
+}
+
+void Network::sendRequest(boost::asio::ip::udp::endpoint endpoint) {
+  _socket.send_to(boost::asio::buffer(&_data, sizeof(Data)), endpoint);
+}
+
+void Network::checkEndpoint() {
+  int verif = 0;
+  for (auto player : _players) {
+    if (player.address == _senderEndpoint.address().to_string() &&
+        player.port == _senderEndpoint.port()) {
+      verif = 1;
+      break;
     }
-    if (verif == 0)
-    {
-        Player_t newPlayer;
-        newPlayer.address = _senderEndpoint.address().to_string();
-        newPlayer.port = _senderEndpoint.port();
-        _players.push_back(newPlayer);
+  }
+  if (verif == 0) {
+    if (_players.size() == 4) {
+      _data.code = ERROR;
+      strcpy(_data.content, "Server is full");
+      sendRequest(_senderEndpoint);
+      return;
     }
-    else
-    {
-        for (auto player : _players)
-        {
-            if (player.address != _senderEndpoint.address().to_string() && player.port != _senderEndpoint.port())
-                sendRequest(player.endpoint);
-        }
-    }
+    _data.code = SUCCESS;
+    Player_t newPlayer;
+    newPlayer.address = _senderEndpoint.address().to_string();
+    newPlayer.port = _senderEndpoint.port();
+    newPlayer.id = std::to_string(_players.size() + 1);
+    newPlayer.endpoint = _senderEndpoint;
+    strcpy(_data.content, std::to_string(_players.size() + 1).c_str());
+    _players.push_back(newPlayer);
+    std::cout << "New Player created: " << newPlayer.address << ":"
+              << newPlayer.port << std::endl;
+    // sendRequest(_senderEndpoint);
+  }
+  for (auto player : _players) {
+    // if (player.address == _senderEndpoint.address().to_string() &&
+    // player.port == _senderEndpoint.port())
+    //   continue;
+    std::cout << "SEND REQUEST: " << _data.command << ", " << _data.content
+              << std::endl;
+    sendRequest(player.endpoint);
+  }
 }

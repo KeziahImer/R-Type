@@ -16,11 +16,13 @@
 namespace RNGine {
 class Core {
 public:
-  void loop() {
+  void loop(std::mutex &mutex) {
     while (_running) {
-      _running = manager.update();
+      if (!manager.update(mutex))
+        _running = false;
     }
   }
+  void setRunning(bool running) { _running = running; };
 
   SceneManager manager = SceneManager();
   bool _running = true;
