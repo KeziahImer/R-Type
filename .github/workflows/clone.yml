@@ -1,29 +1,17 @@
-name: Push to Epitech Repository
+name: Mirroring
 
-on:
-  push:
-    branches:
-      - main
+on: [push, delete]
 
 jobs:
-  force_push:
+  to_epitech:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout source repository
-      uses: actions/checkout@v3
-
-    - name: Setup SSH agent
-      run: |
-        eval $(ssh-agent -s)
-        echo "${{ secrets.SSH_PRIVATE_KEY }}" | tr -d '\r' | ssh-add -
-
-    - name: Force push to target repository
-      run: |
-        git remote add epitech git@github.com:EpitechPromo2026/B-CPP-500-TLS-5-1-rtype-adil.nouiri.git
-        git fetch epitech
-        git push epitech main --force
-
-    - name: Cleanup
-      run: |
-        ssh-add -D
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - uses: pixta-dev/repository-mirroring-action@v1
+        with:
+          target_repo_url:
+            git@github.com:EpitechPromo2026/B-CPP-500-TLS-5-1-rtype-adil.nouiri.git
+          ssh_private_key:
+            ${{ secrets.SSH_PRIVATE_KEY }}
