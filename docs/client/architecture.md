@@ -1,29 +1,29 @@
-# Architecture
+# Game Architecture
 
-Cette section plonge dans l'architecture de notre jeu R-Type, développé en C++ en utilisant un moteur de jeu basé sur une architecture ECS (Entity-Component-System) et alimenté par la bibliothèque SFML. La compréhension de cette architecture est essentielle pour les développeurs et les passionnés de jeux vidéo cherchant à explorer notre code source.
+This section explores the architecture of our R-Type game, developed in C++ using an Entity-Component-System (ECS) based game engine and powered by the SFML library. Understanding this architecture is essential for developers and video game enthusiasts looking to dive into our source code.
 
-## Structure du Projet
+## Project Structure
 
-Notre projet R-Type est organisé autour de plusieurs composants clés :
+Our R-Type project is organized around several key components:
 
-1. **Entités (Entities)** : Les entités représentent les objets interactifs du jeu, tels que les vaisseaux spatiaux, les ennemis, les projectiles, et d'autres éléments.
+1. **Entities**: Entities represent the interactive objects in the game, such as spaceships, enemies, projectiles, and other elements.
 
-2. **Composants (Components)** : Les composants détiennent les données et les caractéristiques des entités. Par exemple, un composant de position, de vitesse, d'armement, de santé, etc.
+2. **Components**: Components store the data and characteristics of entities. For example, a position component, velocity component, weapon component, health component, and so on.
 
-3. **Systèmes (Systems)** : Les systèmes gèrent la logique du jeu en agissant sur les entités en fonction de leurs composants. Par exemple, un système de rendu utilise SFML pour afficher les entités à l'écran.
+3. **Systems**: Systems manage the game's logic by acting on entities based on their components. For example, a rendering system uses SFML to display entities on the screen.
 
-## Flux de Données
+## Data Flow
 
-L'architecture ECS suit un flux de données spécifique :
+The ECS architecture follows a specific data flow:
 
-1. **Création d'Entités** : Les entités sont construites en ajoutant les composants pertinents. Par exemple, un vaisseau peut posséder des composants de position, de vitesse, et d'armement.
+1. **Entity Creation**: Entities are constructed by adding relevant components. For instance, a spaceship may have position, velocity, and weapon components.
 
-2. **Exécution des Systèmes** : Les systèmes sont déclenchés pour traiter les entités. Par exemple, un système de rendu parcourt les entités et les affiche à l'écran en utilisant SFML.
+2. **System Execution**: Systems are triggered to process entities. For example, a rendering system iterates through entities and displays them on the screen using SFML.
 
-3. **Mises à Jour de Composants** : Les composants des entités sont mis à jour par les systèmes au cours du jeu. Par exemple, la vitesse des projectiles est modifiée par un système de mouvement.
+3. **Component Updates**: Entity components are updated by systems during gameplay. For example, a movement system may change the velocity of projectiles.
 
-4. **Interactions et Événements** : Les entités peuvent interagir entre elles via des événements. Par exemple, un projectile peut infliger des dégâts à un ennemi.
+4. **Interactions and Events**: Entities can interact with each other through events. For example, a projectile can inflict damage on an enemy.
 
-## Utilisation de SFML
+## Using SFML
 
-SFML est notre bibliothèque de choix pour la gestion des éléments graphiques, audio, et d'autres ressources multimédias. Elle est intégrée dans notre moteur de jeu pour la création d'une expérience visuelle immersive.
+SFML is our library of choice for managing graphical elements, audio, and other multimedia resources. It is integrated into our game engine to create an immersive visual experience.

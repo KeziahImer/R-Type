@@ -18,11 +18,9 @@ nav:
   - "Server":
       - "Getting Started": "server/index.md"
       - "Protocol":
-          - "Packet": "server/packet.md"
-          - "Channel": "server/channel.md"
-          - "Routes": "server/routes.md"
-      - "Software":
-          - "Architecture": "server/architecture.md"
+          - "RFC": "server/rfc.md"
+    #   - "Software":
+    #       - "Architecture": "server/architecture.md"
   - "Library":
       - "Getting Started": "library/index.md"
       - "Life Cycle": "library/life_cycle.md"
