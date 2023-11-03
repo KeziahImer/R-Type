@@ -17,6 +17,8 @@ public:
   ~Core() = default;
 
   void CreateShipFactory();
+  void CreateEnemyFactory();
+  void CreateCollisionFactory();
 };
 } // namespace Rtype
 

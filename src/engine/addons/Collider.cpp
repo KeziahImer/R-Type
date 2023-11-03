@@ -1,4 +1,7 @@
+#include "RNGine/addons/Collider.hpp"
 #include "RNGine/RNGine.hpp"
+#include <iostream>
+#include <ostream>
 
 bool checkCollision(const RNGine::Components::Hitbox &hitbox1,
                     const RNGine::Components::Transform &transform1,
@@ -21,27 +24,30 @@ bool checkCollision(const RNGine::Components::Hitbox &hitbox1,
 void RNGine::Addons::ColliderSystem(RNGine::Core &core) {
   auto &scene = core.GetActualScene();
   auto &colliders = scene.GetComponents<RNGine::Addons::Collider>();
-  auto &hitboxes = scene.GetComponents<RNGine::Components::Hitbox>();
-  auto &transforms = scene.GetComponents<RNGine::Components::Transform>();
-
-  std::map<RNGine::Scene::Entity, CollisionData> collisionsData;
+  auto &Hitboxs = scene.GetComponents<RNGine::Components::Hitbox>();
+  auto &Transforms = scene.GetComponents<RNGine::Components::Transform>();
 
   auto max = colliders.size();
   for (size_t i = 0; i < max; i++) {
-    auto collider = colliders[i];
-    auto hitbox = hitboxes[i];
-    auto transform = transforms[i];
-    if (!collider.has_value() || !hitbox.has_value() || !transform.has_value())
+    auto collision = colliders[i];
+    if (!collision.has_value())
       continue;
+    collision->collisions.clear();
+  }
 
-    collider->collisions.clear();
+  for (size_t i = 0; i < max; i++) {
+    for (size_t x = 0; x < max; x++) {
+      auto &collision = colliders[i];
+      auto &collision1 = colliders[x];
+      if (!collision.has_value() || i == x || !collision1.has_value() ||
+          !Hitboxs[i].has_value() || !Hitboxs[x].has_value() ||
+          !Transforms[i].has_value() || !Transforms[x].has_value())
+        continue;
 
-    for (auto collisionData : collisionsData) {
-      auto collision = collisionData.second;
-      if (checkCollision(hitbox.value(), transform.value(), collision.hitbox,
-                         collision.transform)) {
-        collider->collisions.push_back(collisionData.first);
-        collisionData.second.collider.collisions.push_back(i);
+      if (checkCollision(*Hitboxs[i], *Transforms[i], *Hitboxs[x],
+                         *Transforms[x])) {
+        collision->collisions.push_back(x);
+        collision1->collisions.push_back(i);
       }
     }
   }

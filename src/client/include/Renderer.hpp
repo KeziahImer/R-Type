@@ -9,8 +9,6 @@
 #define _RTYPE_CLIENT_RENDERER_HPP_
 
 #include "RNGine/RNGine.hpp"
-#include "raylib.h"
-
 #include "components/RenderTexture.hpp"
 
 #include <map>
@@ -33,7 +31,7 @@ public:
                              const Client::Components::RenderTexture &b);
 
 private:
-  std::map<std::string, Texture2D> _textures;
+  std::map<std::string, r::Texture2D> _textures;
 };
 } // namespace Client
 

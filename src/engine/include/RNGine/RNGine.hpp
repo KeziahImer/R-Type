@@ -12,11 +12,14 @@
 #include "Scene.hpp"
 #include "SparseArray.hpp"
 
+#include "components/Attackable.hpp"
 #include "components/Hitbox.hpp"
+#include "components/Score.hpp"
 #include "components/Transform.hpp"
 
 #include "addons/Acceleration.hpp"
 #include "addons/Collider.hpp"
+#include "addons/EnemyShoot.hpp"
 #include "addons/Limits.hpp"
 #include "addons/Velocity.hpp"
 

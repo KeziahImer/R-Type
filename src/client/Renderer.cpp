@@ -5,9 +5,7 @@
 #include "Renderer.hpp"
 
 void Client::Renderer::RenderSprites(RNGine::Scene &scene) {
-  BeginDrawing();
-
-  ClearBackground(BLACK);
+  r::ClearBackground(r::BLACK);
 
   auto &textures = scene.GetComponents<Client::Components::RenderTexture>();
   auto &transforms = scene.GetComponents<RNGine::Components::Transform>();
@@ -20,7 +18,7 @@ void Client::Renderer::RenderSprites(RNGine::Scene &scene) {
     if (!texture.has_value())
       continue;
     if (_textures.find(texture->path) == _textures.end()) {
-      _textures[texture->path] = LoadTexture(texture->path.c_str());
+      _textures[texture->path] = r::LoadTexture(texture->path.c_str());
     }
 
     auto &transform = transforms[i];
@@ -28,19 +26,18 @@ void Client::Renderer::RenderSprites(RNGine::Scene &scene) {
       UpdateSpriteWithTransform(texture.value(), transform.value());
 
     auto &hitbox = hitboxes[i];
-    if (hitbox.has_value())
+    if (hitbox.has_value()) {
       UpdateSpriteWithHitbox(texture.value(), hitbox.value());
+    }
     renders.push_back(texture.value());
   }
 
   std::sort(renders.begin(), renders.end(), Client::Renderer::SortSpritesByZ);
 
   for (auto render : renders) {
-    DrawTexturePro(_textures[render.path], render.source, render.dest,
-                   render.origin, render.rotation, WHITE);
+    r::DrawTexturePro(_textures[render.path], render.source, render.dest,
+                      render.origin, render.rotation, r::WHITE);
   }
-
-  EndDrawing();
 }
 
 void Client::Renderer::UpdateSpriteWithTransform(
@@ -62,10 +59,10 @@ void Client::Renderer::UpdateSpriteWithHitbox(
     sprite.origin.x = hitbox.originX;
     sprite.origin.y = hitbox.originY;
   }
-  if (IsKeyDown(KEY_H)) {
-    DrawRectangleLines(sprite.dest.x - sprite.origin.x,
-                       sprite.dest.y - sprite.origin.y, hitbox.width,
-                       hitbox.height, RED);
+  if (r::IsKeyDown(r::KEY_H)) {
+    r::DrawRectangleLines(sprite.dest.x - sprite.origin.x,
+                          sprite.dest.y - sprite.origin.y, hitbox.width,
+                          hitbox.height, r::RED);
   }
 }
 

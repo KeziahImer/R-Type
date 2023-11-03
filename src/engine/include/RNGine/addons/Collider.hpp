@@ -1,10 +1,3 @@
-/*
-** EPITECH PROJECT, 2023
-** R-type
-** File description:
-** Rtype engine
-*/
-
 #ifndef _RTYPE_ENGINE_ADDONS_COLLIDER_HPP_
 #define _RTYPE_ENGINE_ADDONS_COLLIDER_HPP_
 
@@ -12,10 +5,17 @@
 
 #include "../Core.hpp"
 #include "../Scene.hpp"
+#include "RNGine/components/Hitbox.hpp"
+#include "RNGine/components/Transform.hpp"
 
 namespace RNGine {
 namespace Addons {
+
+enum class CollisionAction { None, PushingForce, Explosion };
+
 struct Collider {
+  bool solidCollider = false;
+  CollisionAction action = CollisionAction::None;
   std::vector<RNGine::Scene::Entity> collisions;
 };
 

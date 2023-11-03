@@ -14,6 +14,8 @@
 namespace Rtype {
 namespace Addons {
 
+enum class WeaponType { Basic, Laser };
+
 struct ShipController {
   bool movingUp = false;
   bool movingDown = false;
@@ -23,6 +25,7 @@ struct ShipController {
 
   float lastShoot = 0;
   std::vector<RNGine::Scene::Entity> bullets;
+  WeaponType weapon = WeaponType::Basic;
 };
 
 void ShipControllerSystem(RNGine::Core &core);
