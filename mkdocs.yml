@@ -20,12 +20,14 @@ nav:
           - "Hitbox": "engine/components/hitbox.md"
           - "Transform": "engine/components/transform.md"
   - "Client":
-      - "Getting Started": "client/index.md"
-      - "Rules":
-          - "Player": "client/player.md"
-          - "Enemies": "client/enemies.md"
-      - "Software":
-          - "Architecture": "client/architecture.md"
+      - "main": "client/main.md"
+      - "Renderer": "client/renderer.md"
+      - "Scene":
+        - "Game": "client/scene/gameScene.md"
+        - "Menu": "client/scene/menuScene.md"
+      - "Components":
+          - "IsClicked": "client/components/IsClicked.md"
+          - "IsHover": "client/components/IsHover.md"
   - "Server":
       - "Getting Started": "server/index.md"
       - "Protocol":
