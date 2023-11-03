@@ -8,28 +8,40 @@ nav:
       - "Welcome": index.md
       - "User Guide": "user-guide.md"
       - "Contribute": "contribute.md"
+  - "Engine":
+      - "Core" : "engine/core.md"
+      - "SparseArray" : "engine/sparseArray.md"
+      - "Addons":
+          - "Acceleration": "engine/addons/acceleration.md"
+          - "Collider": "engine/addons/collider.md"
+          - "Limits": "engine/addons/limits.md"
+          - "Velocity": "engine/addons/velocity.md"
+      - "Components" :
+          - "Hitbox": "engine/components/hitbox.md"
+          - "Transform": "engine/components/transform.md"
   - "Client":
       - "Getting Started": "client/index.md"
       - "Rules":
           - "Player": "client/player.md"
-          - "Ennemies": "client/ennemies.md"
+          - "Enemies": "client/enemies.md"
       - "Software":
           - "Architecture": "client/architecture.md"
   - "Server":
       - "Getting Started": "server/index.md"
       - "Protocol":
           - "RFC": "server/rfc.md"
+
     #   - "Software":
     #       - "Architecture": "server/architecture.md"
-  - "Library":
-      - "Getting Started": "library/index.md"
-      - "Life Cycle": "library/life_cycle.md"
-      - "Concepts":
-          - "Entity": "library/entity.md"
-          - "Component": "library/component.md"
-          - "System": "library/system.md"
-          - "Scenes": "library/scenes.md"
-          - "Game Loop": "library/game_loop.md"
+  #- "Library":
+      #- "Getting Started": "library/index.md"
+      #- "Life Cycle": "library/life_cycle.md"
+      #- "Concepts":
+          #- "Entity": "library/entity.md"
+          #- "Component": "library/component.md"
+          #- "System": "library/system.md"
+          #- "Scenes": "library/scenes.md"
+          #- "Game Loop": "library/game_loop.md"
   - "About":
       - "Release Notes": "about/index.md"
       - "License": "about/license.md"
