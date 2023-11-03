@@ -6,8 +6,7 @@
 #include "components/MousePosition.hpp"
 #include "components/NumberPlayers.hpp"
 #include "components/RenderTexture.hpp"
-namespace r
-{
+namespace r {
 #include "raylib.h"
 }
 #include "scenes/Game.hpp"
@@ -32,7 +31,8 @@ Client::Scenes::GameOver::GameOver(RNGine::Core &core) {
                  Client::Scenes::GameOver::OnClickButtonBackHome);
   core.AddSystem("render-gameover", Client::Scenes::GameOver::renderGameOver);
   CreateMouse();
-  CreateButton("retry", "./assets/menu/loose/btn-retry", r::GetScreenHeight() / 2);
+  CreateButton("retry", "./assets/menu/loose/btn-retry",
+               r::GetScreenHeight() / 2);
   CreateButton("back", "./assets/menu/loose/btn-backtohome",
                r::GetScreenHeight() / 2 + 100);
   AddComponent(CreateEntity("numberPLayers"),
