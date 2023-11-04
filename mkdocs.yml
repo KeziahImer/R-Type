@@ -17,17 +17,25 @@ nav:
           - "Limits": "engine/addons/limits.md"
           - "Velocity": "engine/addons/velocity.md"
       - "Components" :
-          - "Hitbox": "engine/components/hitbox.md"
-          - "Transform": "engine/components/transform.md"
+          - "Hitbox": "engine/addons/hitbox.md"
+          - "Transform": "engine/addons/transform.md"
   - "Client":
       - "main": "client/main.md"
       - "Renderer": "client/renderer.md"
       - "Scene":
         - "Game": "client/scene/gameScene.md"
         - "Menu": "client/scene/menuScene.md"
-      - "Components":
-          - "IsClicked": "client/components/IsClicked.md"
-          - "IsHover": "client/components/IsHover.md"
+      - "Addons":
+          - "IsClicked": "client/addons/IsClicked.md"
+          - "IsHover": "client/addons/IsHover.md"
+          - "OnHoverSprite": "client/addons/OnHoverSprite.md"
+          - "CollisionWaveSpawn" : "client/addons/CollisionWaveSpawn.md"
+          - "EnemyInfiniteSpawn" : "client/addons/EnemyInfiniteSpawn.md"
+          - "EnemyWaveSpawn": "client/addons/EnemyWaveSpawn.md"
+          - "ShipAnimation": "client/addons/ShipAnimation.md"
+          - "Parallax": "client/addons/Parallax.md"
+          - "SpriteAnimation" : "client/addons/SpriteAnimation.md"
+
   - "Server":
       - "Getting Started": "server/index.md"
       - "Protocol":
