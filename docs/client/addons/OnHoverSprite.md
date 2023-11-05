@@ -1,5 +1,5 @@
 # OnHoverSprite
-Le composant "OnHoverSprite" est utilisé pour gérer le changement d'image ou de sprite d'une entité lorsqu'elle est survolée par le curseur de la souris. Il stocke les informations suivantes :
+L'Addons "OnHoverSprite" est utilisé pour gérer le changement d'image ou de sprite d'une entité lorsqu'elle est survolée par le curseur de la souris. Il stocke les informations suivantes :
 
 - `hoverSprite`: L'image ou le sprite qui sera affiché lorsque l'entité est survolée.
 

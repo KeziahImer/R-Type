@@ -1,5 +1,5 @@
 # EnemyInfiniteSpawn
-Le composant "EnemySpawn" est utilisé pour gérer la génération d'ennemis dans le jeu. Il est utilisé pour créer de manière dynamique des ennemis à intervalles réguliers. Il stocke les informations suivantes :
+L'Addons "EnemySpawn" est utilisé pour gérer la génération d'ennemis dans le jeu. Il est utilisé pour créer de manière dynamique des ennemis à intervalles réguliers. Il stocke les informations suivantes :
 
 - `frequence`: La fréquence à laquelle les ennemis sont générés (exprimée en temps).
 

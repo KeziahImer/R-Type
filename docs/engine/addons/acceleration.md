@@ -1,8 +1,8 @@
-# Addon Acceleration
+# Addon "Acceleration"
 
-L'addon "Acceleration" est utilisé pour définir la vitesse d'accélération en x et y pour les entités du jeu. Cet addon est utile pour simuler des mouvements fluides en modifiant la vitesse des entités au fil du temps.
+"The "Acceleration" addon is used to set the acceleration speed in the x and y directions for game entities. This addon is helpful for creating smooth movements by changing the entities' speed over time."
 
-## Exemple d'utilisation
+## Example of use
 
 ```cpp
 RNGine::Addons::Acceleration acceleration;

@@ -1,32 +1,33 @@
 # Composant "Transform"
-Le composant "Transform" est utilisé pour définir la transformation spatiale d'une entité du jeu. Il stocke les informations suivantes :
 
-- `x`: La position en x de l'entité.
+The "Transform" component is used to define the spatial transformation of a game entity. It stores the following information:
 
-
-- `y`: La position en y de l'entité.
+- `x`: The position x.
 
 
-- `rotation`: La rotation de l'entité (en degrés).
+- `y`: The position y.
 
 
-- `scaleX`: L'échelle en x de l'entité.
+- `rotation`: The rotation of the entity (in degrees).
 
 
-- `scaleY`: L'échelle en y de l'entité.
+- `scaleX`: The scale in the x-axis of the entity.
 
 
-Le composant "Transform" permet de positionner, orienter et redimensionner une entité dans le monde du jeu. Il est essentiel pour gérer la position des entités et leur aspect visuel.
+- `scaleY`:  The scale in the y-axis of the entity.
 
+
+
+The "Transform" component allows you to position, orient, and resize an entity within the game world.
 ## Exemple d'utilisation
 
 ```cpp
 RNGine::Components::Transform transform;
 transform.x = 100;
 transform.y = 200;
-transform.rotation = 45; // Rotation de 45 degrés
-transform.scaleX = 1.5; // Échelle en x de 1.5
-transform.scaleY = 1.5; // Échelle en y de 1.5
+transform.rotation = 45; // 45-degree rotation
+transform.scaleX = 1.5; // Scale in the x-axis of 1.5
+transform.scaleY = 1.5; // Scale in the y-axis of 1.5
 
-// Utilisation du composant Transform pour positionner, orienter et redimensionner une entité.
+// Using the Transform component to position, orient, and resize an entity.
 ```

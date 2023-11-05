@@ -1,5 +1,5 @@
 # IsHover
-Le composant "IsHover" est utilisé pour enregistrer si une entité est en cours de survol par le curseur de la souris. Il stocke la valeur suivante :
+L'Addons "IsHover" est utilisé pour enregistrer si une entité est en cours de survol par le curseur de la souris. Il stocke la valeur suivante :
 
 - `isHover`: Un booléen indiquant si l'entité est actuellement survolée par le curseur de la souris.
 

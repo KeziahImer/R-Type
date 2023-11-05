@@ -1,85 +1,81 @@
 # Class Core
-## Constructeur
+## Constructor
 
-La classe `Core` dispose d'un constructeur qui initialise les attributs de base du moteur :
+The `Core` class has a constructor that initializes the engine's basic attributes:
 
 ```cpp
 Core();
+
 ```
 
-- `currentTime`: L'heure actuelle du moteur.
+- `currentTime`: The current time of the engine.
 
 
-- `nextUpdate`: L'heure prévue pour la prochaine mise à jour du jeu.
+- `nextUpdate`: The expected time for the next game update.
 
 
-- `lastUpdate`: L'heure de la dernière mise à jour du jeu.
+- `lastUpdate`: The time of the last game update.
+
+- `deltaTime`: The time elapsed since the last update.
 
 
-- `deltaTime`: La durée écoulée depuis la dernière mise à jour.
+- `targetFPS`: The game's target frame rate (default is 60 frames per second).
 
-
-- `targetFPS`: La fréquence d'images cible du jeu (par défaut, 60 images par seconde).
-
-## Méthode "Update"
-La méthode Update est responsable de la mise à jour du moteur. Elle calcule le temps écoulé depuis la dernière mise à jour et détermine si le moteur doit être mis à jour à la prochaine étape :
-
+##  "Update" Method
+The Update method is responsible for updating the engine. It calculates the time elapsed since the last update and determines if the engine should be updated at the next step:
 ```cpp
 void update();
 ```
-- `currentTime`: Met à jour l'heure actuelle.
+- `currentTime`: Updates the current time.
 
 
-- `nextUpdate`: Calcule le moment où la prochaine mise à jour doit avoir lieu.
+- `nextUpdate`: CCalculates when the next update should occur.
+
+- `deltaTime`: Calculates the time elapsed since the last update.
 
 
-- `deltaTime`: Calcule la durée écoulée depuis la dernière mise à jour.
+- `RunSystems`: Calls the RunSystems function to execute registered systems.
 
-
-- `RunSystems`: Appelle la fonction RunSystems pour exécuter les systèmes enregistrés.
-
-La méthode `update` renvoie true si le moteur doit être mis à jour à la prochaine étape, sinon elle renvoie "false".
+The `update` method allows you to obtain the current time as a Time data type:
 
 ## Méthode "GetNow"
 
-La méthode `GetNow` permet d'obtenir l'heure actuelle sous forme d'une valeur de type Time :
+The `GetNow` method returns true if the engine should be updated at the next step; otherwise, it returns "false."
 
 ```cpp
 Time getNow();
 ```
 
-- Elle utilise la bibliothèque `<chrono>` pour obtenir l'heure actuelle en secondes.
+- It uses the `<chrono>` library to obtain the current time in seconds.
 
-## Gestion des Systèmes
-La classe `Core` permet d'ajouter, de supprimer et d'exécuter des systèmes. Un système est une fonction qui effectue une opération spécifique dans le jeu.
+## Systems Management
+The `Core` class enables you to add, remove, and run systems. A system is a function that
 
-- AddSystem : Permet d'ajouter un système au moteur en fournissant un nom unique et une fonction associée.
-- RemoveSystem: Permet de supprimer un système du moteur en utilisant son nom.
-- RunSystems: Exécute tous les systèmes enregistrés dans le moteur.
+- AddSystem :  Allows you to add a system to the engine by providing a unique name and an associated function.
+- RemoveSystem: Allows you to remove a system from the engine using its name.
+- RunSystems: Executes all registered systems in the engine.
 
-## Gestion des Scènes
+## Scenes Management
 
-Le moteur R-type gère plusieurs scènes de jeu. La classe Core permet d'ajouter, de supprimer et de définir la scène actuelle.
+The R-type engine manages multiple game scenes. The Core class allows you to add, remove, and set the current scene.
 
-- `AddScene`: Permet d'ajouter une scène au moteur en fournissant un nom unique et une instance de la classe Scene.
-
-
-- `RemoveScene`: Permet de supprimer une scène du moteur en utilisant son nom.
+- `AddScene`: Enables you to add a scene to the engine by providing a unique name and an instance of the Scene class.
 
 
-- `SetActualScene`: Définit la scène actuelle à afficher et à mettre à jour. 
+- `RemoveScene`: Allows you to remove a scene from the engine using its name.
 
-## Accès aux Scènes
 
-La classe Core permet d'accéder aux scènes par leur nom :
+- `SetActualScene`: Sets the current scene to be displayed and updated.
 
-- GetScene: Permet d'obtenir une référence vers une scène à partir de son nom.
-- GetActualScene: Permet d'obtenir une référence vers la scène actuellement active.
+## Accessing Scenes
 
-## Accès au Nom de la Scène Actuelle
+The Core class allows you to access scenes by their name:
 
-La méthode `GetActualSceneName` permet d'obtenir le nom de la scène actuelle.
+- GetScene:  Allows you to obtain a reference to a scene by its name.
+- GetActualScene: Allows you to obtain a reference to the currently active scene.
 
-La classe `Core` est un composant essentiel du moteur R-type, garantissant la gestion du temps, des systèmes et des scènes, ce qui en fait un élément central du jeu.
+## Accessing the Name of the Current Scene
 
-C'est la base sur laquelle d'autres composants, tels que les addons et les systèmes, s'appuient pour fournir des fonctionnalités et une interactivité au jeu R-type.
+The `GetActualSceneName`  method allows you to obtain the name of the current scene.
+
+The `Core` class is an essential component of the R-type engine, ensuring the management of time, systems, and scenes, making it a central element of the game.

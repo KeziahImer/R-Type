@@ -1,5 +1,5 @@
 # IsClicked
-Le composant "IsClicked" est utilisé pour enregistrer si une entité a été cliquée avec le bouton gauche ou droit de la souris. Il stocke les informations suivantes :
+L'Addons "IsClicked" est utilisé pour enregistrer si une entité a été cliquée avec le bouton gauche ou droit de la souris. Il stocke les informations suivantes :
 
 - `IsClickedRight`: Un booléen indiquant si l'entité a été cliquée avec le bouton droit de la souris.
 

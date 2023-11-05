@@ -1,37 +1,38 @@
 # Class SparseArray
 
-La classe `SparseArray` est une structure de données permettant de stocker un tableau de données optionnelles. Elle est utilisée dans le moteur de jeu R-type pour gérer les composants de manière efficace.
+The `SparseArray` class is a data structure designed to store an array of optional data. It is used in the R-type game engine to efficiently manage components.
 
-## Utilisation
+## Usage
 
-La classe `SparseArray` est un conteneur générique conçu pour stocker des données de type `Component`. Elle fournit un ensemble de méthodes pour accéder, insérer, supprimer et rechercher des éléments dans le tableau.
+The `SparseArray` class is a generic container designed to store data of type `Component`. It provides a set of methods to access, insert, remove, and search for elements in the array.
 
-## Constructeur
+## Constructors
 
-La classe `SparseArray` possède un constructeur par défaut, un constructeur de copie, un constructeur de déplacement et un destructeur.
+The `SparseArray` class has a default constructor, a copy constructor, a move constructor, and a destructor.
 
-## Opérateurs
+## Operators
 
-- `operator[]`: Permet d'accéder à un élément du tableau par son index. Si l'index est supérieur à la taille actuelle du tableau, un élément vide de type `Component` est renvoyé.
+- `operator[]`: Allows access to an element in the array by its index. If the index is greater than the current size of the array, an empty element of type `Component` is returned.
 
-## Méthodes
+## Methods
 
-- `begin`, `end`, `cbegin`, `cend`: Permettent de parcourir le tableau à l'aide d'itérateurs.
-- `size`: Retourne la taille actuelle du tableau.
-- `insert_at`: Insère un élément de type `Component` à une position donnée dans le tableau.
-- `erase`: Supprime un élément à une position donnée dans le tableau.
-- `get_index`: Retourne l'index d'un élément dans le tableau.
+- `begin`, `end`, `cbegin`, `cend`: Allow traversing the array using iterators.
+- `size`: Returns the current size of the array.
+- `insert_at`: Inserts a `Component` element at a given position in the array.
+- `erase`: Removes an element at a given position in the array.
+- `get_index`: Returns the index of an element in the array.
 
-## Exemple d'utilisation
+## Example Usage
 
 ```cpp
-// Création d'un SparseArray de composants
+// Creating a SparseArray of components
 RNGine::SparseArray<Component> sparseArray;
 
-// Insertion d'un composant à l'index 3
+// Inserting a component at index 3
 Component comp;
 sparseArray.insert_at(3, comp);
 
-// Accès à un composant à l'index 1
+// Accessing a component at index 1
 Component retrievedComp = *sparseArray[1];
+
 ```

@@ -1,5 +1,5 @@
 # EnemyWaveSpawn
-Le composant "EnemyWaveSpawn" est utilisé pour gérer la génération d'ennemis sous forme de vagues dans le jeu. Il permet de créer des vagues d'ennemis de manière dynamique à intervalles réguliers. Il stocke les informations suivantes :
+L'Addons "EnemyWaveSpawn" est utilisé pour gérer la génération d'ennemis sous forme de vagues dans le jeu. Il permet de créer des vagues d'ennemis de manière dynamique à intervalles réguliers. Il stocke les informations suivantes :
 
 - `startSpawn`: Le moment où la génération de la vague de vagues doit commencer (exprimé en temps).
 

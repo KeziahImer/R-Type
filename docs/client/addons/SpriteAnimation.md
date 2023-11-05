@@ -1,5 +1,5 @@
 # SpriteAnimation
-Le composant "SpriteAnimation" est utilisé pour gérer les animations de sprites dans le jeu. Il permet de créer des animations en faisant défiler les images d'une texture à des intervalles réguliers. Ce composant stocke les informations suivantes :
+L'Addons "SpriteAnimation" est utilisé pour gérer les animations de sprites dans le jeu. Il permet de créer des animations en faisant défiler les images d'une texture à des intervalles réguliers. Ce composant stocke les informations suivantes :
 
 - `reverse`: Un booléen indiquant si l'animation doit être inversée (true) ou non (false).
 

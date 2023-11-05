@@ -1,5 +1,5 @@
 # CollisionWaveSpawn"
-Le composant "CollisionWaveSpawn" est utilisé pour gérer la génération de vagues de collisions dans le jeu. Il est utilisé pour créer de manière dynamique des collisions de types variés à intervalles réguliers. Il stocke les informations suivantes :
+L'Addons "CollisionWaveSpawn" est utilisé pour gérer la génération de vagues de collisions dans le jeu. Il est utilisé pour créer de manière dynamique des collisions de types variés à intervalles réguliers. Il stocke les informations suivantes :
 
 - `startSpawn`: Le moment où la génération de la vague de collisions doit commencer (exprimé en temps).
 

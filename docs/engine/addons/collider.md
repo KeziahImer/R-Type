@@ -1,23 +1,20 @@
+# Addon "Collider"
 
-**Collider.md**
-
-# Addon Collider
-
-L'addon "Collider" est utilisé pour gérer la détection de collisions entre les entités du jeu. Il maintient une liste des entités en collision et fournit des données sur les collisions, telles que les entités impliquées, les hitbox et les transformations associées.
-
+The "Collider" addon is used to handle collision detection between game entities. It keeps a list of colliding entities and provides information about the collisions, like the involved entities, hitboxes, and related transformations.
 ## Exemple d'utilisation
 
 ```cpp
 RNGine::Addons::Collider collider;
 
-// Définir la boîte de collision (hitbox) de l'entité
+// Define the entity's collision box (hitbox)
 RNGine::Components::Hitbox hitbox;
 hitbox.width = 32;
 hitbox.height = 32;
 
-// Ajouter la boîte de collision à l'entité
+// Add the collision box to the entity
 entity.addComponent(hitbox);
 
-// Appliquer l'addon "Collider" à l'entité
+// Apply the "Collider" addon to the entity
 entity.addAddon(collider);
+
 ```

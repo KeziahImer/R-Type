@@ -1,21 +1,23 @@
 # Composant Hitbox
-Le composant "Hitbox" est utilisé pour définir une zone de collision rectangulaire associée à une entité du jeu. Il stocke les informations suivantes :
+The "Hitbox" component is used to define a rectangular collision area associated with a game entity. It stores the following information:
 
-- `width`: La largeur de la boîte de collision.
-
-
-- `height`: La hauteur de la boîte de collision.
+- `width`: The width of the hitbox.
 
 
-- `originX`: La position en x du point d'origine de la boîte de collision.
+- `height`: The height of the hitbox.
 
 
-- `originY`: La position en y du point d'origine de la boîte de collision.
+- `originX`: The x-position of the origin point of the hitbox.
 
 
-Le composant "Hitbox" est essentiel pour détecter les collisions entre entités dans le jeu. En utilisant les dimensions et l'origine de la boîte de collision, il est possible de calculer les collisions de manière efficace.
+- `originY`: The y-position of the origin point of the hitbox.
 
-## Exemple d'utilisation
+
+
+The "Hitbox" component is crucial for detecting collisions between entities in the game. By using the dimensions and origin point of the collision box, it is possible to efficiently calculate collisions.
+
+
+## Example of use
 
 ```cpp
 RNGine::Components::Hitbox hitbox;
@@ -23,6 +25,4 @@ hitbox.width = 32;
 hitbox.height = 32;
 hitbox.originX = 16;
 hitbox.originY = 16;
-
-// Utilisation du composant Hitbox pour définir la zone de collision d'une entité.
 ```

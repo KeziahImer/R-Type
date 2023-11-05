@@ -1,15 +1,16 @@
 # Addon Velocity
 
-L'addon "Velocity" est utilisé pour gérer la vitesse des entités en x et y. Il permet de définir la vitesse de déplacement des entités, ce qui est essentiel pour la simulation de mouvements dans le jeu.
 
-## Exemple d'utilisation
+The "Velocity" addon is used to control the speed of entities in both the horizontal (x) and vertical (y) directions. It allows you to set the movement speed of entities.
+
+## Example of use
 
 ```cpp
 RNGine::Addons::Velocity velocity;
 
-velocity.x = 2.0f;  // Vitesse horizontale
-velocity.y = 1.5f;  // Vitesse verticale
+velocity.x = 2.0f;  // Horizontal speed
+velocity.y = 1.5f;  // Vertical speed
 
-// Appliquer la vitesse à une entité
+// Apply the velocity to an entity
 entity.addAddon(velocity);
 ```

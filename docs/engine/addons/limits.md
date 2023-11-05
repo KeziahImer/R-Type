@@ -1,17 +1,16 @@
 # Addon Limits
 
-L'addon "Limits" est utilisé pour définir des limites de déplacement pour les entités. Il spécifie les valeurs minimales et maximales pour la position, la vitesse et l'accélération en x et y. Cela permet de restreindre le mouvement des entités dans des zones spécifiques du jeu.
-
-## Exemple d'utilisation
+The "Limits" addon is used to set boundaries for entities' movement. It specifies the minimum and maximum values for position, speed, and acceleration in the horizontal (x) and vertical (y) directions. This helps restrict where entities can move within specific areas of the game.
+## Example of use
 
 ```cpp
 RNGine::Addons::Limits limits;
 
-limits.minX = 0.0f;    // Position minimale en x
-limits.maxX = 800.0f;  // Position maximale en x
-limits.minY = 0.0f;    // Position minimale en y
-limits.maxY = 600.0f;  // Position maximale en y
+limits.minX = 0.0f;    // Minimum position in the horizontal (x) direction
+limits.maxX = 800.0f;  // Maximum position in the horizontal (x) direction
+limits.minY = 0.0f;    // Minimum position in the vertical (y) direction
+limits.maxY = 600.0f;  // Maximum position in the vertical (y) direction
 
-// Appliquer les limites à une entité
+// Apply the limits to an entity
 entity.addAddon(limits);
 ```
