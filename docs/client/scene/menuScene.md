@@ -1,26 +1,26 @@
-# Fonctionnement des menus
+# Menus
 
 ## Boutons
-Les boutons sont des éléments interactifs qui permettent au joueur de naviguer dans le menu principal. Ils sont créés à l'aide de la méthode `CreateButton`. Chaque bouton a des composants tels que `Client::Components::IsHover` et `Client::Components::IsClicked` pour gérer les interactions de la souris.
+Buttons are interactive elements that allow players to navigate the main menu. They are created using the CreateButton method. Each button has components such as Client::Components::IsHover and Client::Components::IsClicked to handle mouse interactions.
 
-Exemple de code pour la création d'un bouton :
+Example code for creating a button:
 ```cpp
 CreateButton("solo", "./assets/menu/btn-solo", 0);
 ```
 
-## Suivi de la position de la souris
-Le suivi de la position de la souris est géré par le système `TrackMousePositionSystem`. Il permet de mettre à jour la position de l'entité de la souris en fonction de la position réelle de la souris.
+## Mouse Position Tracking
+Mouse position tracking is managed by the TrackMousePositionSystem system. It updates the mouse entity's position based on the actual mouse position.
 
-Exemple de code pour le suivi de la position de la souris :
+Example code for mouse position tracking:
 
 ```cpp
 core.AddSystem("track-mouse-position", Client::Scenes::Home::TrackMousePositionSystem);
 ```
 
-## Fond d'écran
-Le fond d'écran de la scène est constitué d'entités telles que "background1", "background2", "redmoon" et "greenmoon". Ces entités sont créées avec des textures de fond et sont animées pour créer un effet de parallaxe.
+## Background
+The scene's background consists of entities like "background1," "background2," "redmoon," and "greenmoon." These entities are created with background textures and are animated to create a parallax effect.
 
-Exemple de code pour la création d'un fond d'écran :
+Example code for creating a background:
 
 ```cpp
 CreateEntity("background1");

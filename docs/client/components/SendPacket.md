@@ -1,31 +1,32 @@
-# SendPacket
-Le composant "SendPacket" est utilisé pour stocker des paquets de données à envoyer via le réseau dans le jeu. Il contient une liste de paquets à envoyer. Ce composant est principalement utilisé pour gérer la communication réseau dans le jeu, en stockant les paquets de données à transmettre.
+# SendPacket Component
 
-Ce composant contient les informations suivantes :
+The "SendPacket" component is used to store data packets to be sent over the network in the game. It contains a list of packets to be sent. This component is primarily used to manage network communication in the game by storing data packets to transmit.
 
-- `packets`: Un vecteur (tableau dynamique) de paquets réseau (de type `Network::Packet`) à envoyer. Chaque paquet peut contenir des données spécifiques à envoyer à d'autres clients ou serveurs.
+This component includes the following information:
 
+- `packets`: A vector (dynamic array) of network packets (of type `Network::Packet`) to be sent. Each packet can contain specific data to be sent to other clients or servers.
 
-Ce composant est essentiel pour la communication réseau dans le jeu, en permettant de stocker et de gérer les données à envoyer aux autres joueurs ou serveurs. Il est utilisé pour envoyer des informations, des commandes ou des mises à jour via le réseau.
+This component is essential for network communication in the game, allowing the storage and management of data to be sent to other players or servers. It is used to send information, commands, or updates over the network.
 
-## Exemple d'utilisation
-Le composant "SendPacket" est utilisé pour stocker des paquets de données à envoyer via le réseau :ssentiel pour la communication réseau dans le jeu, en permettant de stocker et de gérer les données à envoyer aux autres joueurs ou serveurs. Il est utilisé pour envoyer des informations, des commandes ou des mises à jour via le réseau.
+## Example Usage
+
+The "SendPacket" component is used to store data packets to be sent over the network:
 
 ```cpp
-// Création d'un composant SendPacket
+// Creating a SendPacket component
 Client::Components::SendPacket sendPacket;
 
-// Création de paquets réseau et ajout à la liste de paquets
+// Creating network packets and adding them to the packet list
 Network::Packet packet1;
-packet1 << "Données du paquet 1";
+packet1 << "Data for packet 1";
 sendPacket.packets.push_back(packet1);
 
 Network::Packet packet2;
-packet2 << 42; // Exemple de données (entier)
+packet2 << 42; // Example data (integer)
 sendPacket.packets.push_back(packet2);
 
-// Envoi des paquets via le réseau
+// Sending packets over the network
 // ...
 
-// Utilisation du composant SendPacket pour gérer les paquets à envoyer
+// Using the SendPacket component to manage the packets to be sent
 ```

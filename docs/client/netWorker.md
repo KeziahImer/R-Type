@@ -1,29 +1,29 @@
 # Networker
-Le module "Networker" est responsable de la gestion des communications réseau dans le jeu. Il permet d'envoyer et de recevoir des paquets réseau pour synchroniser les informations entre le client et le serveur.
 
-Ce module est essentiel pour permettre au jeu d'interagir avec un serveur distant, d'envoyer des données et de recevoir des réponses, notamment pour l'authentification du joueur.
+The "Networker" module is responsible for managing network communications within the game. It enables the sending and receiving of network packets to synchronize information between the client and the server.
 
-## Fonctionnalités
-Le module "Networker" effectue les actions suivantes :
+This module is essential for allowing the game to interact with a remote server, send data, and receive responses, particularly for player authentication.
 
-- Initialise la connexion avec le serveur en résolvant l'adresse et le port.
+## Features
+The "Networker" module performs the following actions:
 
+- Initializes the connection with the server by resolving the address and port.
 
-- Met à jour la communication réseau en envoyant et recevant des paquets.
+- Updates network communication by sending and receiving packets.
 
+- Awaits an authentication response from the server when the current scene is "lobby."
 
-- Attends une réponse d'authentification du serveur lorsque la scène actuelle est "lobby".
-## Exemple d'utilisation
-Le module "Networker" est utilisé pour gérer les communications réseau dans le jeu :
+## Example Usage
+The "Networker" module is used to handle network communications within the game:
 
 ```cpp
-// Création d'une instance de Networker
+// Create an instance of Networker
 Client::Networker networker;
 
-// Dans la boucle principale du jeu
+// Inside the game's main loop
 while (!r::WindowShouldClose()) {
     // ...
-    networker.Update(core); // Met à jour la communication réseau
+    networker.Update(core); // Update network communication
     // ...
 }
 ```

@@ -1,17 +1,19 @@
-# NumberLevel
-Le composant "NumberLevel" est utilisé pour stocker le numéro du niveau dans le jeu. Il permet de suivre le numéro du niveau actuel que le joueur est en train de jouer. Ce composant stocke l'information suivante :
+# NumberLevel Component
 
-- `numberLevel`: Un entier représentant le numéro du niveau actuel dans le jeu.
+The "NumberLevel" component is used to store the level number in the game. It allows tracking the current level number that the player is currently playing. This component stores the following information:
 
-Ce composant est utile pour suivre et afficher le numéro du niveau que le joueur est en train de jouer, ce qui peut être utile dans l'interface utilisateur ou pour gérer la progression du jeu.
+- `numberLevel`: An integer representing the current level number in the game.
 
-## Exemple d'utilisation
-Le composant "NumberLevel" est utilisé pour suivre et afficher le numéro du niveau actuel :
+This component is useful for tracking and displaying the current level number that the player is playing, which can be helpful in the user interface or for managing game progression.
+
+## Example Usage
+
+The "NumberLevel" component is used to track and display the current level number:
 
 ```cpp
-// Création d'un composant NumberLevel
+// Creating a NumberLevel component
 Client::Components::NumberLevel level;
-level.numberLevel = 1; // Le joueur joue actuellement au niveau 1
+level.numberLevel = 1; // The player is currently playing level 1
 
-// Utilisation du composant NumberLevel pour afficher le numéro du niveau
+// Using the NumberLevel component to display the level number
 ```

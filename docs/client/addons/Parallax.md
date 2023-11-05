@@ -1,17 +1,19 @@
 # Parallax
-L'Addons "Parallax" est utilisé pour gérer les effets de parallaxe dans le jeu. La parallaxe est une technique d'animation graphique qui crée une illusion de profondeur en faisant défiler différents calques d'arrière-plan à des vitesses différentes. Ce composant stocke les informations suivantes :
 
-- `position`: Une paire de valeurs (x, y) représentant la position de l'effet de parallaxe.
+The "Parallax" addon is used to manage parallax effects in the game. Parallax is a graphic animation technique that creates an illusion of depth by scrolling different background layers at different speeds. This component stores the following information:
 
-Le système associé "ParallaxSystem" gère la mise à jour de la position de l'effet de parallaxe en fonction de l'évolution du jeu, créant ainsi un effet visuel de défilement d'arrière-plan.
+- `position`: A pair of values (x, y) representing the position of the parallax effect.
 
-## Exemple d'utilisation
-Le composant "Parallax" est utilisé pour créer des effets de parallaxe dans le jeu :
+The associated "ParallaxSystem" manages the update of the parallax effect's position based on the game's progression, creating a visual background scrolling effect.
+
+## Example Usage
+
+The "Parallax" component is used to create parallax effects in the game:
 
 ```cpp
-// Création d'un composant Parallax
+// Creating a Parallax component
 Client::Components::Parallax parallax;
-parallax.position = {0, 0}; // Position initiale de l'effet de parallaxe
+parallax.position = {0, 0}; // Initial position of the parallax effect
 
-// Utilisation du composant Parallax pour gérer l'effet de parallaxe
+// Using the Parallax component to manage the parallax effect
 ```

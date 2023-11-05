@@ -1,28 +1,26 @@
 # SetMousePosition
-Le module "SetMousePosition" est responsable de la mise à jour de la position de la souris dans le moteur de jeu. Il permet de suivre et de mettre à jour en temps réel les coordonnées de la souris, ainsi que de vérifier si les boutons gauche et droit de la souris sont enfoncés.
 
-Ce module est essentiel pour gérer les interactions utilisateur-souris, notamment pour détecter les clics de souris et suivre la position de la souris.
+The "SetMousePosition" module is responsible for updating the mouse position in the game engine. It allows real-time tracking and updating of the mouse coordinates and checking if the left and right mouse buttons are pressed.
 
-## Fonctionnalités
-Le module "SetMousePosition" effectue les actions suivantes :
+This module is essential for managing user-mouse interactions, especially for detecting mouse clicks and tracking the mouse's position.
 
-- `r::GetMousePosition()`: Récupère les coordonnées actuelles de la souris.
+## Features
+The "SetMousePosition" module performs the following actions:
 
+- `r::GetMousePosition()`: Retrieves the current mouse coordinates.
 
-- `r::IsMouseButtonPressed(r::MOUSE_LEFT_BUTTON)`,`r::IsMouseButtonPressed(r::MOUSE_RIGHT_BUTTON)`: Vérifie si les boutons gauche et droit de la souris sont enfoncés.
+- `r::IsMouseButtonPressed(r::MOUSE_LEFT_BUTTON)`, `r::IsMouseButtonPressed(r::MOUSE_RIGHT_BUTTON)`: Checks if the left and right mouse buttons are pressed.
 
+- Updates the mouse position components associated with the game scene with the current mouse information.
 
-- Met à jour les composants de position de la souris associés à la scène du jeu avec les informations actuelles de la souris.
-
-
-## Exemple d'utilisation
-Le module "SetMousePosition" est utilisé pour mettre à jour la position de la souris dans le jeu. Voici comment vous pouvez l'utiliser dans la boucle principale du jeu :
+## Example Usage
+The "SetMousePosition" module is used to update the mouse's position in the game. Here's how you can use it in the game's main loop:
 
 ```cpp
-// Exemple d'utilisation dans la boucle principale du jeu
+// Example of usage in the main game loop
 while (!r::WindowShouldClose()) {
     // ...
-    SetMousePosition(scene); // Met à jour la position de la souris
+    SetMousePosition(scene); // Update the mouse position
     // ...
 }
 ```

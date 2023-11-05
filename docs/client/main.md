@@ -1,74 +1,55 @@
 # Main
 
-### 1.  Initialisation de la fenêtre et du son :
+## 1. Window and Sound Initialization:
 
-- `r::InitWindow(1920, 1080, "Super Mega Rtype")` initialise une fenêtre de jeu d'une résolution de 1920x1080 pixels et lui donne un titre.
+- `r::InitWindow(1920, 1080, "Super Mega Rtype")` initializes a game window with a resolution of 1920x1080 pixels and sets its title.
 
+- `r::InitAudioDevice()` initializes the audio system.
 
-- `r::InitAudioDevice()` initialise le système audio.
+- `r::SetMasterVolume(100)` sets the main audio volume to 100%.
 
+- `r::ToggleFullscreen()` toggles fullscreen mode.
 
-- `r::SetMasterVolume(100)` règle le volume audio principal à 100 %.
+- `r::DisableCursor()` disables the mouse cursor within the window.
 
+## 2. Creation of Rendering, Sound, and Network Objects:
 
-- `r::ToggleFullscreen()` bascule en mode plein écran.
+- `Client::Renderer` renderer is responsible for the game's graphical rendering.
 
+- `Client::SoundRenderer` soundRenderer is used for managing sound effects.
 
-- `r::DisableCursor()` désactive le curseur de la souris dans la fenêtre.
+- `Client::TextRenderer` textRenderer handles text display on the screen.
 
+- `Client::Networker networker` is used for network communication.
 
-### 2. Création d'objets de rendu, de son et de réseau :
+## 3. RNGine Game Engine Initialization:
 
-- `Client::Renderer` renderer est un objet responsable du rendu graphique du jeu.
+- `RNGine::Core` core initializes the main game engine.
 
+- Different game scenes are created, such as "Home," "Game," "Level1," "Level2," etc., each associated with a specific scene class instance.
 
-- `Client::SoundRenderer` soundRenderer est un objet pour gérer les effets sonores.
+## 4. Adding Scenes and Systems:
 
+- `core.AddScene(...)` adds the created scenes to the game engine.
 
-- `Client::TextRenderer` textRenderer gère l'affichage de texte à l'écran.
+- `core.AddSystem(...)` adds systems to the game engine to manage specific features.
 
+## 5. Main Game Loop:
 
-- `Client::Networker networker` est un objet pour gérer la communication réseau.
+- A `while` loop checks if the window should be closed. As long as the window is not closed, the loop continues to run.
 
+- Within the loop, `core.Update()` is called to update the entity states and execute systems.
 
-### 3. Initialisation du moteur de jeu RNGine :
+- Next, the loop renders the current scene by calling `renderer.RenderSprites()`, updates sounds with `soundRenderer.UpdateSounds()`, displays text with `textRenderer.UpdateTexts()`, and manages mouse position with `Client::SetMousePosition()`.
 
-- `RNGine::Core` core initialise le moteur de jeu principal.
+- Finally, the loop updates network communication with `networker.Update()`.
 
+## 6. Closing the Game:
 
-- Différentes scènes du jeu sont créées, telles que "Home", "Game", "Level1", "Level2", etc., chacune étant associée à une instance de classe de scène spécifique.
+- After exiting the main loop, the code closes the audio device with `r::CloseAudioDevice()`.
 
+- Then, the game window is closed with `r::CloseWindow()`.
 
-### 4. Ajout de scènes et de systèmes :
+## 7. Return Value:
 
-- `core.AddScene(...)` ajoute les scènes créées au moteur de jeu.
-
-
-- `core.AddSystem(...)` ajoute des systèmes au moteur de jeu pour gérer des fonctionnalités spécifiques.
-
-
-### 5. Boucle de jeu principale :
-
-- Une boucle `while` vérifie si la fenêtre doit être fermée. Tant que la fenêtre n'est pas fermée, la boucle continue à s'exécuter.
-
-
-- Dans la boucle, `core.Update()` est appelé pour mettre à jour l'état des entités et exécuter les systèmes.
-
-
-- Ensuite, la boucle rend la scène actuelle en appelant `renderer.RenderSprites()`, met à jour les sons avec `soundRenderer.UpdateSounds()`, affiche du texte avec `textRenderer.UpdateTexts()`, et gère la position de la souris avec `Client::SetMousePosition()`.
-
-
-- Enfin, la boucle met à jour la communication réseau avec networker.Update().
-
-
-### 6. Fermeture du jeu :
-
-- Après la sortie de la boucle principale, le code ferme le dispositif audio avec `r::CloseAudioDevice()`.
-
-
-- Ensuite, la fenêtre de jeu est fermée avec `r::CloseWindow()`.
-
-
-### 7. Valeur de retour :
-
-La fonction main renvoie 0 pour indiquer une sortie normale du programme.
+The `main` function returns 0 to indicate a normal program exit.

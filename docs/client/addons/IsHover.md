@@ -1,22 +1,22 @@
 # IsHover
-L'Addons "IsHover" est utilisé pour enregistrer si une entité est en cours de survol par le curseur de la souris. Il stocke la valeur suivante :
 
-- `isHover`: Un booléen indiquant si l'entité est actuellement survolée par le curseur de la souris.
+The "IsHover" addon is used to record whether an entity is currently being hovered over by the mouse cursor. It stores the following value:
 
+- `isHover`: A boolean indicating whether the entity is currently being hovered over by the mouse cursor.
 
-Ce composant est utilisé pour gérer les interactions de survol de la souris avec les entités du jeu. Le système associé "IsHoverSystem" vérifie si le curseur de la souris se trouve à l'intérieur de la zone de collision de l'entité, en utilisant les composants "Hitbox" et "Transform". Il met à jour la valeur "isHover" en conséquence.
+This component is used to handle mouse hover interactions with game entities. The associated "IsHoverSystem" checks if the mouse cursor is inside the collision area of the entity using the "Hitbox" and "Transform" components. It updates the "isHover" value accordingly.
 
-## Exemple d'utilisation
-Le composant "IsHover" est mis à jour par le système "IsHoverSystem" pour refléter si une entité est actuellement survolée par le curseur de la souris.
+## Example Usage
+
+The "IsHover" component is updated by the "IsHoverSystem" to reflect whether an entity is currently being hovered over by the mouse cursor.
 
 ```cpp
-Copy code
-// Création d'un composant IsHover
+// Creating an IsHover component
 Client::Components::IsHover isHover;
 
-// Utilisation du composant IsHover pour vérifier si l'entité est en cours de survol
+// Using the IsHover component to check if the entity is being hovered over
 if (isHover.isHover) {
-// Réaliser une action lorsque l'entité est survolée
+    // Perform an action when the entity is being hovered over
 }
 ```
 

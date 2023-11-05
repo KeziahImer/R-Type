@@ -1,18 +1,19 @@
 # CheckSolidCollider
-Le système "CheckSolidCollider" est responsable de la gestion des collisions entre les entités solides dans le jeu. Il permet de détecter et de gérer les collisions entre les entités solides, en appliquant des réponses appropriées en fonction des types de collisions.
 
-Ce système est essentiel pour la physique du jeu, en permettant aux entités solides d'interagir correctement les unes avec les autres. Il prend en charge des actions telles que la réflexion, la suppression d'entités, ou l'application de forces de poussée.
+The "CheckSolidCollider" system is responsible for managing collisions between solid entities in the game. It detects and handles collisions between solid entities, applying appropriate responses based on the types of collisions.
 
-## Fonctionnalités
-Le système "CheckSolidCollider" effectue les actions suivantes :
-- Détecte les collisions entre les entités solides.
-- Gère la réaction aux collisions en appliquant des forces de poussée ou en faisant exploser des entités.
-- Contribue à la physique du jeu en permettant aux entités solides d'interagir.
+This system is essential for the physics of the game, allowing solid entities to interact correctly with each other. It supports actions such as reflection, entity removal, or applying pushing forces.
 
-## Exemple d'utilisation
-Le système "CheckSolidCollider" est utilisé pour gérer les collisions entre les entités solides dans le jeu :
+## Features
+The "CheckSolidCollider" system performs the following actions:
+- Detects collisions between solid entities.
+- Manages the response to collisions by applying pushing forces or causing entities to explode.
+- Contributes to the physics of the game by allowing solid entities to interact.
+
+## Example Usage
+The "CheckSolidCollider" system is used to manage collisions between solid entities in the game:
 
 ```cpp
-// Utilisation du système CheckSolidCollider
+// Using the CheckSolidCollider system
 Client::Systems::CheckSolidCollider(core);
 ```

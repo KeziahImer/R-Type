@@ -1,51 +1,43 @@
 # SpriteAnimation
-L'Addons "SpriteAnimation" est utilisé pour gérer les animations de sprites dans le jeu. Il permet de créer des animations en faisant défiler les images d'une texture à des intervalles réguliers. Ce composant stocke les informations suivantes :
 
-- `reverse`: Un booléen indiquant si l'animation doit être inversée (true) ou non (false).
+The "SpriteAnimation" addon is used to manage sprite animations in the game. It allows for creating animations by scrolling through images in a texture at regular intervals. This component stores the following information:
 
+- `reverse`: A boolean indicating if the animation should be reversed (true) or not (false).
 
+-`loop`: A boolean indicating if the animation should repeat in a loop (true) or stop after a single iteration (false).
 
-- `loop`: Un booléen indiquant si l'animation doit se répéter en boucle (true) ou s'arrêter après une seule itération (false).
+-`multiple`: A boolean indicating if the animation has multiple image sequences (true) or a single sequence (false).
 
+-`finish`: A boolean indicating if the animation has reached its end (true) or is in progress (false).
 
-- `multiple`: Un booléen indiquant si l'animation comporte plusieurs séquences d'images (true) ou une seule séquence (false).
+-`start`: A pair of integers (x, y) representing the first image of the animation.
 
+-`end`: A pair of integers (x, y) representing the last image of the animation.
 
-- `finish`: Un booléen indiquant si l'animation a atteint sa fin (true) ou est en cours (false).
+-`lastFrame`: A pair of integers (x, y) representing the last displayed image.
 
+-`frequency`: The time in milliseconds between each image change in the animation.
 
-- `start`: Une paire d'entiers (x, y) représentant la première image de l'animation.
+-`lastUpdate`: The time in milliseconds since the last animation update.
 
+The associated "SpriteAnimationSystem" manages the updating of sprite animations based on time and the parameters defined in this component.
 
-- `end`: Une paire d'entiers (x, y) représentant la dernière image de l'animation.
+## Example Usage
 
-
-- `lastFrame`: Une paire d'entiers (x, y) représentant la dernière image affichée.
-
-
-- `frequence`: Le temps en millisecondes entre chaque changement d'image de l'animation.
-
-
-- `lastUpdate`: Le temps en millisecondes depuis la dernière mise à jour de l'animation.
-
-
-Le système associé "SpriteAnimationSystem" gère la mise à jour des animations des sprites en fonction du temps et des paramètres définis dans ce composant.
-
-## Exemple d'utilisation
-Le composant "SpriteAnimation" est utilisé pour créer des animations de sprites dans le jeu :
+The "SpriteAnimation" component is used to create sprite animations in the game:
 
 ```cpp
-// Création d'un composant SpriteAnimation
+// Creating a SpriteAnimation component
 Client::Components::SpriteAnimation animation;
-animation.reverse = false; // L'animation n'est pas inversée
-animation.loop = true; // L'animation se répète en boucle
-animation.multiple = true; // L'animation comporte plusieurs séquences d'images
-animation.finish = false; // L'animation est en cours
-animation.start = std::make_pair(0, 0); // Première image de l'animation
-animation.end = std::make_pair(3, 3); // Dernière image de l'animation
-animation.lastFrame = std::make_pair(0, 0); // Dernière image affichée
-animation.frequence = 100; // Changement d'image toutes les 100 millisecondes
-animation.lastUpdate = 0; // Temps écoulé depuis la dernière mise à jour
+animation.reverse = false; // The animation is not reversed
+animation.loop = true; // The animation repeats in a loop
+animation.multiple = true; // The animation has multiple image sequences
+animation.finish = false; // The animation is in progress
+animation.start = std::make_pair(0, 0); // First image of the animation
+animation.end = std::make_pair(3, 3); // Last image of the animation
+animation.lastFrame = std::make_pair(0, 0); // Last displayed image
+animation.frequency = 100; // Image change every 100 milliseconds
+animation.lastUpdate = 0; // Time elapsed since the last update
 
-// Utilisation du composant SpriteAnimation pour gérer une animation de sprite
+// Using the SpriteAnimation component to manage a sprite animation
 ```

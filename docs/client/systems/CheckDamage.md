@@ -1,20 +1,21 @@
 # CheckDamage
-Le système "CheckDamage" est responsable de la gestion des collisions liées aux dégâts dans le jeu. Il vérifie les collisions entre les entités attaquables (objets ou ennemis) et les entités qui infligent des dégâts (tels que les projectiles). Lorsqu'une collision est détectée, le système gère les dégâts, les points et d'autres interactions liées aux collisions.
 
-Ce système vérifie les collisions entre les composants "Collider" (RNGine::Addons::Collider), les composants "Attackable" (RNGine::Components::Attackable) et les composants "MakeDamage" (RNGine::Components::MakeDamage) dans la scène. Il prend en compte les valeurs d'allié, de santé, de dégâts, et de points pour gérer les interactions.
+The "CheckDamage" system is responsible for managing damage-related collisions in the game. It checks for collisions between attackable entities (objects or enemies) and entities that inflict damage (such as projectiles). When a collision is detected, the system handles damage, points, and other interactions related to collisions.
 
-## Fonctionnalités
-Le système "CheckDamage" effectue les actions suivantes :
-- Vérifie les collisions entre les entités attaquables et les entités qui infligent des dégâts.
-- Gère les dégâts infligés en fonction des collisions détectées.
-- Met à jour la santé des entités attaquables.
-- Gère les points (scores) en fonction des dégâts infligés et des entités détruites.
-- Supprime les entités qui ne sont plus en vie.
+This system checks for collisions between the "Collider" components (RNGine::Addons::Collider), "Attackable" components (RNGine::Components::Attackable), and "MakeDamage" components (RNGine::Components::MakeDamage) in the scene. It takes into account ally values, health, damage, and points to manage interactions.
 
-## Exemple d'utilisation
-Le système "CheckDamage" est utilisé pour gérer les collisions et les dégâts dans le jeu :
+## Features
+The "CheckDamage" system performs the following actions:
+- Checks for collisions between attackable entities and entities that inflict damage.
+- Manages inflicted damage based on detected collisions.
+- Updates the health of attackable entities.
+- Manages points (scores) based on inflicted damage and destroyed entities.
+- Removes entities that are no longer alive.
+
+## Example Usage
+The "CheckDamage" system is used to manage collisions and damage in the game:
 
 ```cpp
-// Utilisation du système CheckDamage
+// Using the CheckDamage system
 Client::Systems::CheckCollisionsDamage(core);
 ```

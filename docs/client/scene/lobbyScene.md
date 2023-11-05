@@ -1,29 +1,48 @@
-# Fonctionnement du Lobby
-
-## Introduction
-La scène "Lobby" est une partie importante du jeu et contient plusieurs éléments de jeu essentiels. Cette documentation expliquera comment ces éléments fonctionnent dans le code.
-
+# Lobby
 ## Boutons
-Tout comme dans la scène "Home", la scène "Lobby" comporte également des boutons interactifs. Ces boutons sont créés à l'aide de la méthode `CreateButton`, et chaque bouton a des composants tels que `Client::Components::IsHover` et `Client::Components::IsClicked` pour gérer les interactions de la souris.
+Similar to the "Home" scene, the "Lobby" scene also features interactive buttons. These buttons are created using the CreateButton method, and each button has components such as Client::Components::IsHover and Client::Components::IsClicked to handle mouse interactions.
 
-Exemple de code pour la création d'un bouton dans la scène "Lobby" :
+Example code for creating a button in the "Lobby" scene:
 ```cpp
 CreateButton("multiplayer", "./assets/menu/btn-start", r::GetScreenHeight() / 2);
 ```
 
-## Suivi de la position de la souris
-Le suivi de la position de la souris est géré par le système `TrackMousePositionSystem`. Il permet de mettre à jour la position de l'entité de la souris en fonction de la position réelle de la souris.
+## Mouse Position Tracking
+Mouse position tracking is managed by the `TrackMousePositionSystem`.  It updates the mouse entity's position based on the actual mouse position.
 
-Exemple de code pour le suivi de la position de la souris :
-
+Example code for mouse position tracking:
 ```cpp
 core.AddSystem("track-mouse-position", Client::Scenes::Home::TrackMousePositionSystem);
 ```
 
-## Affichage du nombre de joueurs
-La scène "Lobby" affiche le nombre de joueurs connectés. Cela est géré à l'aide du système `renderPlayers`. Le nombre de joueurs est stocké dans un composant `Client::Components::NumberPlayers`.
+## Displaying the Number of Players
 
-Exemple de code pour l'affichage du nombre de joueurs :
+Here's your description translated into Markdown:
+
+Lobby Operation
+Introduction
+The "Lobby" scene is an important part of the game and contains several essential game elements. This documentation will explain how these elements work in the code.
+
+Buttons
+Similar to the "Home" scene, the "Lobby" scene also features interactive buttons. These buttons are created using the CreateButton method, and each button has components such as Client::Components::IsHover and Client::Components::IsClicked to handle mouse interactions.
+
+Example code for creating a button in the "Lobby" scene:
+
+cpp
+Copy code
+CreateButton("multiplayer", "./assets/menu/btn-start", r::GetScreenHeight() / 2);
+Mouse Position Tracking
+Mouse position tracking is managed by the TrackMousePositionSystem. It updates the mouse entity's position based on the actual mouse position.
+
+Example code for mouse position tracking:
+
+cpp
+Copy code
+core.AddSystem("track-mouse-position", Client::Scenes::Home::TrackMousePositionSystem);
+Displaying the Number of Players
+The "Lobby" scene displays the number of connected players. This is managed using the `renderPlayers`. system. The number of players is stored in a  `Client::Components::NumberPlayers`component.
+
+Example code for displaying the number of players:
 
 ```cpp
 void Client::Scenes::Lobby::renderPlayers(RNGine::Core &core) {

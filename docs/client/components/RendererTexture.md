@@ -1,36 +1,38 @@
-# RenderTexture
-Le composant "RenderTexture" est utilisé pour stocker des informations sur la texture à afficher ou à dessiner dans une scène du jeu. Il contient des données sur l'emplacement, les propriétés de transformation, la source, la destination et d'autres propriétés de la texture. Ce composant stocke les informations suivantes :
+# RenderTexture Component
 
-- path: Une chaîne de caractères représentant le chemin vers la texture à utiliser.
-- `z`: Un entier représentant la profondeur de la texture dans la scène (pour le rendu en couches).
+The "RenderTexture" component is used to store information about the texture to display or draw in a game scene. It contains data about the location, transformation properties, source, destination, and other texture properties. This component stores the following information:
 
-
-- `source`: Un rectangle (de type raylib Rectangle) spécifiant la zone de la texture source à dessiner.
+- 
+- `path`: A string representing the path to the texture to use.
 
 
-- `dest`: Un rectangle (de type raylib Rectangle) spécifiant la zone de destination où la texture sera dessinée.
+- `z`: An integer representing the depth of the texture in the scene (for layering).
 
 
-- `origin`: Un vecteur (de type raylib Vector2) spécifiant le point d'origine de la texture (pour la rotation ou le pivot).
+- `source`: A rectangle (of type raylib Rectangle) specifying the source area of the texture to draw.
 
 
-- `rotation`: Un flottant représentant l'angle de rotation de la texture.
+- `dest`: A rectangle (of type raylib Rectangle) specifying the destination area where the texture will be drawn.
 
 
-- `useTransformPropreties`: Un booléen indiquant si les propriétés de transformation doivent être utilisées pour dessiner la texture.
+- `origin`: A vector (of type raylib Vector2) specifying the origin point of the texture (for rotation or pivot).
 
 
-- `useHitboxPropreties`: Un booléen indiquant si les propriétés de la boîte de collision (hitbox) doivent être utilisées pour déterminer les collisions.
+- `rotation`: A float representing the rotation angle of the texture.
 
 
+- `useTransformProperties`: A boolean indicating whether transformation properties should be used to draw the texture.
 
-Ce composant est utilisé pour définir et gérer l'apparence et le comportement des textures dans le jeu. Il permet de spécifier la façon dont une texture est affichée, positionnée et transformée dans une scène.
 
-## Exemple d'utilisation
-Le composant "RenderTexture" est utilisé pour définir les propriétés d'une texture dans une scène du jeu :
+- `useHitboxProperties`: A boolean indicating whether hitbox properties should be used to determine collisions.
+This component is used to define and manage the appearance and behavior of textures in the game. It allows specifying how a texture is displayed, positioned, and transformed within a scene.
+
+## Example Usage
+
+The "RenderTexture" component is used to define the properties of a texture in a game scene:
 
 ```cpp
-// Création d'un composant RenderTexture
+// Creating a RenderTexture component
 Client::Components::RenderTexture texture;
 texture.path = "path_to_texture.png";
 texture.z = 1;
@@ -38,8 +40,8 @@ texture.source = r::Rectangle{0, 0, 64, 64};
 texture.dest = r::Rectangle{100, 100, 64, 64};
 texture.origin = r::Vector2{32, 32};
 texture.rotation = 45.0f;
-texture.useTransformPropreties = true;
-texture.useHitboxPropreties = true;
+texture.useTransformProperties = true;
+texture.useHitboxProperties = true;
 
-// Utilisation du composant RenderTexture pour afficher ou dessiner la texture dans la scène
+// Using the RenderTexture component to display or draw the texture in the scene
 ```

@@ -1,29 +1,29 @@
 # Renderer
-Le module "Renderer" est responsable du rendu des sprites dans le jeu. Il permet d'afficher les éléments graphiques du jeu, tels que les personnages, les ennemis, les arrière-plans et d'autres objets visuels. Ce module utilise la bibliothèque Raylib pour effectuer le rendu des textures.
 
-Le rendu est essentiel pour que le joueur puisse visualiser et interagir avec le jeu de manière graphique.
+The "Renderer" module is responsible for rendering sprites in the game. It's responsible for displaying the game's graphical elements, such as characters, enemies, backgrounds, and other visual objects. This module uses the Raylib library to perform texture rendering.
 
-## Fonctionnalités
-Le module "Renderer" effectue les actions suivantes :
+Rendering is essential for players to visually experience and interact with the game.
 
-- Rendu des sprites dans la scène actuelle en utilisant les composants "RenderTexture" associés aux entités.
+## Features
+The "Renderer" module performs the following actions:
 
+- Renders sprites in the current scene using the "RenderTexture" components associated with entities.
 
-- Mise à jour des sprites en fonction de leur position, transformation et hitbox.
+- Updates sprites based on their position, transformation, and hitbox.
 
+- Manages the textures used for rendering.
 
-- Gestion des textures utilisées pour le rendu.
-## Exemple d'utilisation
-Le module "Renderer" est utilisé pour afficher les sprites dans le jeu :
+## Example Usage
+The "Renderer" module is used to display sprites in the game:
 
 ```cpp
-// Création d'une instance de Renderer
+// Create an instance of Renderer
 Client::Renderer renderer;
 
-// Dans la boucle principale du jeu
+// Inside the game's main loop
 while (!r::WindowShouldClose()) {
     // ...
-    renderer.RenderSprites(core.GetActualScene()); // Affiche les sprites de la scène actuelle
+    renderer.RenderSprites(core.GetActualScene()); // Display sprites of the current scene
     // ...
 }
 ```

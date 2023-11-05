@@ -1,31 +1,30 @@
-# Fonctionnement des Levels
+# Level
 
-## Mob Wave
-Les mob waves représentent des vagues d'ennemis qui apparaissent à des moments spécifiques du jeu. Ils sont implémentés à l'aide du composant `Client::Components::EnemyWaveSpawn` et du système `Client::Components::EnemyWaveSpawnSystem`.
+## Mob Waves
+
+Mob waves represent waves of enemies that appear at specific moments in the game. They are implemented using the `Client::Components::EnemyWaveSpawn` component and the  `Client::Components::EnemyWaveSpawnSystem` system.
 
 Exemple de code :
 ```cpp
-// Création d'une mob wave
+// Creating a mob wave
 AddComponent<Client::Components::EnemyWaveSpawn>(
-    CreateEntity("enemyWaveSpawn"), {8, 22, 800, {ENEMY_TYPE_1}});
+CreateEntity("enemyWaveSpawn"), {8, 22, 800, {ENEMY_TYPE_1}});
 ```
 
 ## Power-up
-Les power-ups sont des objets que le joueur peut collecter pour obtenir des avantages. Le code spécifique pour les power-ups n'est pas fourni, mais ils peuvent être mis en place de manière similaire aux autres éléments.
-
+Power-ups are objects that players can collect to gain advantages. Specific code for power-ups is not provided, but they can be set up in a similar manner to other game elements.
 ## Drop Item
-Les drop items sont des objets que les ennemis laissent tomber lorsque le joueur les détruit. Le code pour la gestion des drop items n'est pas fourni, mais il serait géré par des composants et des systèmes similaires à ceux des power-ups.
-
+Drop items are objects that enemies leave behind when destroyed by the player. Specific code for managing drop items is not provided, but they would be handled by components and systems similar to power-ups.
 ## Boss
-Les boss sont des ennemis puissants qui sont généralement plus gros et plus difficiles à vaincre. Ils sont implémentés à l'aide du composant `Client::Components::EnemyWaveSpawn` et du système `Client::Components::EnemyWaveSpawnSystem`.
+Bosses are powerful enemies that are typically larger and more challenging to defeat. They are implemented using the `Client::Components::EnemyWaveSpawn` component and the  `Client::Components::EnemyWaveSpawnSystem` system.
 
-Exemple de code :
+Example code:
 
 ```cpp
-// Création d'un boss
+// Creating a boss
 AddComponent<Client::Components::EnemyWaveSpawn>(
-    CreateEntity("enemyWaveSpawn"), {60, 1, 1500, {BOSS_TYPE_1}});
+CreateEntity("enemyWaveSpawn"), {60, 1, 1500, {BOSS_TYPE_1}});
 ```
 
 ## Obstacle
-Les obstacles sont des éléments du décor qui peuvent bloquer le mouvement du joueur ou des ennemis. Le code spécifique pour les obstacles n'est pas fourni, mais ils seraient gérés de manière similaire aux autres entités du jeu.
+Obstacles are environmental elements that can block the movement of players or enemies. Specific code for obstacles is not provided, but they would be managed similarly to other game entities.

@@ -1,43 +1,40 @@
 # EnemyWaveSpawn
-L'Addons "EnemyWaveSpawn" est utilisé pour gérer la génération d'ennemis sous forme de vagues dans le jeu. Il permet de créer des vagues d'ennemis de manière dynamique à intervalles réguliers. Il stocke les informations suivantes :
 
-- `startSpawn`: Le moment où la génération de la vague de vagues doit commencer (exprimé en temps).
+The "EnemyWaveSpawn" addon is used to manage the generation of enemies in the form of waves in the game. It allows for the dynamic creation of enemy waves at regular intervals. It stores the following information:
 
+- `startSpawn`: The moment when the generation of enemy waves should begin (expressed in time).
 
-- `durationWave`: La durée totale de la vague de vagues (exprimée en temps).
+- `durationWave`: The total duration of the enemy wave (expressed in time).
 
+- `frequency`: The rate at which enemy waves are generated (expressed in time).
 
-- `frequence`: La fréquence à laquelle les vagues de vagues sont générées (exprimée en temps).
+- `enemiesType`: A list of possible enemy types with additional information.
 
+- `lastUpdate`: The time of the last update for the generation of enemy waves (expressed in time).
 
-- `enemiesType`: Une liste de types d'ennemis possibles avec des informations supplémentaires.
+- `actualDuration`: The current duration of the ongoing wave.
 
+- `started`: An indicator to know if the generation of enemy waves has started.
 
-- `lastUpdate`: Le moment de la dernière mise à jour de la génération de vagues de vagues (exprimé en temps).
+The associated system, "EnemyWaveSpawnSystem," manages the generation of enemy waves based on these parameters.
 
+## Example Usage
 
-- `actualDuration`: La durée actuelle de la vague en cours.
-
-
-- `started`: Un indicateur pour savoir si la génération de vagues de vagues a commencé.
-Le système associé "EnemyWaveSpawnSystem" gère la génération des vagues de vagues d'ennemis en fonction de ces paramètres.
-
-## Exemple d'utilisation
-Le composant "EnemyWaveSpawn" est utilisé pour générer des vagues de vagues d'ennemis de manière dynamique dans le jeu, en définissant le moment de début, la durée, la fréquence de génération et les types d'ennemis possibles.
+The "EnemyWaveSpawn" component is used to dynamically generate waves of enemy waves in the game by defining the start time, duration, generation frequency, and possible enemy types.
 
 ```cpp
-// Création d'un composant EnemyWaveSpawn
+// Creating an EnemyWaveSpawn component
 Client::Components::EnemyWaveSpawn enemyWaveSpawn;
-enemyWaveSpawn.startSpawn = 0; // La génération de la vague de vagues commence dès le début du jeu
-enemyWaveSpawn.durationWave = 30.0; // La vague de vagues d'ennemis dure 30 secondes
-enemyWaveSpawn.frequence = 5.0; // Les vagues de vagues d'ennemis sont générées toutes les 5 secondes
+enemyWaveSpawn.startSpawn = 0; // The generation of the enemy wave begins at the start of the game
+enemyWaveSpawn.durationWave = 30.0; // The enemy wave lasts for 30 seconds
+enemyWaveSpawn.frequency = 5.0; // Enemy waves are generated every 5 seconds
 
-// Définition des types d'ennemis possibles
+// Defining possible enemy types
 enemyWaveSpawn.enemiesType.push_back({
-    /* Informations sur l'ennemi 1 */
+    /* Information about enemy 1 */
 }, {
-    /* Informations sur l'ennemi 2 */
+    /* Information about enemy 2 */
 });
 
-// Utilisation du composant EnemyWaveSpawn pour générer des vagues de vagues d'ennemis
+// Using the EnemyWaveSpawn component to generate waves of enemy waves
 ```

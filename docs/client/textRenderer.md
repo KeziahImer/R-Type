@@ -1,34 +1,31 @@
 # TextRenderer
-Le module "TextRenderer" est responsable de l'affichage de texte à l'écran dans le jeu. Il permet de mettre à jour et d'afficher divers éléments de texte, tels que les scores, les niveaux, la vie des personnages, etc. Cela contribue à l'interface utilisateur du jeu en fournissant des informations essentielles aux joueurs.
 
-L'affichage de texte est important pour communiquer des informations aux joueurs et pour créer une interface utilisateur informative et intuitive.
+The "TextRenderer" module is responsible for displaying text on the screen in the game. It allows updating and displaying various text elements, such as scores, levels, character or object lives, etc. This contributes to the game's user interface by providing essential information to players.
 
-## Fonctionnalités
-Le module "TextRenderer" effectue les actions suivantes :
+Text display is important for conveying information to players and for creating an informative and intuitive user interface.
 
-- Affiche le score du joueur.
+## Features
+The "TextRenderer" module performs the following actions:
 
+- Displays the player's score.
 
-- Affiche la vie des personnages ou des objets.
+- Displays the lives of characters or objects.
 
+- Displays the current level.
 
-- Affiche le niveau en cours.
+- Manages the update and display of various text elements.
 
-
-- Gère la mise à jour et l'affichage de divers éléments de texte.
-
-
-## Exemple d'utilisation
-Le module "TextRenderer" est utilisé pour afficher du texte dans le jeu :
+## Example Usage
+The "TextRenderer" module is used to display text in the game:
 
 ```cpp
-// Création d'une instance de TextRenderer
+// Creating an instance of TextRenderer
 Client::TextRenderer textRenderer;
 
-// Dans la boucle principale du jeu
+// In the main game loop
 while (!r::WindowShouldClose()) {
     // ...
-    textRenderer.UpdateTexts(core.GetActualScene()); // Met à jour et affiche le texte
+    textRenderer.UpdateTexts(core.GetActualScene()); // Updates and displays text
     // ...
 }
 ```

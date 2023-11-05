@@ -1,28 +1,28 @@
-# Composant "MousePosition"
+# Component "MousePosition"
 
-Le composant "MousePosition" est utilisé pour stocker les informations liées à la position de la souris dans le jeu. Il permet de suivre la position de la souris, ainsi que l'état des boutons gauche et droit de la souris. Ce composant stocke les informations suivantes :
+The "MousePosition" component is used to store information related to the mouse's position in the game. It allows tracking the mouse's position as well as the state of the left and right mouse buttons. This component stores the following information:
 
-- `position`: Un objet de type r::Vector2 représentant la position actuelle de la souris dans le jeu (coordonnées x et y).
-
-
-- `right_click`: Un booléen indiquant si le bouton droit de la souris est enfoncé (true) ou non (false).
+- `position`: An object of type r::Vector2 representing the current mouse position in the game (x and y coordinates).
 
 
-- `left_click`: Un booléen indiquant si le bouton gauche de la souris est enfoncé (true) ou non (false).
+- `right_click`: A boolean indicating if the right mouse button is pressed (true) or not (false).
 
 
-Ce composant est essentiel pour interagir avec des éléments du jeu qui dépendent de la position et des actions de la souris, comme des boutons, des menus, ou des éléments interactifs.
+- `left_click`: A boolean indicating if the left mouse button is pressed (true) or not (false).
 
-## Exemple d'utilisation
-Le composant "MousePosition" est utilisé pour suivre la position de la souris et l'état des boutons de la souris dans le jeu :
+This component is essential for interacting with game elements that depend on the mouse's position and actions, such as buttons, menus, or interactive elements.
+
+## Example Usage
+
+The "MousePosition" component is used to track the mouse's position and the state of the mouse buttons in the game:
 
 ```cpp
-// Création d'un composant MousePosition
+// Creating a MousePosition component
 Client::Components::MousePosition mousePosition;
-mousePosition.position.x = 100; // Position x de la souris
-mousePosition.position.y = 200; // Position y de la souris
-mousePosition.right_click = false; // Bouton droit de la souris non enfoncé
-mousePosition.left_click = true; // Bouton gauche de la souris enfoncé
+mousePosition.position.x = 100; // Mouse's x position
+mousePosition.position.y = 200; // Mouse's y position
+mousePosition.right_click = false; // Right mouse button not pressed
+mousePosition.left_click = true; // Left mouse button pressed
 
-// Utilisation du composant MousePosition pour gérer l'interaction de la souris
+// Using the MousePosition component to manage mouse interaction
 ```

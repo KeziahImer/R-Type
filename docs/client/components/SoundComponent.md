@@ -1,46 +1,47 @@
-# SoundComponent
-Le composant "SoundComponent" est utilisé pour gérer la lecture des fichiers audio (sons) dans le jeu. Il permet de spécifier un fichier audio à lire, de contrôler la lecture, la répétition et le volume du son. Ce composant est principalement utilisé pour l'ajout d'effets sonores ou de musique dans le jeu.
-Ce composant contient les informations suivantes :
+# SoundComponent Component
 
-- `path`: Une chaîne de caractères représentant le chemin du fichier audio à lire. Cela peut être un fichier audio au format WAV, MP3, etc.
+The "SoundComponent" component is used to manage the playback of audio files (sounds) in the game. It allows specifying an audio file to play, controlling playback, looping, and volume of the sound. This component is primarily used for adding sound effects or music to the game.
 
+This component includes the following information:
 
-- `play`: Un indicateur booléen qui spécifie si le son doit être lu (true) ou non (false).
-
-
-- `loop`: Un indicateur booléen qui spécifie si le son doit être lu en boucle (true) ou non (false).
+- 
+- `path`: A string representing the path of the audio file to be played. This can be an audio file in WAV, MP3, or other formats.
 
 
-- `stop`: Un indicateur booléen qui spécifie si le son doit être arrêté (true) ou non (false).
+- `play`: A boolean indicator specifying whether the sound should be played (true) or not (false).
 
 
-- `volume`: Un nombre à virgule flottante représentant le volume du son (de 0 à 100, 100 étant le volume maximal).
+- `loop`: A boolean indicator specifying whether the sound should be played in a loop (true) or not (false).
 
 
-Ce composant permet de contrôler la lecture des fichiers audio dans le jeu, en spécifiant le fichier à lire, s'il doit être lu en boucle, son volume, et s'il doit être arrêté. Il est utilisé pour ajouter des effets sonores et de la musique dans le jeu, améliorant ainsi l'expérience audio des joueurs.
+- `stop`: A boolean indicator specifying whether the sound should be stopped (true) or not (false).
 
-## Exemple d'utilisation
-Le composant "SoundComponent" est utilisé pour gérer la lecture des fichiers audio dans le jeu :
+
+- `volume`: A floating-point number representing the volume of the sound (from 0 to 100, with 100 being the maximum volume).
+This component allows for controlling the playback of audio files in the game by specifying the file to play, whether it should loop, its volume, and whether it should be stopped. It is used to add sound effects and music to the game, enhancing the players' audio experience.
+
+## Example Usage
+
+The "SoundComponent" component is used to manage the playback of audio files in the game:
 
 ```cpp
-// Création d'un composant SoundComponent
+// Creating a SoundComponent component
 Client::Components::SoundComponent sound;
 
-// Spécification du chemin du fichier audio
+// Specifying the path of the audio file
 sound.path = "audio/mysound.wav";
 
-// Lecture du son
+// Playing the sound
 sound.play = true;
 
-// Réglage du volume
-sound.volume = 50; // Réglage du volume à 50%
+// Adjusting the volume
+sound.volume = 50; // Setting the volume to 50%
 
-// Lecture en boucle
+// Looping the sound
 sound.loop = true;
 
-// Arrêt de la lecture
+// Stopping the playback
 sound.stop = false;
 
-// Utilisation du composant SoundComponent pour gérer la lecture audio
-
+// Using the SoundComponent component to manage audio playback
 ```

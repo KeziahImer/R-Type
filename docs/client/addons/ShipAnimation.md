@@ -1,19 +1,19 @@
 # ShipAnimation
-L'Addons "ShipAnimation" est utilisé pour gérer l'animation des mouvements d'un vaisseau spatial dans le jeu. Il permet de contrôler les animations en fonction des actions du vaisseau, telles que monter (up), descendre (down), ou s'arrêter (none). Ce composant stocke les informations suivantes :
 
-- `lastAction`: La dernière action effectuée par le vaisseau spatial, qui peut prendre les valeurs None, Up ou Down pour représenter les mouvements.
+The "ShipAnimation" addon is used to manage the animation of movements for a spaceship in the game. It allows for controlling animations based on the spaceship's actions, such as moving up, moving down, or stopping (none). This component stores the following information:
 
+- `lastAction`: The last action performed by the spaceship, which can have values of None, Up, or Down to represent movements.
 
-- Le système associé "ShipAnimationSystem" gère les animations du vaisseau en fonction de ces actions, en modifiant les animations du sprite du vaisseau.
+The associated "ShipAnimationSystem" manages the spaceship's animations based on these actions by modifying the spaceship's sprite animations.
 
+## Example Usage
 
-## Exemple d'utilisation
-Le composant "ShipAnimation" est utilisé pour contrôler les animations du vaisseau spatial en fonction de ses mouvements :
+The "ShipAnimation" component is used to control the animations of the spaceship based on its movements:
 
 ```cpp
-// Création d'un composant ShipAnimation
+// Creating a ShipAnimation component
 Client::Addons::ShipAnimation shipAnimation;
-shipAnimation.lastAction = Client::Addons::ShipAnimation::None; // Le vaisseau ne bouge pas au départ
+shipAnimation.lastAction = Client::Addons::ShipAnimation::None; // The spaceship is not moving initially
 
-// Utilisation du composant ShipAnimation pour contrôler les animations du vaisseau spatial
+// Using the ShipAnimation component to control animations for the spaceship
 ```

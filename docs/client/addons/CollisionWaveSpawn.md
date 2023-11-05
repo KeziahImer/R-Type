@@ -1,36 +1,34 @@
-# CollisionWaveSpawn"
-L'Addons "CollisionWaveSpawn" est utilisé pour gérer la génération de vagues de collisions dans le jeu. Il est utilisé pour créer de manière dynamique des collisions de types variés à intervalles réguliers. Il stocke les informations suivantes :
+# CollisionWaveSpawn
 
-- `startSpawn`: Le moment où la génération de la vague de collisions doit commencer (exprimé en temps).
+The "CollisionWaveSpawn" addon is used to manage the generation of collision waves in the game. It is used to dynamically create various types of collisions at regular intervals. It stores the following information:
 
+- `startSpawn`: The moment when the generation of the collision wave should begin (expressed in time).
 
-- `durationWave`: La durée totale de la vague de collisions (exprimée en temps).
+- `durationWave`: The total duration of the collision wave (expressed in time).
 
+- `frequency`: The rate at which collisions are generated (expressed in time).
 
-- `frequence`: La fréquence à laquelle les collisions sont générées (exprimée en temps).
+- `collisionsType`: A list of possible collision types with additional information.
 
+The associated system, "CollisionWaveSpawnSystem," handles the generation of collision waves based on these parameters.
 
-- `collisionsType`: Une liste de types de collisions possibles avec des informations supplémentaires.
+## Example Usage
 
-
-Le système associé "CollisionWaveSpawnSystem" gère la génération des vagues de collisions en fonction de ces paramètres.
-
-## Exemple d'utilisation
-Le composant "CollisionWaveSpawn" est utilisé pour générer des vagues de collisions dynamiques dans le jeu, en définissant le moment de début, la durée et la fréquence de la vague. Les types de collisions possibles sont également définis dans la liste "collisionsType".
+The "CollisionWaveSpawn" component is used to generate dynamic collision waves in the game by defining the start time, duration, and frequency of the wave. The possible collision types are also defined in the "collisionsType" list.
 
 ```cpp
-// Création d'un composant CollisionWaveSpawn
+// Creating a CollisionWaveSpawn component
 Client::Components::CollisionWaveSpawn collisionWaveSpawn;
-collisionWaveSpawn.startSpawn = 0; // La génération de la vague commence dès le début du jeu
-collisionWaveSpawn.durationWave = 10.0; // La vague de collisions dure 10 secondes
-collisionWaveSpawn.frequence = 1.0; // Les collisions sont générées toutes les 1 seconde
+collisionWaveSpawn.startSpawn = 0; // The wave generation begins at the start of the game
+collisionWaveSpawn.durationWave = 10.0; // The collision wave lasts for 10 seconds
+collisionWaveSpawn.frequency = 1.0; // Collisions are generated every 1 second
 
-// Définition des types de collisions possibles
+// Defining possible collision types
 collisionWaveSpawn.collisionsType.push_back({
-    /* Informations sur la collision 1 */
+    /* Information about collision 1 */
 }, {
-    /* Informations sur la collision 2 */
+    /* Information about collision 2 */
 });
 
-// Utilisation du composant CollisionWaveSpawn pour générer des vagues de collisions
+// Using the CollisionWaveSpawn component to generate collision waves
 ```

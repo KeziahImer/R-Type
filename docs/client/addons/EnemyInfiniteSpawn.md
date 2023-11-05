@@ -1,31 +1,30 @@
 # EnemyInfiniteSpawn
-L'Addons "EnemySpawn" est utilisé pour gérer la génération d'ennemis dans le jeu. Il est utilisé pour créer de manière dynamique des ennemis à intervalles réguliers. Il stocke les informations suivantes :
 
-- `frequence`: La fréquence à laquelle les ennemis sont générés (exprimée en temps).
+The "EnemySpawn" addon is used to manage the generation of enemies in the game. It is used to dynamically create enemies at regular intervals. It stores the following information:
 
+- `frequency`: The rate at which enemies are generated (expressed in time).
 
-- `enemiesType`: Une liste de types d'ennemis possibles avec des informations supplémentaires.
+- `enemiesType`: A list of possible enemy types with additional information.
 
+- `lastUpdate`: The time of the last update for enemy generation (expressed in time).
 
-- `lastUpdate`: Le moment de la dernière mise à jour de la génération d'ennemis (exprimé en temps). 
+The associated system, "EnemySpawnSystem," handles the generation of enemies based on these parameters.
 
+## Example Usage
 
-Le système associé "EnemySpawnSystem" gère la génération des ennemis en fonction de ces paramètres.
-
-## Exemple d'utilisation
-Le composant "EnemySpawn" est utilisé pour générer des ennemis de manière dynamique dans le jeu, en définissant la fréquence de génération et les types d'ennemis possibles.
+The "EnemySpawn" component is used to dynamically generate enemies in the game by defining the generation frequency and possible enemy types.
 
 ```cpp
-// Création d'un composant EnemySpawn
+// Creating an EnemySpawn component
 Client::Components::EnemySpawn enemySpawn;
-enemySpawn.frequence = 2.0; // Les ennemis sont générés toutes les 2 secondes
+enemySpawn.frequency = 2.0; // Enemies are generated every 2 seconds
 
-// Définition des types d'ennemis possibles
+// Defining possible enemy types
 enemySpawn.enemiesType.push_back({
-    /* Informations sur l'ennemi 1 */
+    /* Information about enemy 1 */
 }, {
-    /* Informations sur l'ennemi 2 */
+    /* Information about enemy 2 */
 });
 
-// Utilisation du composant EnemySpawn pour générer des ennemis
+// Using the EnemySpawn component to generate enemies
 ```
