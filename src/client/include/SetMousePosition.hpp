@@ -9,7 +9,9 @@
 #define _RTYPE_CLIENT_SETMOUSEPOSITION_HPP_
 
 #include "RNGine/RNGine.hpp"
+namespace r {
 #include "raylib.h"
+}
 
 #include "components/MousePosition.hpp"
 

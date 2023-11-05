@@ -18,6 +18,10 @@ struct ShipCreationRequest {
   int id;
   float x;
   float y;
+  // std::function<void(RNGine::Core &core)> onCreation;
+
+  static ShipCreationRequest
+  createShipCreationRequest(int id, float x, float y);
 };
 
 struct ShipFactory {

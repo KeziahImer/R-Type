@@ -8,6 +8,7 @@
 #ifndef _RTYPE_CLIENT_SCENES_HOME_HPP_
 #define _RTYPE_CLIENT_SCENES_HOME_HPP_
 
+#include "RNGine/Core.hpp"
 #include "RNGine/RNGine.hpp"
 
 namespace Client {
@@ -28,6 +29,8 @@ public:
   static void TrackMousePositionSystem(RNGine::Core &core);
 
   static void OnClickButtonSolo(RNGine::Core &core);
+  static void OnClickButtonMulti(RNGine::Core &core);
+  static void SetBackgroundTextureMenu(RNGine::Core &core);
 };
 } // namespace Scenes
 } // namespace Client

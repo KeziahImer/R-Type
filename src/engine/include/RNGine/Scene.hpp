@@ -34,6 +34,7 @@ public:
   Entity CreateEntity();
   Entity CreateEntity(const std::string &);
   Entity GetEntity(const std::string &);
+  std::string GetEntityName(Entity entity);
   void RemoveEntity(const std::string &);
   void RemoveEntity(Entity entity);
 
@@ -76,6 +77,7 @@ public:
 private:
   Entity _nextEntity = 0;
   std::map<std::string, Entity> _entities;
+  std::map<Entity, std::string> _names;
 
   std::map<std::type_index, std::any> _components;
   std::map<std::type_index, RemoveFun> _removes;

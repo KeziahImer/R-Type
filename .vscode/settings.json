@@ -1,6 +1,7 @@
 {
     "editor.formatOnSave": true,
     "editor.defaultFormatter": "xaver.clang-format",
+    "cmake.parallelJobs": 1,
     "files.associations": {
         "functional": "cpp",
         "algorithm": "cpp",
@@ -97,6 +98,20 @@
         "*.ipp": "cpp",
         "cinttypes": "cpp",
         "random": "cpp",
-        "*.m": "cpp"
+        "*.m": "cpp",
+        "cfenv": "cpp",
+        "regex": "cpp",
+        "stdfloat": "cpp",
+        "unordered_set": "cpp",
+        "resumable": "cpp",
+        "barrier": "cpp",
+        "csetjmp": "cpp",
+        "filesystem": "cpp",
+        "latch": "cpp",
+        "memory_resource": "cpp",
+        "numbers": "cpp",
+        "semaphore": "cpp",
+        "syncstream": "cpp",
+        "scoped_allocator": "cpp"
     }
 }

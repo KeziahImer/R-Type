@@ -12,8 +12,11 @@
 #include "Scene.hpp"
 #include "SparseArray.hpp"
 
+#include "components/Attackable.hpp"
 #include "components/Hitbox.hpp"
+#include "components/Score.hpp"
 #include "components/Transform.hpp"
+#include "components/Damages.hpp"
 
 #include "addons/Acceleration.hpp"
 #include "addons/Collider.hpp"

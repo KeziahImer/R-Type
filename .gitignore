@@ -1,3 +1,4 @@
 build
 .cache
 !containers/build
+.idea
