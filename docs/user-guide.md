@@ -33,35 +33,23 @@ You can build the game from source. To do this go check the [client](client/inde
 
 Here are the default settings you can always change them in the settings menu.
 
-| Action     | Key         |
-| ---------- | ----------- |
-| Move Up    | Arrow Up    |
-| Move Down  | Arrow Down  |
-| Move Left  | Arrow Left  |
-| Move Right | Arrow Right |
-| Shoot      | Space       |
+| Action        | Key           |
+|---------------|---------------|
+| Move Up       | Arrow Up      |
+| Move Down     | Arrow Down    |
+| Move Left     | Arrow Left    |
+| Move Right    | Arrow Right   |
+| Shoot         | Space         |
+| Change Weapon | F             |
+| Charge attack | R             |
+
 
 ### 🕹️ Sole & Multiplayer
 
 #### Solo
 
-You can play without no connection needed. Just launch the game in solo mode and enjoy.
+- You can play without no connection needed. Just launch the game in solo mode and enjoy.
 
 #### Multiplayer
 
-You can play with your friends. To do this you simply need to go to:
-
-_Create a lobby:_
-
-Select "Multiplayer" -> "Create" -> Give the lobby code to your friends and wait them to join -> Play "Start" when you ready
-
-_Join a lobby:_
-
-Select "Multiplayer" -> "Join" -> Enter the lobby code -> Wait the creator of the lobby start the game
-
-### 🔧 Settings
-
-Go to settings to change the controls, the volume or the server url.
-
-[![Home](assets/home.png)](assets/home.png)
-[![Settings](assets/settings.png)](assets/settings.png)
+- Each person must click on the "Multiplayer" button, you will be able to see your ID at the bottom right. Then click the "Start" button and once everyone is on this stage, one person must start a level. Everyone will have this level launched.
