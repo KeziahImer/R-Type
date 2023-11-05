@@ -5,27 +5,17 @@
 ** Rtype game
 */
 
-#ifndef _RTYPE_CLIENT_ADDONS_WINCONDITION_HPP_
-#define _RTYPE_CLIENT_ADDONS_WINCONDITION_HPP_
+#ifndef _RTYPE_CLIENT_COMPONENTS_WINCONDITION_HPP_
+#define _RTYPE_CLIENT_COMPONENTS_WINCONDITION_HPP_
 
-#include <optional>
-#include <vector>
-
-#include "RNGine/Core.hpp"
 #include "RNGine/RNGine.hpp"
-#include "RNGine/Scene.hpp"
 
-namespace Client {
+namespace Rtype {
 namespace Components {
 struct WinCondition {
-  RNGine::Core::Time endGame = 0;
-  bool boss = false;
-  RNGine::Core::Time lastUpdate = 0;
-  std::vector<RNGine::Scene::Entity> entities;
+  bool winCondition = false;
 };
-
-void WinConditionSystem(RNGine::Core &core);
 } // namespace Components
-} // namespace Client
+} // namespace Rtype
 
 #endif
