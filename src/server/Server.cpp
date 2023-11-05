@@ -7,6 +7,7 @@
 #include "RNGine/components/Damages.hpp"
 #include "RNGine/components/Transform.hpp"
 #include "Rtype/addons/CreateShips.hpp"
+#include "Rtype/addons/EnemyWaveSpawn.hpp"
 #include "Rtype/addons/IsNetwork.hpp"
 #include "Rtype/addons/MakeDamage.hpp"
 #include "Rtype/addons/NetworkId.hpp"
@@ -258,6 +259,15 @@ void Server::Core::Auth(RNGine::Core &core) {
         auto &components = core.GetActualScene()
                                .GetComponents<Client::Components::SendPacket>()
                                    [core.GetActualScene().GetEntity("sender")];
+        auto &controllers =
+            core.GetActualScene().GetComponents<Rtype::Addons::ShipFactory>();
+        auto &waves = core.GetActualScene()
+                          .GetComponents<Client::Components::EnemyWaveSpawn>();
+        if (controllers[core.GetActualScene().GetEntity(content->GetData())]
+                .has_value() ||
+            waves[core.GetActualScene().GetEntity(content->GetData())]
+                .has_value())
+          continue;
         if (components.has_value()) {
           components->packets.push_back({"DEATH", content->GetData()});
         }
