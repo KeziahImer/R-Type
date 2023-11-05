@@ -17,11 +17,15 @@ nav:
           - "Limits": "engine/addons/limits.md"
           - "Velocity": "engine/addons/velocity.md"
       - "Components" :
-          - "Hitbox": "engine/addons/hitbox.md"
-          - "Transform": "engine/addons/transform.md"
+          - "Hitbox": "engine/components/hitbox.md"
+          - "Transform": "engine/components/transform.md"
   - "Client":
       - "main": "client/main.md"
       - "Renderer": "client/renderer.md"
+      - "NetWorker": "client/netWorker.md"
+      - "SetMousePosition": "client/setMousePosition.md"
+      - "SoundRenderer": "client/soundRenderer.md"
+      - "TextRenderer": "client/textRenderer.md"
       - "Scene":
         - "Game": "client/scene/gameScene.md"
         - "Menu": "client/scene/menuScene.md"
@@ -37,7 +41,6 @@ nav:
           - "SpriteAnimation" : "client/addons/SpriteAnimation.md"
 
   - "Server":
-      - "Getting Started": "server/index.md"
       - "Protocol":
           - "RFC": "server/rfc.md"
 
@@ -52,10 +55,6 @@ nav:
           #- "System": "library/system.md"
           #- "Scenes": "library/scenes.md"
           #- "Game Loop": "library/game_loop.md"
-  - "About":
-      - "Release Notes": "about/index.md"
-      - "License": "about/license.md"
-
 theme:
   name: material
   features:
