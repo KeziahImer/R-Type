@@ -2,6 +2,7 @@
 #include <iostream>
 #include <vector>
 
+#include "RNGine/components/SoundComponent.hpp"
 #include "SoundRenderer.hpp"
 
 void Client::SoundRenderer::UpdateSounds(RNGine::Scene &scene) {

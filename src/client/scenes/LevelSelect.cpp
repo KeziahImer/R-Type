@@ -8,10 +8,11 @@
 #include "components/NumberLevels.hpp"
 #include "components/NumberPlayers.hpp"
 #include "components/RenderTexture.hpp"
-namespace r
-{
+namespace r {
 #include "raylib.h"
 }
+#include "Rtype/addons/NetworkId.hpp"
+#include "Rtype/addons/SendPacket.hpp"
 #include "scenes/Home.hpp"
 #include "scenes/LevelSelect.hpp"
 
@@ -29,7 +30,8 @@ Client::Scenes::LevelSelect::LevelSelect(RNGine::Core &core) {
   CreateMouse();
   CreateButtonLevel(8);
   CreateButton("multiplayer", "./assets/menu/btn-infiniteGame", 100);
-  CreateButton("back", "./assets/menu/btn-backtohome", r::GetScreenHeight() - 100);
+  CreateButton("back", "./assets/menu/btn-backtohome",
+               r::GetScreenHeight() - 100);
   AddComponent(CreateEntity("numberLevels"),
                Client::Components::NumberLevel({8}));
 }
@@ -91,6 +93,9 @@ void Client::Scenes::LevelSelect::OnClickButtonLevel(RNGine::Core &core) {
   auto &numberLevel =
       scene.GetComponents<Client::Components::NumberLevel>()[scene.GetEntity(
           "numberLevels")];
+  auto &networkId =
+      scene.GetComponents<Rtype::Components::networkId>()[scene.GetEntity(
+          "networkId")];
   if (!numberLevel.has_value())
     return;
   for (int i = 0; i < numberLevel->numberLevel; i++) {
@@ -99,6 +104,15 @@ void Client::Scenes::LevelSelect::OnClickButtonLevel(RNGine::Core &core) {
     if (!click.has_value())
       continue;
     if (click->IsClickedLeft) {
+      if (networkId.has_value()) {
+        auto &sceneChange = core.GetScene("Level" + std::to_string(i + 1));
+        auto entity = sceneChange.CreateEntity("sender");
+        sceneChange.AddComponent<Client::Components::SendPacket>(entity, {});
+        auto &packets =
+            sceneChange.GetComponents<Client::Components::SendPacket>()[entity];
+        packets->packets.push_back(
+            {"CHANGE_SCENE", "Level" + std::to_string(i + 1)});
+      }
       core.SetActualScene("Level" + std::to_string(i + 1));
       click->IsClickedLeft = false;
     }
@@ -111,8 +125,19 @@ void Client::Scenes::LevelSelect::OnClickButtonStart(RNGine::Core &core) {
   auto &scene = core.GetActualScene();
   auto &clicks = scene.GetComponents<Client::Components::IsClicked>();
   auto &click = clicks[scene.GetEntity("button-multiplayer")];
+  auto &networkId =
+      scene.GetComponents<Rtype::Components::networkId>()[scene.GetEntity(
+          "networkId")];
 
   if (click->IsClickedLeft) {
+    if (networkId.has_value()) {
+      auto &sceneChange = core.GetScene("game");
+      auto entity = sceneChange.CreateEntity();
+      sceneChange.AddComponent<Client::Components::SendPacket>(entity, {});
+      auto &packets =
+          sceneChange.GetComponents<Client::Components::SendPacket>()[entity];
+      packets->packets.push_back({"CHANGE_SCENE", "game"});
+    }
     core.SetActualScene("game");
     click->IsClickedLeft = false;
   }

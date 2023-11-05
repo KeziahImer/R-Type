@@ -111,6 +111,7 @@
         "memory_resource": "cpp",
         "numbers": "cpp",
         "semaphore": "cpp",
-        "syncstream": "cpp"
+        "syncstream": "cpp",
+        "scoped_allocator": "cpp"
     }
 }

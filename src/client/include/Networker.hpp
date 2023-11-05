@@ -12,7 +12,7 @@
 #include "RNGine/Core.hpp"
 #include "RNGine/RNGine.hpp"
 
-#include "components/SendPacket.hpp"
+#include "Rtype/addons/SendPacket.hpp"
 
 #include <map>
 
@@ -26,6 +26,7 @@ public:
   void SendPackets(RNGine::Core &core);
 
   void WaitAuthResponse(RNGine::Core &core);
+  void router(RNGine::Core &core);
 
 private:
   boost::asio::ip::udp::endpoint _server;

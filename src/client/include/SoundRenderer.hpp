@@ -9,12 +9,11 @@
 #define _RTYPE_CLIENT_SOUNDRENDERER_HPP_
 
 #include "RNGine/RNGine.hpp"
-namespace r
-{
+namespace r {
 #include "raylib.h"
 }
 
-#include "components/SoundComponent.hpp"
+#include "RNGine/components/SoundComponent.hpp"
 
 #include <map>
 

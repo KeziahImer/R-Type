@@ -2,17 +2,18 @@
 #include "RNGine/Scene.hpp"
 #include "RNGine/addons/Acceleration.hpp"
 #include "RNGine/addons/Collider.hpp"
-#include "RNGine/addons/EnemyShoot.hpp"
 #include "RNGine/addons/Velocity.hpp"
 #include "RNGine/addons/destroyLimit.hpp"
 #include "RNGine/components/Attackable.hpp"
 #include "RNGine/components/Damages.hpp"
+#include "Rtype/addons/EnemyShoot.hpp"
 #include "Rtype/addons/LootableEntity.hpp"
+#include "Rtype/addons/MakeDamageBody.hpp"
 #include "Rtype/addons/PatternMovement.hpp"
 #include "Rtype/addons/PatternShoot.hpp"
 #include "Rtype/addons/ShipController.hpp"
-#include "Rtype/addons/WinCondition.hpp"
-
+#include "Rtype/addons/WinConditionComponent.hpp"
+#include "Rtype/addons/enemyInformation.hpp"
 #include <iostream>
 
 void Rtype::Addons::EnemyFactorySystem(RNGine::Core &core) {
@@ -23,7 +24,8 @@ void Rtype::Addons::EnemyFactorySystem(RNGine::Core &core) {
     return;
 
   for (auto &request : factory->creationRequests) {
-    auto ship = scene.CreateEntity("enemy-" + std::to_string(request.id));
+    auto ship = scene.CreateEntity(request.name);
+    std::cout << "Enemy-" << std::to_string(factory->ships.size()) << std::endl;
     factory->ships.push_back(ship);
 
     auto info = request.enemyInfo.first;
@@ -56,8 +58,9 @@ void Rtype::Addons::EnemyFactorySystem(RNGine::Core &core) {
         static_cast<int>(std::get<float>(info["attackableHealth"]));
     int attackableScore =
         static_cast<int>(std::get<float>(info["attackableScore"]));
-    scene.AddComponent(ship, RNGine::Components::Attackable(
-                                 {attackableHealth, false, attackableScore}));
+    scene.AddComponent(
+        ship, RNGine::Components::Attackable(
+                  {attackableHealth, false, attackableScore, true, 150}));
 
     auto patternMovement = std::get<std::pair<
         int, std::pair<bool, std::vector<std::pair<RNGine::Core::Time,
@@ -77,6 +80,11 @@ void Rtype::Addons::EnemyFactorySystem(RNGine::Core &core) {
     scene.AddComponent(ship, RNGine::Addons::destroyLimit({-100, 2020}));
     if (std::get<float>(info["winCondition"]) == 1.0f) {
       scene.AddComponent(ship, Rtype::Components::WinCondition({true}));
+    }
+    float damageBody = std::get<float>(info["makeDamages"]);
+    if (damageBody > 0.0f) {
+      scene.AddComponent(
+          ship, RNGine::Components::MakeDamageBody({damageBody, false}));
     }
 
     // shoots
@@ -134,7 +142,8 @@ void Rtype::Addons::EnemyFactorySystem(RNGine::Core &core) {
     scene.AddComponent(
         ship, RNGine::Components::Damages({std::get<float>(info["damages"])}));
     scene.AddComponent(ship, Rtype::Components::LootableEntity());
-    request.onCreation(core, ship, request.enemyInfo.second);
+    scene.AddComponent(
+        ship, Rtype::Components::enemyInformation({request.enemyInfo.second}));
   }
 
   factory->creationRequests.clear();
@@ -146,14 +155,12 @@ Rtype::Addons::EnemyCreationRequest::createShipCreationRequest(
     std::pair<std::map<std::string, ValueFirstMap>,
               std::map<std::string, Value>>
         enemyInfo,
-    std::function<void(RNGine::Core &core, RNGine::Scene::Entity &enemy,
-                       std::map<std::string, Value> &enemyInfo)>
-        onCreation) {
+    std::string name) {
   auto val = EnemyCreationRequest();
   val.id = id;
   val.x = x;
   val.y = y;
   val.enemyInfo = enemyInfo;
-  val.onCreation = onCreation;
+  val.name = name;
   return val;
 }

@@ -11,6 +11,7 @@
 RNGine::Scene::Entity RNGine::Scene::CreateEntity(const std::string &name) {
   auto id = _nextEntity++;
   _entities[name] = id;
+  _names[id] = name;
   return id;
 }
 
@@ -21,6 +22,10 @@ RNGine::Scene::Entity RNGine::Scene::CreateEntity() {
 
 RNGine::Scene::Entity RNGine::Scene::GetEntity(const std::string &name) {
   return _entities[name];
+}
+
+std::string RNGine::Scene::GetEntityName(Entity entity) {
+  return _names[entity];
 }
 
 void RNGine::Scene::RemoveEntity(Entity entity) {

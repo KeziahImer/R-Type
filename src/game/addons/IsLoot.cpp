@@ -32,16 +32,13 @@ void Rtype::Addons::IsLootSystem(RNGine::Core &core) {
             if (!attackables[i].has_value())
               continue;
             attackables[i]->health = attackables[i]->health + loots[x]->value;
-            std::cout << "add health" << std::endl;
           }
           if (loots[x]->type == Components::ATTACKUP) {
             if (!damages[i].has_value() || !scores[i].has_value())
               continue;
             damages[i]->damages = damages[i]->damages + loots[x]->value;
             scores[i]->numberPowerUp += 1;
-            std::cout << "add attack" << std::endl;
           }
-          std::cout << "remove " << x << std::endl;
           scene.RemoveEntity(x);
         }
       }

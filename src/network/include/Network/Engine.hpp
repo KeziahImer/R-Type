@@ -43,28 +43,31 @@ public:
   void Send(const boost::asio::ip::udp::endpoint &receiver,
             const Packet &packet);
 
+  void Send(const boost::asio::ip::udp::endpoint &receiver,
+            const std::string &type, const std::string &data);
+
   void Resend(const boost::asio::ip::udp::endpoint &receiver, int id);
+
+  void PrintTransfer(const std::string &type,
+                     const boost::asio::ip::udp::endpoint &endpoint,
+                     const Buffer &buffer, const Packet &packet);
+
+  static Buffer ToBinary(const Buffer &buffer);
+  static Buffer FromBinary(const Buffer &buffer);
 
   boost::asio::ip::udp::endpoint Resolve(const std::string &ip,
                                          const std::string &port);
 
-  static int CalculateCheckSum(const Buffer &buffer);
-  static bool IsValidCheckSum(const Buffer &buffer);
-
-  static std::array<int, RECEPTION_AMOUNT> GetReceptions(const Packet &packet);
-  static void
-  SetReceptions(Packet &packet,
-                const std::array<int, RECEPTION_AMOUNT> &receptions);
-
 public:
-  std::map<boost::asio::ip::udp::endpoint, std::map<int, std::optional<Buffer>>>
+  std::map<boost::asio::ip::udp::endpoint,
+           std::map<size_t, std::optional<Packet>>>
       received;
-  std::map<boost::asio::ip::udp::endpoint, std::map<int, Buffer>> sended;
+  std::map<boost::asio::ip::udp::endpoint, std::map<size_t, std::string>>
+      sended;
+
+  double lastSend = 0.0f;
 
 private:
-  std::array<int, RECEPTION_AMOUNT>
-  _ReceptionsOf(const boost::asio::ip::udp::endpoint &receiver);
-
   boost::asio::io_context _context;
   boost::asio::ip::udp::socket _socket;
   boost::asio::ip::udp::endpoint _endpoint;

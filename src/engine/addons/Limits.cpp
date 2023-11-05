@@ -8,6 +8,7 @@ void RNGine::Addons::LimitsSystem(RNGine::Core &core) {
   auto &accelerations = scene.GetComponents<RNGine::Addons::Acceleration>();
   auto &velocities = scene.GetComponents<RNGine::Addons::Velocity>();
   auto &transforms = scene.GetComponents<RNGine::Components::Transform>();
+  auto &hitboxs = scene.GetComponents<RNGine::Components::Hitbox>();
 
   auto max = velocities.size();
   for (size_t i = 0; i < max; i++) {
@@ -15,7 +16,7 @@ void RNGine::Addons::LimitsSystem(RNGine::Core &core) {
     auto &acceleration = accelerations[i];
     auto &velocity = velocities[i];
     auto &transform = transforms[i];
-    if (!limit.has_value() || !transform.has_value())
+    if (!limit.has_value() || !transform.has_value() || !hitboxs[i].has_value())
       continue;
 
     if (transform->x < limit->minX) {
@@ -23,8 +24,8 @@ void RNGine::Addons::LimitsSystem(RNGine::Core &core) {
       velocity->x = 0;
       acceleration->x = 0;
     }
-    if (transform->x > limit->maxX) {
-      transform->x = limit->maxX;
+    if (transform->x + hitboxs[i]->width > limit->maxX) {
+      transform->x = limit->maxX - hitboxs[i]->width;
       velocity->x = 0;
       acceleration->x = 0;
     }
@@ -33,8 +34,8 @@ void RNGine::Addons::LimitsSystem(RNGine::Core &core) {
       velocity->y = 0;
       acceleration->y = 0;
     }
-    if (transform->y > limit->maxY) {
-      transform->y = limit->maxY;
+    if (transform->y + hitboxs[i]->height > limit->maxY) {
+      transform->y = limit->maxY - hitboxs[i]->height;
       velocity->y = 0;
       acceleration->y = 0;
     }

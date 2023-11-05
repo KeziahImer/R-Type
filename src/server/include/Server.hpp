@@ -10,6 +10,7 @@
 
 #include "Network/Engine.hpp"
 #include "RNGine/Core.hpp"
+#include "Rtype/addons/SendPacket.hpp"
 
 namespace Server {
 class Core : public Network::Engine {
@@ -18,13 +19,17 @@ public:
 
   void Update(RNGine::Core &core);
 
-  void Auth();
+  void SendPackets(RNGine::Core &core);
+
+  void Auth(RNGine::Core &core);
 
   void PurgeReceptions();
 
-private:
   std::map<boost::asio::ip::udp::endpoint, int> _clients;
+
+private:
   std::map<boost::asio::ip::udp::endpoint, std::map<int, bool>> _reads;
+  RNGine::Core::Time _lastSend = 0.0f;
 };
 } // namespace Server
 

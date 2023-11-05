@@ -7,7 +7,11 @@
 
 #include "Network/Engine.hpp"
 #include "Network/Packet.hpp"
+#include <array>
+#include <chrono>
 #include <cstring>
+#include <iomanip>
+#include <iostream>
 
 void Network::Engine::Bind(int port) {
   _socket.bind(
@@ -27,36 +31,20 @@ void Network::Engine::Receiver(const boost::system::error_code &err,
   if (err) {
     std::cerr << "Error: " << err.message() << std::endl;
   } else {
-    Network::Packet packet;
-    auto buffer = _buffer;
-    std::memcpy(&packet, buffer.data(), sizeof(Packet));
-    auto padding = PacketSize[packet.type];
-    std::memset(buffer.data() + padding, 0, Network::MAX_BUFFER_SIZE - padding);
-    std::cout << "------------------- RECEIVE --------------------"
-              << std::endl;
-    std::cout << "Endpoint: " << _endpoint.address().to_string() << ":"
-              << _endpoint.port() << std::endl;
-    std::cout << "Packet: (" << packet.id << ", " << packet.checksum << ", "
-              << packet.type << ", ";
-    std::cout << "[";
-    for (auto r : packet.receptions)
-      std::cout << r << ", ";
-    std::cout << "])" << std::endl;
-    std::cout << "Buffer: ";
-    for (auto c : buffer)
-      std::cout << std::hex << (int)c;
-    std::cout << std::dec << std::endl;
-    if (Network::Engine::IsValidCheckSum(buffer)) {
-      received[_endpoint][packet.id] = buffer;
-      int lastReceptionId = packet.receptions[0];
-      for (size_t i = 1; i < RECEPTION_AMOUNT; i++) {
-        int receptionId = packet.receptions[i];
-        if (receptionId < 0) {
-          Resend(_endpoint, lastReceptionId - i);
-        }
-      }
-    } else {
-      std::cout << "CHECKSUM INVALID" << std::endl;
+    if (size > MAX_BUFFER_SIZE)
+      size = MAX_BUFFER_SIZE;
+    memset(_buffer.data() + size, 0, MAX_BUFFER_SIZE - size);
+    std::string data(FromBinary(_buffer).data(), size);
+    Packet packet;
+    try {
+      packet = Packet::FromString(data);
+    } catch (const std::exception &e) {
+      std::cerr << "Receiver: " << e.what() << '\n';
+    }
+    PrintTransfer("RECEIVE", _endpoint, _buffer, packet);
+    received[_endpoint][packet.GetId()] = packet;
+    for (auto reception : packet.GetFailed()) {
+      Resend(_endpoint, reception);
     }
   }
   Start();
@@ -66,41 +54,63 @@ void Network::Engine::Poll() { _context.poll(); }
 
 void Network::Engine::Send(const boost::asio::ip::udp::endpoint &receiver,
                            const Network::Packet &packet) {
-  auto p = packet;
-  p.id = sended[receiver].size() + 1;
-  Network::Engine::SetReceptions(p, _ReceptionsOf(receiver));
-
+  std::string data = packet.ToString();
   Buffer buffer;
-  std::memset(&buffer, 0, Network::MAX_BUFFER_SIZE);
-  std::memcpy(&buffer, &p, PacketSize[p.type]);
-  p.checksum = CalculateCheckSum(buffer);
-  std::memset(&buffer, 0, Network::MAX_BUFFER_SIZE);
-  std::memcpy(&buffer, &p, PacketSize[p.type]);
-  sended[receiver][p.id] = buffer;
-  std::cout << "--------------------- SEND ---------------------" << std::endl;
-  std::cout << "Endpoint: " << receiver.address().to_string() << ":"
-            << receiver.port() << std::endl;
-  std::cout << "Packet: (" << p.id << ", " << p.checksum << ", " << p.type
-            << ", ";
-  std::cout << "[";
-  for (auto r : p.receptions)
-    std::cout << r << ", ";
-  std::cout << "])" << std::endl;
-  std::cout << "Buffer: ";
-  for (auto c : buffer)
-    std::cout << std::hex << (int)c;
-  std::cout << std::dec << std::endl;
+  std::memset(buffer.data(), 0, MAX_BUFFER_SIZE);
+  std::memcpy(buffer.data(), data.c_str(), data.size());
+  buffer = ToBinary(buffer);
+  PrintTransfer(" SEND  ", receiver, buffer, packet);
   try {
-    _socket.send_to(boost::asio::buffer(&p, PacketSize[p.type]), receiver);
+    _socket.send_to(boost::asio::buffer(buffer.data(), data.size()), receiver);
+    sended[receiver][packet.GetId()] = data;
+    auto now = std::chrono::steady_clock::now();
+    std::chrono::duration<double> time_span =
+        std::chrono::duration_cast<std::chrono::duration<double>>(
+            now.time_since_epoch());
+    lastSend = time_span.count();
   } catch (const std::exception &e) {
     std::cerr << e.what() << '\n';
   }
 }
 
+void Network::Engine::Send(const boost::asio::ip::udp::endpoint &receiver,
+                           const std::string &type, const std::string &data) {
+  Packet packet;
+  packet.SetId(sended[receiver].size() + 1);
+
+  if (!received[receiver].empty()) {
+    size_t lastPackedReceivedId = 0;
+    lastPackedReceivedId = received[receiver].rbegin()->first;
+    std::vector<Packet::PacketId> failed;
+    for (size_t i = 1; i <= lastPackedReceivedId; i++) {
+      if (received[receiver].find(i) == received[receiver].end())
+        failed.push_back(i);
+    }
+    packet.SetFailed(failed);
+  }
+  packet.SetType(type);
+  packet.SetData(data);
+  Send(receiver, packet);
+}
+
+void Network::Engine::PrintTransfer(
+    const std::string &type, const boost::asio::ip::udp::endpoint &endpoint,
+    const Buffer &buffer, const Packet &packet) {
+  std::cout << "------------------- " << type << " -------------------"
+            << std::endl;
+  std::cout << "Endpoint: " << endpoint.address().to_string() << ":"
+            << endpoint.port() << std::endl;
+  std::cout << "Packet: " << packet.ToString() << std::endl;
+}
+
 void Network::Engine::Resend(const boost::asio::ip::udp::endpoint &receiver,
                              int id) {
-  _socket.send_to(boost::asio::buffer(&sended[receiver][id], MAX_BUFFER_SIZE),
-                  receiver);
+  auto data = sended[receiver][id];
+  Buffer buffer;
+  std::memset(buffer.data(), 0, MAX_BUFFER_SIZE);
+  std::memcpy(buffer.data(), data.c_str(), data.size());
+  buffer = ToBinary(buffer);
+  _socket.send_to(boost::asio::buffer(buffer.data(), data.size()), receiver);
 }
 
 boost::asio::ip::udp::endpoint
@@ -111,55 +121,22 @@ Network::Engine::Resolve(const std::string &ip, const std::string &port) {
   return *endpoints.begin();
 }
 
-int Network::Engine::CalculateCheckSum(const Buffer &b) {
-  auto buffer = b;
-  Network::Packet packet;
-  std::memcpy(&packet, buffer.data(), sizeof(Packet));
-  packet.checksum = 0;
-  std::memcpy(&buffer, &packet, sizeof(Packet));
-  int checksum = 0;
-  for (auto c : buffer)
-    checksum += c;
-  return checksum;
-}
-
-bool Network::Engine::IsValidCheckSum(const Buffer &b) {
-  auto buffer = b;
-  Network::Packet packet;
-  std::memcpy(&packet, buffer.data(), sizeof(Packet));
-  return packet.checksum == CalculateCheckSum(b);
-}
-
-std::array<int, Network::RECEPTION_AMOUNT>
-Network::Engine::GetReceptions(const Network::Packet &packet) {
-  std::array<int, Network::RECEPTION_AMOUNT> receptions;
-  for (int i = 0; i < Network::RECEPTION_AMOUNT; i++) {
-    receptions[i] = packet.receptions[i];
+Network::Engine::Buffer Network::Engine::ToBinary(const Buffer &buffer) {
+  Buffer binary;
+  std::memset(binary.data(), 0, MAX_BUFFER_SIZE);
+  std::memcpy(binary.data(), buffer.data(), MAX_BUFFER_SIZE);
+  for (auto &c : binary) {
+    c -= '9';
   }
-  return receptions;
+  return binary;
 }
 
-void Network::Engine::SetReceptions(
-    Network::Packet &packet,
-    const std::array<int, RECEPTION_AMOUNT> &receptions) {
-  for (int i = 0; i < Network::RECEPTION_AMOUNT; i++) {
-    packet.receptions[i] = receptions[i];
+Network::Engine::Buffer Network::Engine::FromBinary(const Buffer &buffer) {
+  Buffer binary;
+  std::memset(binary.data(), 0, MAX_BUFFER_SIZE);
+  std::memcpy(binary.data(), buffer.data(), MAX_BUFFER_SIZE);
+  for (auto &c : binary) {
+    c += '9';
   }
-}
-
-std::array<int, Network::RECEPTION_AMOUNT>
-Network::Engine::_ReceptionsOf(const boost::asio::ip::udp::endpoint &receiver) {
-  std::array<int, Network::RECEPTION_AMOUNT> receptions = {};
-  auto lastIdReceived = received[receiver].rbegin();
-  if (lastIdReceived == received[receiver].rend())
-    return receptions;
-  int lastId = lastIdReceived->first;
-  for (int i = 0; i < Network::RECEPTION_AMOUNT; i++) {
-    if (lastId <= 0) {
-      break;
-    }
-    receptions[i] = received[receiver][lastId].has_value() ? lastId : -1;
-    lastId--;
-  }
-  return receptions;
+  return binary;
 }

@@ -29,7 +29,7 @@ void RNGine::Addons::ColliderSystem(RNGine::Core &core) {
 
   auto max = colliders.size();
   for (size_t i = 0; i < max; i++) {
-    auto collision = colliders[i];
+    auto &collision = colliders[i];
     if (!collision.has_value())
       continue;
     collision->collisions.clear();

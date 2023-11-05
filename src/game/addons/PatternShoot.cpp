@@ -1,4 +1,6 @@
 #include "Rtype/addons/PatternShoot.hpp"
+#include "RNGine/Scene.hpp"
+#include "Rtype/addons/EnemyShoot.hpp"
 #include <iostream>
 
 void Rtype::Addons::PatternShootSystem(RNGine::Core &core) {

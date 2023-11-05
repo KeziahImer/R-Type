@@ -18,6 +18,8 @@ class Level5 : public Rtype::Core {
 public:
   Level5(RNGine::Core &core);
   ~Level5() = default;
+
+  static void SetBackgroundTexture(RNGine::Core &core);
 };
 } // namespace Scenes
 } // namespace Client

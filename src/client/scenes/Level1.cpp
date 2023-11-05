@@ -2,33 +2,36 @@
 #include "RNGine/Core.hpp"
 #include "RNGine/Scene.hpp"
 #include "RNGine/addons/Acceleration.hpp"
-#include "RNGine/addons/EnemyShoot.hpp"
 #include "RNGine/addons/Velocity.hpp"
 #include "RNGine/addons/destroyLimit.hpp"
-#include "RNGine/components/MakeDamage.hpp"
+#include "RNGine/components/SoundComponent.hpp"
 #include "Rtype/addons/CollisionFactory.hpp"
+#include "Rtype/addons/CollisionWaveSpawn.hpp"
+#include "Rtype/addons/CreateShips.hpp"
 #include "Rtype/addons/EnemyFactory.hpp"
+#include "Rtype/addons/EnemyInfiniteSpawn.hpp"
+#include "Rtype/addons/EnemyShoot.hpp"
+#include "Rtype/addons/EnemyWaveSpawn.hpp"
 #include "Rtype/addons/IsLoot.hpp"
+#include "Rtype/addons/MakeDamage.hpp"
 #include "Rtype/addons/PatternMovement.hpp"
 #include "Rtype/addons/PatternShoot.hpp"
-#include "addons/CollisionWaveSpawn.hpp"
-#include "addons/EnemyInfiniteSpawn.hpp"
-#include "addons/EnemyWaveSpawn.hpp"
+#include "Rtype/addons/winCondition.hpp"
 #include "addons/ShipAnimation.hpp"
 #include "addons/SpriteAnimation.hpp"
 #include "components/Parallax.hpp"
 #include "components/RenderTexture.hpp"
-#include "components/SoundComponent.hpp"
-namespace r
-{
+namespace r {
 #include "raylib.h"
 }
+#include "Rtype/addons/SendPacket.hpp"
+#include "Rtype/systems/CheckDamage.hpp"
+#include "Rtype/systems/CheckHealth.hpp"
+#include "Rtype/systems/CheckInvulnerability.hpp"
+#include "Rtype/systems/CheckSolidCollider.hpp"
 #include "scenes/Game.hpp"
 #include "scenes/Home.hpp"
-#include "systems/CheckDamage.hpp"
-#include "systems/CheckHealth.hpp"
-#include "systems/CheckInvulnerability.hpp"
-#include "systems/CheckSolidCollider.hpp"
+#include "scenes/Level1.hpp"
 #include <cstdlib>
 #include <ctime>
 #include <iostream>
@@ -48,18 +51,6 @@ Client::Scenes::Level1::Level1(RNGine::Core &core) {
   CreateEntity("background9");
   CreateEntity("background10");
   CreateEntity("weaponSlot");
-  /*
-  AddComponent<Client::Components::EnemyWaveSpawn>(
-      CreateEntity("enemyWaveSpawn"), {2, 1, 1500, {BOSS_TYPE_3_BODY}});
-  AddComponent<Client::Components::EnemyWaveSpawn>(
-      CreateEntity("enemyWaveSpawn"), {1, 1, 1500, {BOSS_TYPE_3_1}});
-
-  AddComponent<Client::Components::EnemyWaveSpawn>(
-      CreateEntity("enemyWaveSpawn"), {2, 1, 1500, {BOSS_TYPE_3_2}});
-
-  AddComponent<Client::Components::EnemyWaveSpawn>(
-      CreateEntity("enemyWaveSpawn"), {3, 1, 1500, {BOSS_TYPE_3_3}});
-*/
   AddComponent<Client::Components::CollisionWaveSpawn>(
       CreateEntity("collisionWaveSpawn"),
       {11, 500, 5000, {COLLISION_TYPE_1, COLLISION_TYPE_2}});
@@ -67,9 +58,11 @@ Client::Scenes::Level1::Level1(RNGine::Core &core) {
       CreateEntity("enemyWaveSpawn"), {8, 22, 800, {ENEMY_TYPE_1}});
   AddComponent<Client::Components::EnemyWaveSpawn>(
       CreateEntity("enemyWaveSpawn"), {35, 20, 600, {ENEMY_TYPE_2}});
-  AddComponent<Client::Components::EnemyWaveSpawn>(
-      CreateEntity("enemyWaveSpawn"), {60, 1, 1500, {BOSS_TYPE_1}});
+  AddComponent<Client::Components::WinCondition>(CreateEntity("winCondition"),
+                                                 {60});
 
+  AddComponent<Client::Components::SendPacket>(CreateEntity("sender"), {});
+  core.AddSystem("create-ships", &Rtype::Addons::CreateShipsSystem);
   core.AddSystem("create-ship-factory", &Rtype::Addons::ShipFactorySystem);
   core.AddSystem("create-enemy-factory", &Rtype::Addons::EnemyFactorySystem);
   core.AddSystem("create-collision-factory",
@@ -105,6 +98,15 @@ Client::Scenes::Level1::Level1(RNGine::Core &core) {
   core.AddSystem("pattern-movement-system",
                  &Rtype::Addons::PatternMovementSystem);
   core.AddSystem("pattern-shoot-system", &Rtype::Addons::PatternShootSystem);
+  core.AddSystem("winConditoon-system",
+                 &Client::Components::WinConditionSystem);
+  core.AddSystem("texture-enemy-system",
+                 &Client::Scenes::Game::ApplyEnemyTexture);
+  core.AddSystem("texture-ally-system",
+                 &Client::Scenes::Game::ApplyShipTexture);
+  core.AddSystem("texture-collision-system",
+                 &Client::Scenes::Game::ApplyCollisionTexture);
+  core.AddSystem("texture-loot-system", &Client::Scenes::Game::SetLootTexture);
   AddComponent<Client::Components::SoundComponent>(
       CreateEntity("startSound"),
       {"./assets/sounds/start.wav", true, false, false});
@@ -116,8 +118,7 @@ Client::Scenes::Level1::Level1(RNGine::Core &core) {
 void Client::Scenes::Level1::SetBackgroundTexture(RNGine::Core &core) {
   auto name = core.GetActualSceneName();
   if (name != "Level1" && name != "Level2" && name != "Level3" &&
-      name != "Level4" && name != "Level5" && name != "Level6" &&
-      name != "Level7" && name != "Level8")
+      name != "Level4")
     return;
   auto &scene = core.GetActualScene();
 
@@ -159,7 +160,7 @@ void Client::Scenes::Level1::SetBackgroundTexture(RNGine::Core &core) {
                       -5,
                       {0, 0, 576, 324}});
     scene.AddComponent<RNGine::Components::Transform>(background1,
-                                                      {0, 0, 0, 3.33, 3.33});
+                                                      {0, 0, 0, 3.34, 3.34});
     scene.AddComponent<Client::Components::Parallax>(background1,
                                                      {{-1920, 1920}});
     scene.AddComponent(background1, RNGine::Addons::Velocity({-100, 0}));
@@ -171,7 +172,7 @@ void Client::Scenes::Level1::SetBackgroundTexture(RNGine::Core &core) {
                       -5,
                       {0, 0, 576, 324}});
     scene.AddComponent<RNGine::Components::Transform>(background2,
-                                                      {1920, 0, 0, 3.33, 3.33});
+                                                      {1920, 0, 0, 3.34, 3.34});
     scene.AddComponent<Client::Components::Parallax>(background2,
                                                      {{-1920, 1920}});
     scene.AddComponent(background2, RNGine::Addons::Velocity({-100, 0}));
@@ -183,7 +184,7 @@ void Client::Scenes::Level1::SetBackgroundTexture(RNGine::Core &core) {
                       -4,
                       {0, 0, 576, 324}});
     scene.AddComponent<RNGine::Components::Transform>(background3,
-                                                      {0, 0, 0, 3.33, 3.33});
+                                                      {0, 0, 0, 3.34, 3.34});
     scene.AddComponent<Client::Components::Parallax>(background3,
                                                      {{-1920, 1920}});
     scene.AddComponent(background3, RNGine::Addons::Velocity({-500, 0}));
@@ -195,7 +196,7 @@ void Client::Scenes::Level1::SetBackgroundTexture(RNGine::Core &core) {
                       -4,
                       {0, 0, 576, 324}});
     scene.AddComponent<RNGine::Components::Transform>(background4,
-                                                      {1920, 0, 0, 3.33, 3.33});
+                                                      {1920, 0, 0, 3.34, 3.34});
     scene.AddComponent<Client::Components::Parallax>(background4,
                                                      {{-1920, 1920}});
     scene.AddComponent(background4, RNGine::Addons::Velocity({-500, 0}));
@@ -206,7 +207,7 @@ void Client::Scenes::Level1::SetBackgroundTexture(RNGine::Core &core) {
                       -3,
                       {0, 0, 576, 324}});
     scene.AddComponent<RNGine::Components::Transform>(background5,
-                                                      {0, 0, 0, 3.33, 3.33});
+                                                      {0, 0, 0, 3.34, 3.34});
     scene.AddComponent<Client::Components::Parallax>(background5,
                                                      {{-1920, 1920}});
     scene.AddComponent(background5, RNGine::Addons::Velocity({-750, 0}));
@@ -218,7 +219,7 @@ void Client::Scenes::Level1::SetBackgroundTexture(RNGine::Core &core) {
                       -3,
                       {0, 0, 576, 324}});
     scene.AddComponent<RNGine::Components::Transform>(background6,
-                                                      {1920, 0, 0, 3.33, 3.33});
+                                                      {1920, 0, 0, 3.34, 3.34});
     scene.AddComponent<Client::Components::Parallax>(background6,
                                                      {{-1920, 1920}});
     scene.AddComponent(background6, RNGine::Addons::Velocity({-750, 0}));
@@ -229,7 +230,7 @@ void Client::Scenes::Level1::SetBackgroundTexture(RNGine::Core &core) {
                       -2,
                       {0, 0, 576, 324}});
     scene.AddComponent<RNGine::Components::Transform>(background7,
-                                                      {0, 0, 0, 3.33, 3.33});
+                                                      {0, 0, 0, 3.34, 3.34});
     scene.AddComponent<Client::Components::Parallax>(background7,
                                                      {{-1920, 1920}});
     scene.AddComponent(background7, RNGine::Addons::Velocity({-1000, 0}));
@@ -241,7 +242,7 @@ void Client::Scenes::Level1::SetBackgroundTexture(RNGine::Core &core) {
                       -2,
                       {0, 0, 576, 324}});
     scene.AddComponent<RNGine::Components::Transform>(background8,
-                                                      {1920, 0, 0, 3.33, 3.33});
+                                                      {1920, 0, 0, 3.34, 3.34});
     scene.AddComponent<Client::Components::Parallax>(background8,
                                                      {{-1920, 1920}});
     scene.AddComponent(background8, RNGine::Addons::Velocity({-1000, 0}));
@@ -252,7 +253,7 @@ void Client::Scenes::Level1::SetBackgroundTexture(RNGine::Core &core) {
                       -1,
                       {0, 0, 576, 324}});
     scene.AddComponent<RNGine::Components::Transform>(background9,
-                                                      {0, 0, 0, 3.33, 3.33});
+                                                      {0, 0, 0, 3.34, 3.34});
     scene.AddComponent<Client::Components::Parallax>(background9,
                                                      {{-1920, 1920}});
     scene.AddComponent(background9, RNGine::Addons::Velocity({-1250, 0}));
@@ -264,7 +265,7 @@ void Client::Scenes::Level1::SetBackgroundTexture(RNGine::Core &core) {
                        -1,
                        {0, 0, 576, 324}});
     scene.AddComponent<RNGine::Components::Transform>(background10,
-                                                      {1920, 0, 0, 3.33, 3.33});
+                                                      {1920, 0, 0, 3.34, 3.34});
     scene.AddComponent<Client::Components::Parallax>(background10,
                                                      {{-1920, 1920}});
     scene.AddComponent(background10, RNGine::Addons::Velocity({-1250, 0}));

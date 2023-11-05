@@ -8,7 +8,7 @@
 #include "components/RenderTexture.hpp"
 #include "scenes/Home.hpp"
 
-#include "components/SendPacket.hpp"
+#include "Rtype/addons/SendPacket.hpp"
 
 Client::Scenes::Home::Home(RNGine::Core &core) {
   CreateEntity("background1");
@@ -113,9 +113,7 @@ void Client::Scenes::Home::OnClickButtonMulti(RNGine::Core &core) {
     scene.AddComponent<Client::Components::SendPacket>(entity, {});
     auto &packets =
         scene.GetComponents<Client::Components::SendPacket>()[entity];
-    Network::AuthClientRequest request;
-    request.type = Network::PacketType::AuthClientRequestType;
-    packets->packets.push_back(request);
+    packets->packets.push_back({"AUTH_REQUEST", ""});
     click->IsClickedLeft = false;
   }
 }

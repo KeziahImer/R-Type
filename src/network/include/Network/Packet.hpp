@@ -17,35 +17,38 @@
 namespace Network {
 
 const int MAX_BUFFER_SIZE = 1024;
-const int RECEPTION_AMOUNT = 16;
 
-enum PacketType {
-  None,
-  AuthClientRequestType,
-  AuthServerResponseType,
-  ErrorServerResponseType
+class Packet {
+public:
+  using PacketId = size_t;
+
+public:
+  Packet() = default;
+
+  void SetId(PacketId id);
+  PacketId GetId() const;
+  int GetChecksum() const;
+  void SetType(std::string type);
+  std::string GetType() const;
+  void SetFailed(const std::vector<PacketId> &failed);
+  std::vector<PacketId> GetFailed() const;
+  void SetData(const std::string &data);
+  std::string GetData() const;
+
+  static std::vector<std::string> Split(const std::string &str,
+                                        const std::string &delim);
+  static Packet FromString(const std::string &buffer);
+  static std::string ToString(const Packet &packet);
+
+  std::string ToString() const;
+
+private:
+  PacketId _id = 0;
+  std::string _type = "";
+  std::vector<PacketId> _failed = {};
+  std::string _data = "";
 };
 
-struct Packet {
-  int checksum;
-  int id;
-  int receptions[RECEPTION_AMOUNT];
-  PacketType type;
-};
-
-struct AuthClientRequest : public Packet {};
-
-struct AuthServerResponse : public Packet {
-  int client_id;
-};
-
-struct ErrorServerResponse : public Packet {
-  char message[32];
-};
-
-const std::vector<std::size_t> PacketSize = {
-    sizeof(Packet), sizeof(AuthClientRequest), sizeof(AuthServerResponse),
-    sizeof(ErrorServerResponse)};
 } // namespace Network
 
 #endif

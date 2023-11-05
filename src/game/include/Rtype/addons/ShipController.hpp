@@ -22,8 +22,11 @@ struct ShipController {
   bool movingLeft = false;
   bool movingRight = false;
   bool shooting = false;
+  bool chargedAttack = false;
 
   float lastShoot = 0;
+  RNGine::Core::Time charging;
+  RNGine::Core::Time maxCharge = 4;
   std::vector<RNGine::Scene::Entity> bullets;
   WeaponType weapon = WeaponType::Basic;
 };

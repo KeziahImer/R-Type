@@ -10,12 +10,12 @@
 #include <chrono>
 namespace RNGine {
 namespace Components {
-struct  Attackable {
+struct Attackable {
   int health;
   bool ally;
   int points = 0;
   bool _Attackable = true;
-  int invinsibilityTime = 250;
+  int invinsibilityTime = 300;
   int64_t lastShoot = 0;
 };
 } // namespace Components

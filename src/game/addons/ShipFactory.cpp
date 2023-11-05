@@ -16,6 +16,9 @@ void Rtype::Addons::ShipFactorySystem(RNGine::Core &core) {
     return;
   for (auto &request : factory->creationRequests) {
     auto ship = scene.CreateEntity("ship-" + std::to_string(request.id));
+    std::cout << "create "
+              << "ship-" + std::to_string(request.id) << " in "
+              << core.GetActualSceneName() << std::endl;
     factory->ships.push_back(ship);
     scene.AddComponent<RNGine::Components::Transform>(
         ship, {request.x, request.y, 0, 2.5, 2.5});
@@ -32,19 +35,16 @@ void Rtype::Addons::ShipFactorySystem(RNGine::Core &core) {
     scene.AddComponent(ship, Rtype::Addons::ShipController({}));
     scene.AddComponent(ship, RNGine::Components::Score({0}));
     scene.AddComponent(ship, RNGine::Components::Damages({25}));
-    request.onCreation(core);
   }
   factory->creationRequests.clear();
 }
 
 Rtype::Addons::ShipCreationRequest
-Rtype::Addons::ShipCreationRequest::createShipCreationRequest(
-    int id, float x, float y,
-    std::function<void(RNGine::Core &core)> onCreation) {
+Rtype::Addons::ShipCreationRequest::createShipCreationRequest(int id, float x,
+                                                              float y) {
   auto val = ShipCreationRequest();
   val.id = id;
   val.x = x;
   val.y = y;
-  val.onCreation = onCreation;
   return val;
 }
