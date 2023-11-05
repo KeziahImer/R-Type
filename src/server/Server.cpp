@@ -7,6 +7,7 @@
 #include "RNGine/components/Damages.hpp"
 #include "RNGine/components/Transform.hpp"
 #include "Rtype/addons/CreateShips.hpp"
+#include "Rtype/addons/EnemyWaveSpawn.hpp"
 #include "Rtype/addons/IsNetwork.hpp"
 #include "Rtype/addons/MakeDamage.hpp"
 #include "Rtype/addons/NetworkId.hpp"
@@ -75,6 +76,9 @@ void Server::Core::Auth(RNGine::Core &core) {
 
       _reads[endpoint][id] = true;
       if (content->GetType() == "MOVE_UP") {
+        auto &factory =
+            core.GetActualScene().GetComponents<Rtype::Addons::ShipFactory>()
+                [core.GetActualScene().GetEntity("ship-factory")];
         auto args = Network::Packet::Split(content->GetData(), ":");
         float y = std::stof(args.back());
         args.pop_back();
@@ -93,16 +97,21 @@ void Server::Core::Auth(RNGine::Core &core) {
         auto &transform =
             core.GetActualScene()
                 .GetComponents<RNGine::Components::Transform>()[entity];
-        if (!controller.has_value()) {
-          std::cout << "controller has no value" << std::endl;
-          continue;
-        }
-        if (!transform.has_value()) {
-          std::cout << "transform has no value" << std::endl;
-          continue;
-        }
         int id = std::stoi(args.back());
         args.pop_back();
+        if (!controller.has_value() && factory.has_value()) {
+          std::cout << "controller has no value" << std::endl;
+          factory->creationRequests.push_back(
+              Rtype::Addons::ShipCreationRequest::createShipCreationRequest(
+                  id, 100.0f, 100.0f));
+        }
+        if (!transform.has_value() && factory.has_value()) {
+          std::cout << "transform has no value" << std::endl;
+          factory->creationRequests.push_back(
+              Rtype::Addons::ShipCreationRequest::createShipCreationRequest(
+                  id, 100.0f, 100.0f));
+          continue;
+        }
         for (auto &client : _clients) {
           Send(client.first, "MOVE_UP", content->GetData());
         }
@@ -112,6 +121,9 @@ void Server::Core::Auth(RNGine::Core &core) {
         continue;
       }
       if (content->GetType() == "MOVE_LEFT") {
+        auto &factory =
+            core.GetActualScene().GetComponents<Rtype::Addons::ShipFactory>()
+                [core.GetActualScene().GetEntity("ship-factory")];
         auto args = Network::Packet::Split(content->GetData(), ":");
         float y = std::stof(args.back());
         args.pop_back();
@@ -130,16 +142,21 @@ void Server::Core::Auth(RNGine::Core &core) {
         auto &transform =
             core.GetActualScene()
                 .GetComponents<RNGine::Components::Transform>()[entity];
-        if (!controller.has_value()) {
-          std::cout << "controller has no value" << std::endl;
-          continue;
-        }
-        if (!transform.has_value()) {
-          std::cout << "transform has no value" << std::endl;
-          continue;
-        }
         int id = std::stoi(args.back());
         args.pop_back();
+        if (!controller.has_value() && factory.has_value()) {
+          std::cout << "controller has no value" << std::endl;
+          factory->creationRequests.push_back(
+              Rtype::Addons::ShipCreationRequest::createShipCreationRequest(
+                  id, 100.0f, 100.0f));
+        }
+        if (!transform.has_value() && factory.has_value()) {
+          std::cout << "transform has no value" << std::endl;
+          factory->creationRequests.push_back(
+              Rtype::Addons::ShipCreationRequest::createShipCreationRequest(
+                  id, 100.0f, 100.0f));
+          continue;
+        }
         for (auto &client : _clients) {
           Send(client.first, "MOVE_LEFT", content->GetData());
         }
@@ -149,6 +166,9 @@ void Server::Core::Auth(RNGine::Core &core) {
         continue;
       }
       if (content->GetType() == "MOVE_RIGHT") {
+        auto &factory =
+            core.GetActualScene().GetComponents<Rtype::Addons::ShipFactory>()
+                [core.GetActualScene().GetEntity("ship-factory")];
         auto args = Network::Packet::Split(content->GetData(), ":");
         float y = std::stof(args.back());
         args.pop_back();
@@ -169,16 +189,21 @@ void Server::Core::Auth(RNGine::Core &core) {
         auto &transform =
             core.GetActualScene()
                 .GetComponents<RNGine::Components::Transform>()[entity];
-        if (!controller.has_value()) {
-          std::cout << "controller has no value" << std::endl;
-          continue;
-        }
-        if (!transform.has_value()) {
-          std::cout << "transform has no value" << std::endl;
-          continue;
-        }
         int id = std::stoi(args.back());
         args.pop_back();
+        if (!controller.has_value() && factory.has_value()) {
+          std::cout << "controller has no value" << std::endl;
+          factory->creationRequests.push_back(
+              Rtype::Addons::ShipCreationRequest::createShipCreationRequest(
+                  id, 100.0f, 100.0f));
+        }
+        if (!transform.has_value() && factory.has_value()) {
+          std::cout << "transform has no value" << std::endl;
+          factory->creationRequests.push_back(
+              Rtype::Addons::ShipCreationRequest::createShipCreationRequest(
+                  id, 100.0f, 100.0f));
+          continue;
+        }
         for (auto &client : _clients) {
           Send(client.first, "MOVE_RIGHT", content->GetData());
         }
@@ -188,6 +213,9 @@ void Server::Core::Auth(RNGine::Core &core) {
         continue;
       }
       if (content->GetType() == "MOVE_DOWN") {
+        auto &factory =
+            core.GetActualScene().GetComponents<Rtype::Addons::ShipFactory>()
+                [core.GetActualScene().GetEntity("ship-factory")];
         auto args = Network::Packet::Split(content->GetData(), ":");
         float y = std::stof(args.back());
         args.pop_back();
@@ -206,16 +234,21 @@ void Server::Core::Auth(RNGine::Core &core) {
         auto &transform =
             core.GetActualScene()
                 .GetComponents<RNGine::Components::Transform>()[entity];
-        if (!controller.has_value()) {
-          std::cout << "controller has no value" << std::endl;
-          continue;
-        }
-        if (!transform.has_value()) {
-          std::cout << "transform has no value" << std::endl;
-          continue;
-        }
         int id = std::stoi(args.back());
         args.pop_back();
+        if (!controller.has_value() && factory.has_value()) {
+          std::cout << "controller has no value" << std::endl;
+          factory->creationRequests.push_back(
+              Rtype::Addons::ShipCreationRequest::createShipCreationRequest(
+                  id, 100.0f, 100.0f));
+        }
+        if (!transform.has_value() && factory.has_value()) {
+          std::cout << "transform has no value" << std::endl;
+          factory->creationRequests.push_back(
+              Rtype::Addons::ShipCreationRequest::createShipCreationRequest(
+                  id, 100.0f, 100.0f));
+          continue;
+        }
         for (auto &client : _clients) {
           Send(client.first, "MOVE_DOWN", content->GetData());
         }
@@ -258,6 +291,17 @@ void Server::Core::Auth(RNGine::Core &core) {
         auto &components = core.GetActualScene()
                                .GetComponents<Client::Components::SendPacket>()
                                    [core.GetActualScene().GetEntity("sender")];
+        auto &controllers =
+            core.GetActualScene().GetComponents<Rtype::Addons::ShipFactory>();
+        auto &waves = core.GetActualScene()
+                          .GetComponents<Client::Components::EnemyWaveSpawn>();
+        if (controllers[core.GetActualScene().GetEntity(content->GetData())]
+                .has_value() ||
+            waves[core.GetActualScene().GetEntity(content->GetData())]
+                .has_value())
+          continue;
+        if (std::strncmp(content->GetData().c_str(), "enemy-", 6) != 0)
+          continue;
         if (components.has_value()) {
           components->packets.push_back({"DEATH", content->GetData()});
         }

@@ -7,6 +7,7 @@
 #include "RNGine/components/SoundComponent.hpp"
 #include "Rtype/addons/CollisionFactory.hpp"
 #include "Rtype/addons/CollisionWaveSpawn.hpp"
+#include "Rtype/addons/CreateShips.hpp"
 #include "Rtype/addons/EnemyFactory.hpp"
 #include "Rtype/addons/EnemyInfiniteSpawn.hpp"
 #include "Rtype/addons/EnemyShoot.hpp"
@@ -18,7 +19,6 @@
 #include "Rtype/addons/PatternShoot.hpp"
 #include "Rtype/addons/SendPacket.hpp"
 #include "Rtype/addons/winCondition.hpp"
-#include "Rtype/addons/CreateShips.hpp"
 #include "Rtype/systems/CheckDamage.hpp"
 #include "Rtype/systems/CheckHealth.hpp"
 #include "Rtype/systems/CheckInvulnerability.hpp"
@@ -42,18 +42,18 @@ Server::Scenes::Level8::Level8(RNGine::Core &core) {
       CreateEntity("enemyWaveSpawn"),
       {8, 22, 800, {ENEMY_TYPE_1, ENEMY_TYPE_4}});
   AddComponent<Client::Components::EnemyWaveSpawn>(
-      CreateEntity("enemyWaveSpawn"),
+      CreateEntity("enemyWaveSpawn1"),
       {35, 20, 600, {ENEMY_TYPE_2, ENEMY_TYPE_1}});
   AddComponent<Client::Components::EnemyWaveSpawn>(
-      CreateEntity("enemyWaveSpawn"), {62, 1, 1500, {BOSS_TYPE_3_BODY}});
+      CreateEntity("enemyWaveSpawn2"), {62, 1, 1500, {BOSS_TYPE_3_BODY}});
   AddComponent<Client::Components::EnemyWaveSpawn>(
-      CreateEntity("enemyWaveSpawn"), {61, 1, 1500, {BOSS_TYPE_3_1}});
+      CreateEntity("enemyWaveSpawn3"), {61, 1, 1500, {BOSS_TYPE_3_1}});
   AddComponent<Client::Components::EnemyWaveSpawn>(
-      CreateEntity("enemyWaveSpawn"),
+      CreateEntity("enemyWaveSpawn4"),
       {(RNGine::Core::Time)62.01, 1, 1500, {BOSS_TYPE_3_2}});
 
   AddComponent<Client::Components::EnemyWaveSpawn>(
-      CreateEntity("enemyWaveSpawn"), {63, 1, 1500, {BOSS_TYPE_3_3}});
+      CreateEntity("enemyWaveSpawn5"), {63, 1, 1500, {BOSS_TYPE_3_3}});
   AddComponent<Client::Components::WinCondition>(CreateEntity("winCondition"),
                                                  {60, true});
   AddComponent<Rtype::Addons::CreateShips>(CreateEntity("createShips"), {0});
