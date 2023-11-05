@@ -22,9 +22,15 @@ nav:
   - "Client":
       - "main": "client/main.md"
       - "Renderer": "client/renderer.md"
+      - "SetMousePosition": "client/setMousePosition.md"
+      - "NetWorker": "client/netWorker.md"
+      - "Renderer": "client/renderer.md"
+      - "SoundRenderer": "client/soundRenderer.md"
+      - "TextRenderer": "client/textRenderer.md"
       - "Scene":
         - "Game": "client/scene/gameScene.md"
         - "Menu": "client/scene/menuScene.md"
+        - "Lobby": "client/scene/lobbyScene.md"
       - "Addons":
           - "IsClicked": "client/addons/IsClicked.md"
           - "IsHover": "client/addons/IsHover.md"
@@ -35,6 +41,18 @@ nav:
           - "ShipAnimation": "client/addons/ShipAnimation.md"
           - "Parallax": "client/addons/Parallax.md"
           - "SpriteAnimation" : "client/addons/SpriteAnimation.md"
+      - "Components" :
+          - "MousePosition" : "client/components/MousePosition.md"
+          - "NumberLevels" : "client/components/NumberLevels.md"
+          - "NumberPlayers" : "client/components/NumberPlayers.md"
+          - "RendererTexture" : "client/components/RendererTexture.md"
+          - "SendPacket" : "client/components/SendPacket.md"
+          - "SoundComponent" : "client/components/SoundComponent.md"
+      - "Systems":
+          - "CheckDamage": "client/systems/CheckDamage.md"
+          - "CheckHealth": "client/systems/CheckHealth.md"
+          - "CheckInvulnerability": "client/systems/CheckInvulnerability.md"
+          - "CheckSolidCollider": "client/systems/CheckSolidCollider.md"
 
   - "Server":
       - "Getting Started": "server/index.md"
