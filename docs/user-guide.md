@@ -8,20 +8,27 @@ R-Type is a shoot'em up game where you control a spaceship and fight against ali
 
 As any other softwares you can just download this exe file and play
 
-| Target | Client                  | Server                  |
-| ------ | ----------------------- | ----------------------- |
-| 64 Bit | [R-Type Client 64bit]() | [R-Type Server 64bit]() |
-| 32 Bit | [R-Type Client 32bit]() | [R-Type Server 64bit]() |
+| Target | Installer                                                                                         |
+| ------ | ------------------------------------------------------------------------------------------------- |
+| 64 Bit | [R-Type.exe](https://github.com/FredeAlexandre/r-type/releases/download/1.0/r-type-1.0-win32.exe) |
 
 ### 🐧 Linux
 
-#### AppImage
+#### Debian
 
-Download and run the AppImage
+Download and run the Debian
 
-| Client            | Server            |
-| ----------------- | ----------------- |
-| [R-Type Client]() | [R-Type Server]() |
+| Target | Installer                                                                                         |
+| ------ | ------------------------------------------------------------------------------------------------- |
+| 64 Bit | [R-Type.deb](https://github.com/FredeAlexandre/r-type/releases/download/1.0/r-type-1.0-Linux.deb) |
+
+#### Rpm
+
+Download and run the Debian
+
+| Target | Installer                                                                                         |
+| ------ | ------------------------------------------------------------------------------------------------- |
+| 64 Bit | [R-Type.rpm](https://github.com/FredeAlexandre/r-type/releases/download/1.0/r-type-1.0-Linux.rpm) |
 
 #### Build from source
 
